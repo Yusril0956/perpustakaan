@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - Pustaka Klasik</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+</head>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+<body class="bg-parchment-light antialiased font-serif flex">
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            <livewire:layout.navigation />
+    <x-layout.sidebar />
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+    <div class="flex-1 ml-64 min-h-screen flex flex-col">
+        <header
+            class="h-16 bg-white/30 backdrop-blur-sm border-b border-sepia-edge/20 flex items-center justify-between px-8 sticky top-0 z-40">
+            <div class="italic text-coffee">
+                {{ now()->format('d F Y') }} — <span class="font-bold">Selamat Datang, {{ auth()->user()->name }}</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div
+                    class="w-8 h-8 rounded-full bg-sepia-edge/30 border border-coffee/20 flex items-center justify-center text-xs font-bold">
+                    {{ substr(auth()->user()->name, 0, 1) }}
+                </div>
+            </div>
+        </header>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+        <main class="p-8">
+            {{ $slot }}
+        </main>
+    </div>
+
+    @livewireScripts
+</body>
+
 </html>
