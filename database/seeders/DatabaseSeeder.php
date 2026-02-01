@@ -20,16 +20,18 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Book::factory(50)->create();
 
-        $admin = User::create([
-            'name' => 'eserel',
+        $admin = User::firstOrCreate([
             'email' => 'ryl@test.com',
+        ], [
+            'name' => 'eserel',
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole('admin');
 
-        $member = User::create([
-            'name' => 'Budi Anggota',
+        $member = User::firstOrCreate([
             'email' => 'member@test.com',
+        ], [
+            'name' => 'Budi Anggota',
             'password' => bcrypt('password'),
             'phone' => '08123456789',
             'address' => 'Jl. Merdeka No. 10',
