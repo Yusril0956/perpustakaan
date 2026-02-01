@@ -15,24 +15,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(RolePermissionSeeder::class);
         $this->call(CategorySeeder::class);
 
         \App\Models\Book::factory(50)->create();
 
-        User::create([
+        $admin = User::create([
             'name' => 'eserel',
             'email' => 'ryl@test.com',
             'password' => bcrypt('password'),
-            'role' => 'admin',
         ]);
+        $admin->assignRole('admin');
 
-        User::create([
+        $member = User::create([
             'name' => 'Budi Anggota',
             'email' => 'member@test.com',
             'password' => bcrypt('password'),
-            'role' => 'member',
             'phone' => '08123456789',
             'address' => 'Jl. Merdeka No. 10',
         ]);
+        $member->assignRole('anggota');
     }
 }

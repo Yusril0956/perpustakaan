@@ -19,4 +19,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/books/create', BookCreate::class)->name('admin.books.create');
 });
 
+Route::middleware(['auth'])->group(function () {
+
+    Route::middleware('can:manage books')->group(function () {
+        Route::get('/admin/books', BookIndex::class)->name('admin.books.index');
+        Route::get('/admin/books/create', BookCreate::class)->name('admin.books.create');
+    });
+
+    Route::middleware('can:manage transactions')->group(function () {
+        // Route::resource('transactions', TransactionController::class);
+    });
+});
+
+
 require __DIR__ . '/auth.php';

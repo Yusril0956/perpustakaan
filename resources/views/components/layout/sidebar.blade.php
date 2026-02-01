@@ -17,20 +17,20 @@
 
         <x-layout.sidebar-item icon="dashboard" label="Meja Kerja" href="{{ route('dashboard') }}"
             :active="request()->routeIs('dashboard')" />
-        <x-layout.sidebar-item icon="users" label="User" href="{{ route('admin.books.index') }}}"
-            :active="request()->routeIs('#')" />
-        <x-layout.sidebar-item icon="book" label="Buku" href="{{ route('admin.books.index') }}}"
+        <x-layout.sidebar-item icon="book" label="Buku" href="{{ route('admin.books.index') }}"
             :active="request()->routeIs('admin.books.index')" />
 
-        @if(auth()->user()->role === 'admin')
-            <div class="pt-6 text-[10px] uppercase tracking-[0.3em] text-sepia-edge/60 mb-2 px-4 italic">Administrasi</div>
-            <x-layout.sidebar-item icon="users" label="Data Anggota" href="/users" />
-            <x-layout.sidebar-item icon="clipboard" label="Verifikasi Pinjam" href="/verify" />
-        @else
+        @role('admin')
+        <div class="pt-6 text-[10px] uppercase tracking-[0.3em] text-sepia-edge/60 mb-2 px-4 italic">Administrasi</div>
+        <x-layout.sidebar-item icon="users" label="Data Anggota" href="/users" />
+        <x-layout.sidebar-item icon="clipboard" label="Verifikasi Pinjam" href="/verify" />
+        @endrole
+
+        @can('view own transactions')
             <div class="pt-6 text-[10px] uppercase tracking-[0.3em] text-sepia-edge/60 mb-2 px-4 italic">Aktivitas</div>
             <x-layout.sidebar-item icon="clock" label="Pinjaman Saya" href="/my-loans" />
             <x-layout.sidebar-item icon="bookmark" label="Koleksi" href="/favorites" />
-        @endif
+        @endcan
     </nav>
 
     <div class="absolute bottom-0 w-full p-6 border-t border-white/5 bg-black/10">

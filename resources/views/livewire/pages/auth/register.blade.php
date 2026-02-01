@@ -29,6 +29,8 @@ new #[Layout('layouts.auth')] class extends Component {
 
         event(new Registered($user = User::create($validated)));
 
+        $user->assignRole('anggota');
+
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
