@@ -18,13 +18,13 @@
 
 <body>
     <main class="min-h-screen flex items-center justify-center px-4">
-        <section class="w-full max-w-md paper-card p-8 animate-page-open">
+        <section class="w-full max-w-md paper-card p-8">
             {{-- Header --}}
             <div class="text-center mb-6">
-                <h1 class="text-2xl font-semibold tracking-wide">
+                <h1 class="text-2xl font-semibold tracking-wide text-ink">
                     {{ config('app.name', 'Perpustakaan') }}
                 </h1>
-                <p class="text-sm opacity-70 mt-1">
+                <p class="text-sm text-muted mt-1">
                     Arsip pengetahuan & buku lama
                 </p>
             </div>

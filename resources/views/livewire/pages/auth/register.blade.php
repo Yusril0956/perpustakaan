@@ -68,7 +68,7 @@ new #[Layout('layouts.auth')] class extends Component {
 
         {{-- Actions --}}
         <div class="flex items-center justify-between pt-2">
-            <a href="{{ route('login') }}" wire:navigate class="text-sm underline opacity-70">
+            <a href="{{ route('login') }}" wire:navigate class="text-sm underline text-muted hover:text-ink">
                 Already registered?
             </a>
 

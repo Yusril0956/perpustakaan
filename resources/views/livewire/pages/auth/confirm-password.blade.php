@@ -35,7 +35,7 @@ new #[Layout('layouts.auth')] class extends Component {
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-gray-600">
+    <div class="mb-4 text-sm text-muted">
         {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
     </div>
 
@@ -44,7 +44,7 @@ new #[Layout('layouts.auth')] class extends Component {
         <div>
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full" type="password" name="password"
+            <x-text-input wire:model="password" id="password" class="form-input mt-1" type="password" name="password"
                 required autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />

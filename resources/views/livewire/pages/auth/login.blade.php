@@ -42,15 +42,14 @@ new #[Layout('layouts.auth')] class extends Component {
         </div>
 
         {{-- Remember --}}
-        <label class="flex items-center gap-2 text-sm opacity-80">
+        <label class="flex items-center gap-2 text-sm text-muted">
             <input type="checkbox" wire:model="form.remember">
             Remember me
         </label>
 
         {{-- Actions --}}
         <div class="flex items-center justify-between pt-2">
-            <a href="{{ route('password.request') }}" wire:navigate
-                class="text-sm underline opacity-70 hover:opacity-100">
+            <a href="{{ route('password.request') }}" wire:navigate class="text-sm underline text-muted hover:text-ink">
                 Forgot password?
             </a>
 
