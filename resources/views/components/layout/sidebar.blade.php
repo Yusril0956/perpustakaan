@@ -20,7 +20,7 @@
 
         @role('admin')
         <div class="pt-6 text-[10px] uppercase tracking-[0.3em] text-muted mb-2 px-4 italic">Administrasi</div>
-        <x-layout.sidebar-item icon="users" label="Data Anggota" href="/users" />
+        <x-layout.sidebar-item icon="users" label="Data Anggota" href="{{ route('admin.users.index') }}" />
         <x-layout.sidebar-item icon="clipboard" label="Verifikasi Pinjam" href="/verify" />
         @endrole
 

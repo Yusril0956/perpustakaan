@@ -37,5 +37,8 @@ class DatabaseSeeder extends Seeder
             'address' => 'Jl. Merdeka No. 10',
         ]);
         $member->assignRole('anggota');
+
+        // Create 10 additional dummy users
+        User::factory(10)->create();
     }
 }

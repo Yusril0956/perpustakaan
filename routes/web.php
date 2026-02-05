@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Books\Index as BookIndex;
 use App\Livewire\Admin\Books\Create as BookCreate;
+use App\Livewire\Admin\Users\Index as UsersIndex;
+
 
 Route::view('/', 'welcome');
 
@@ -17,6 +19,8 @@ Route::view('profile', 'profile')
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/books', BookIndex::class)->name('admin.books.index');
     Route::get('/admin/books/create', BookCreate::class)->name('admin.books.create');
+
+    Route::get('/admin/users', UsersIndex::class)->name('admin.users.index');
 });
 
 Route::middleware(['auth'])->group(function () {

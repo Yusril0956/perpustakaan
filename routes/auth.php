@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::middleware('guest')->group(function () {
     Volt::route('register', 'pages.auth.register')
@@ -30,8 +31,6 @@ Route::middleware('auth')->group(function () {
         ->name('password.confirm');
 
     // Logout Route
-    Route::post('logout', function () {
-        auth()->logout();
-        return redirect()->route('login');
-    })->name('logout');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
 });
