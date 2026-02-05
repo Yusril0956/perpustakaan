@@ -7,6 +7,7 @@ use App\Livewire\Admin\Users\Index as UsersIndex;
 
 
 Route::view('/', 'welcome');
+Route::view('about', 'about')->name('about');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

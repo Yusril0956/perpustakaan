@@ -9,41 +9,17 @@
     @livewireStyles
 </head>
 
-<body class="bg-parchment-light font-serif">
-    <nav class="bg-parchment-base/90 border-b border-sepia-edge/40 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-            <div class="flex flex-col">
-                <a href="/" class="text-3xl font-bold tracking-tight text-ink italic leading-none">
-                    Pustaka <span class="text-coffee font-light italic">Klasik</span>
-                </a>
-                <span class="text-[10px] uppercase tracking-[0.2em] text-coffee/70">Est. 1924 Digital Edition</span>
-            </div>
+<body class="bg-parchment-light font-serif text-ink antialiased">
+    <div class="fixed inset-0 pointer-events-none opacity-[0.04] z-[100]"
+        style="background-image: url('https://www.transparenttextures.com/patterns/sandpaper.png');"></div>
 
-            <div class="hidden md:flex items-center space-x-8 text-coffee">
-                <a href="/"
-                    class="hover:text-ink transition decoration-sepia-edge underline-offset-4 underline">Katalog</a>
-                <a href="/about" class="hover:text-ink transition">Tentang</a>
-                @auth
-                    <a href="{{ route('dashboard') }}"
-                        class="px-6 py-2 border border-coffee text-coffee hover:bg-coffee hover:text-white transition-all duration-300">
-                        Meja Belajar
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="hover:text-ink transition">Masuk</a>
-                    <a href="{{ route('register') }}"
-                        class="px-6 py-2 bg-coffee text-white rounded-sm shadow-md hover:brightness-110 transition">
-                        Gabung Anggota
-                    </a>
-                @endauth
-            </div>
-        </div>
-    </nav>
+    <x-layout.guest-navbar />
 
-    <main class="py-12">
+    <main class="relative z-10 pt-32 pb-16 min-h-screen">
         {{ $slot }}
     </main>
 
-    <h1>kocak</h1>
+    <x-layout.guest-footer />
 
     @livewireScripts
 </body>
