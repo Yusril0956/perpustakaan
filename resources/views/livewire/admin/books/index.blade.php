@@ -56,7 +56,7 @@
         </div>
 
         <div class="mt-4">
-            {{ $books->links() }}
+            {{ $books->links('vendor.pagination.vintage') }}
         </div>
     </div>
 </div>

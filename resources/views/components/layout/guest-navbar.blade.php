@@ -18,7 +18,7 @@
             </div>
 
             <div class="flex items-center space-x-10 relative z-10">
-                <x-layout.nav-link href="/" :active="request()->is('/')">Katalog</x-layout.nav-link>
+                <x-layout.nav-link href="{{ route('explore') }}" :active="request()->is('explore')">Explore</x-layout.nav-link>
                 <x-layout.nav-link href="/about" :active="request()->is('about')">Tentang</x-layout.nav-link>
 
                 @auth

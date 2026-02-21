@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Books\Index as BookIndex;
 use App\Livewire\Admin\Books\Create as BookCreate;
 use App\Livewire\Admin\Users\Index as UsersIndex;
+use App\Livewire\Guest\BookExplorer;
 
 
 Route::view('/', 'welcome');
 Route::view('about', 'about')->name('about');
+Route::get('/jelajah', BookExplorer::class)->name('explore');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
