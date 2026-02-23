@@ -5,6 +5,7 @@ use App\Livewire\Admin\Books\Index as BookIndex;
 use App\Livewire\Admin\Books\Create as BookCreate;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Guest\BookExplorer;
+use App\Livewire\Member\ShowProfile;
 
 
 Route::view('/', 'welcome');
@@ -15,7 +16,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::view('profile', 'profile')
+Route::get('profile', ShowProfile::class)
     ->middleware(['auth'])
     ->name('profile');
 

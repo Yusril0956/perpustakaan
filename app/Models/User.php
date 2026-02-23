@@ -25,6 +25,7 @@ class User extends Authenticatable
         'role',
         'phone',
         'address',
+        'profile_photo_path',
     ];
 
     /**
@@ -53,5 +54,20 @@ class User extends Authenticatable
     public function loans()
     {
         return $this->hasMany(Loan::class);
+    }
+
+    public function activeLoans()
+    {
+        return $this->loans()->where('status', 'borrowed')->with('book');
+    }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        if ($this->profile_photo_path && \Storage::disk('public')->exists($this->profile_photo_path)) {
+            return \Storage::url($this->profile_photo_path);
+        }
+
+        // Fallback to UI-Avatars with vintage background color
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=f4ecd8&color=6f4e37&size=400&bold=true';
     }
 }
