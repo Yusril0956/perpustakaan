@@ -27,8 +27,8 @@
                 <tbody class="divide-y">
                     @forelse($books as $book)
                         <tr class="hover:bg-surface transition">
-                            <td class="p-4">
-                                <img src="{{ $book->cover_image }}" class="w-12 h-16 object-cover">
+                            <td class="py-">
+                                <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" class="w-12 h-16 object-cover">
                             </td>
                             <td class="p-4">
                                 <div class="font-bold text-ink italic">{{ $book->title }}</div>

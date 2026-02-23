@@ -37,3 +37,10 @@
         @endforelse
     </div>
 </div>
+<div class="paper-card">
+    <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" class="w-full aspect-[3/4] object-cover rounded">
+    <div class="p-3">
+        <h3 class="text-sm font-medium text-ink">{{ $book->title }}</h3>
+        <p class="text-xs text-muted">{{ $book->author }}</p>
+    </div>
+</div>

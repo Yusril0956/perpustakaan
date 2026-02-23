@@ -30,7 +30,6 @@ class BookForm extends Form
     {
         $this->validate();
 
-        // Logika sederhana: available_stock sama dengan total_stock saat input baru
         $data = $this->all();
         $data['available_stock'] = $this->total_stock;
 

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="160" viewBox="0 0 120 160" fill="none">
+  <defs>
+    <style>
+      .book-bg { fill: #F6F2EA; }
+      .book-border { fill: #FBF8F3; }
+      .book-line { stroke: #E5E7EB; }
+    </style>
+  </defs>
+  <!-- Outer background -->
+  <rect class="book-bg" width="120" height="160" rx="6"/>
+  <!-- Inner book area -->
+  <rect class="book-border" x="12" y="18" width="96" height="124" rx="4"/>
+  <!-- Decorative lines (pages effect) -->
+  <line class="book-line" x1="24" y1="36" x2="96" y2="36" stroke-width="2" stroke-linecap="round"/>
+  <line class="book-line" x1="24" y1="56" x2="96" y2="56" stroke-width="2" stroke-linecap="round"/>
+  <line class="book-line" x1="24" y1="76" x2="72" y2="76" stroke-width="2" stroke-linecap="round"/>
+  <!-- Center spine -->
+  <line x1="60" y1="18" y2="142" stroke="#D2B48C" stroke-width="1" opacity="0.3"/>
+</svg>

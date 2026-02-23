@@ -76,3 +76,11 @@
         </form>
     </div>
 </div>
+
+<div class="col-span-1">
+    <label class="text-sm text-muted">Cover Preview</label>
+    <div class="mt-2">
+        <img src="{{ $book?->cover_url ?? asset('images/book-placeholder.svg') }}" alt="cover preview"
+            class="w-36 h-48 object-cover rounded border">
+    </div>
+</div>
