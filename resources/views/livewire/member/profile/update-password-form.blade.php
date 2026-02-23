@@ -16,14 +16,9 @@
         <!-- Current Password -->
         <div>
             <label for="current_password" class="block text-sm font-medium text-ink mb-1">Kata Sandi Saat Ini</label>
-            <input 
-                type="password" 
-                id="current_password"
-                wire:model="current_password"
-                @blur="$wire.validate('current_password')"
-                class="form-input"
-                placeholder="Masukkan kata sandi saat ini"
-            >
+            <input type="password" id="current_password" wire:model="current_password"
+                @blur="$wire.validate('current_password')" class="form-input"
+                placeholder="Masukkan kata sandi saat ini">
             @error('current_password')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
@@ -32,14 +27,8 @@
         <!-- New Password -->
         <div>
             <label for="password" class="block text-sm font-medium text-ink mb-1">Kata Sandi Baru</label>
-            <input 
-                type="password" 
-                id="password"
-                wire:model="password"
-                @blur="$wire.validate('password')"
-                class="form-input"
-                placeholder="Minimal 8 karakter"
-            >
+            <input type="password" id="password" wire:model="password" @blur="$wire.validate('password')"
+                class="form-input" placeholder="Minimal 8 karakter">
             @error('password')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
@@ -47,15 +36,10 @@
 
         <!-- Confirm Password -->
         <div>
-            <label for="password_confirmation" class="block text-sm font-medium text-ink mb-1">Konfirmasi Kata Sandi</label>
-            <input 
-                type="password" 
-                id="password_confirmation"
-                wire:model="password_confirmation"
-                @blur="$wire.validate('password_confirmation')"
-                class="form-input"
-                placeholder="Ulangi kata sandi baru"
-            >
+            <label for="password_confirmation" class="block text-sm font-medium text-ink mb-1">Konfirmasi Kata
+                Sandi</label>
+            <input type="password" id="password_confirmation" wire:model="password_confirmation"
+                @blur="$wire.validate('password_confirmation')" class="form-input" placeholder="Ulangi kata sandi baru">
             @error('password_confirmation')
                 <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
             @enderror
@@ -71,7 +55,8 @@
     </form>
 
     <!-- Security Tips -->
-    <div class="mt-4 p-3 rounded-sm" style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.05) 0%, rgba(139, 125, 115, 0.03) 100%);">
+    <div class="mt-4 p-3 rounded-sm"
+        style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.05) 0%, rgba(139, 125, 115, 0.03) 100%);">
         <p class="text-xs font-medium text-muted mb-2 uppercase tracking-wide">💡 Tips Keamanan</p>
         <ul class="text-xs text-muted space-y-1 list-disc list-inside">
             <li>Gunakan kombinasi huruf besar, kecil, angka, dan simbol</li>

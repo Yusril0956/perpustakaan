@@ -37,25 +37,30 @@
 
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <!-- Email -->
-                            <div class="p-3 rounded-sm" style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
+                            <div class="p-3 rounded-sm"
+                                style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
                                 <p class="text-muted uppercase tracking-wide mb-1">Email</p>
                                 <p class="font-semibold text-ink break-all">{{ auth()->user()->email }}</p>
                             </div>
 
                             <!-- Member ID -->
-                            <div class="p-3 rounded-sm" style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
+                            <div class="p-3 rounded-sm"
+                                style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
                                 <p class="text-muted uppercase tracking-wide mb-1">ID Anggota</p>
-                                <p class="font-semibold text-ink">#{{ str_pad(auth()->user()->id, 6, '0', STR_PAD_LEFT) }}</p>
+                                <p class="font-semibold text-ink">
+                                    #{{ str_pad(auth()->user()->id, 6, '0', STR_PAD_LEFT) }}</p>
                             </div>
 
                             <!-- Phone -->
-                            <div class="p-3 rounded-sm" style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
+                            <div class="p-3 rounded-sm"
+                                style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
                                 <p class="text-muted uppercase tracking-wide mb-1">Telepon</p>
                                 <p class="font-semibold text-ink">{{ auth()->user()->phone ?? '—' }}</p>
                             </div>
 
                             <!-- Address -->
-                            <div class="p-3 rounded-sm" style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
+                            <div class="p-3 rounded-sm"
+                                style="background: linear-gradient(135deg, rgba(111, 78, 55, 0.03) 0%, rgba(139, 125, 115, 0.03) 100%);">
                                 <p class="text-muted uppercase tracking-wide mb-1">Alamat</p>
                                 <p class="font-semibold text-ink line-clamp-2">{{ auth()->user()->address ?? '—' }}</p>
                             </div>
@@ -63,7 +68,8 @@
 
                         <!-- Edit Info Link -->
                         <div class="pt-2 border-t border-muted/30">
-                            <a href="#" class="btn-ghost w-full text-center inline-flex items-center justify-center gap-2">
+                            <a href="#"
+                                class="btn-ghost w-full text-center inline-flex items-center justify-center gap-2">
                                 <x-heroicon-o-pencil class="w-4 h-4" />
                                 Edit Informasi Pribadi
                             </a>
