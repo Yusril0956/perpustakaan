@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Livewire\Member;
+namespace App\Livewire\Member\Categories;
 
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
 #[Layout('layouts.app')]
-class ShowProfile extends Component
+class Index extends Component
 {
     public function render()
     {
-        return view('livewire.member.show-profile');
+        return view('livewire.member.categories.index');
     }
 }
