@@ -4,7 +4,7 @@
             <a href="{{ route('admin.users.index') }}" wire:navigate class="text-muted hover:underline italic">
                 ← Kembali
             </a>
-            <h2 class="text-3xl font-bold text-ink italic">Tambah Pengguna Baru</h2>
+            <h2 class="text-3xl font-bold text-ink italic">Edit Pengguna</h2>
         </div>
 
         <form wire:submit="save" class="paper-card p-10 relative">
@@ -24,8 +24,8 @@
                     </div>
 
                     <div>
-                        <label
-                            class="block text-xs uppercase tracking-widest text-muted font-bold mb-2">Password</label>
+                        <label class="block text-xs uppercase tracking-widest text-muted font-bold mb-2">Password <span
+                                class="text-xs text-muted">(Kosongkan jika tidak diubah)</span></label>
                         <input type="password" wire:model="form.password" class="form-input text-lg italic">
                         @error('form.password') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                     </div>
@@ -64,7 +64,7 @@
             <div class="mt-10 flex justify-end">
                 <button type="submit"
                     class="px-4 py-2 text-xs uppercase tracking-widest text-coffee border border-sepia-edge/40 hover:bg-coffee hover:text-parchment-light transition-all duration-300 shadow-[3px_3px_0px_#d2b48c] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
-                    &larr; Simpan
+                    &larr; Perbarui
                 </button>
             </div>
         </form>

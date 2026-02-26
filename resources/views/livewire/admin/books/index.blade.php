@@ -40,7 +40,8 @@
                                 <span class="text-green-700">{{ $book->available_stock }}</span> / {{ $book->total_stock }}
                             </td>
                             <td class="p-4 text-right space-x-2">
-                                <button class="text-sm italic text-muted hover:text-ink">Edit</button>
+                                <a href="{{ route('admin.books.edit', $book) }}" wire:navigate
+                                    class="text-sm italic text-muted hover:text-ink">Edit</a>
                                 <button wire:click="delete({{ $book->id }})"
                                     wire:confirm="Apakah Anda yakin ingin menghapus buku ini?"
                                     class="text-sm italic text-muted hover:text-ink">Hapus</button>

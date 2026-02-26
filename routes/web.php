@@ -5,6 +5,7 @@ use App\Livewire\Admin\Books\Index as BookIndex;
 use App\Livewire\Admin\Books\Create as BookCreate;
 use App\Livewire\Admin\Users\Index as UsersIndex;
 use App\Livewire\Admin\Users\Create as UsersCreate;
+use App\Livewire\Admin\Users\Edit as UsersEdit;
 use App\Livewire\Guest\BookExplorer;
 use App\Livewire\Member\Profile\Show as ShowProfile;
 
@@ -40,22 +41,12 @@ Route::get('/validasi-pinjam', \App\Livewire\Admin\Loans\Validation::class)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/books', BookIndex::class)->name('admin.books.index');
     Route::get('/admin/books/create', BookCreate::class)->name('admin.books.create');
+    Route::get('/admin/books/{book}/edit', \App\Livewire\Admin\Books\Edit::class)->name('admin.books.edit');
 
     Route::get('/admin/users', UsersIndex::class)->name('admin.users.index');
     Route::get('/admin/users/create', UsersCreate::class)->name('admin.users.create');
+    Route::get('/admin/users/{user}/edit', UsersEdit::class)->name('admin.users.edit');
     Route::get('/profile', ShowProfile::class)->name('profile.show');
-});
-
-Route::middleware(['auth'])->group(function () {
-
-    Route::middleware('can:manage books')->group(function () {
-        Route::get('/admin/books', BookIndex::class)->name('admin.books.index');
-        Route::get('/admin/books/create', BookCreate::class)->name('admin.books.create');
-    });
-
-    Route::middleware('can:manage transactions')->group(function () {
-        // Route::resource('transactions', TransactionController::class);
-    });
 });
 
 

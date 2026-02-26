@@ -4,7 +4,7 @@
             <a href="{{ route('admin.books.index') }}" wire:navigate class="text-muted hover:underline italic">
                 ← Kembali ke Rak
             </a>
-            <h2 class="text-3xl font-bold text-ink italic">Pendaftaran Buku Baru</h2>
+            <h2 class="text-3xl font-bold text-ink italic">Edit Informasi Buku</h2>
         </div>
 
         <form wire:submit="save" class="paper-card p-10 relative">
@@ -60,10 +60,7 @@
                             @if ($form->cover_image)
                                 <img src="{{ $form->cover_image->temporaryUrl() }}" class="w-20 h-28 object-cover border">
                             @else
-                                <div
-                                    class="w-20 h-28 border-dashed border p-2 text-[10px] italic text-muted flex items-center justify-center text-center">
-                                    Belum ada gambar
-                                </div>
+                                <img src="{{ $form->book->cover_url }}" class="w-20 h-28 object-cover border">
                             @endif
                             <input type="file" wire:model="form.cover_image" class="text-xs text-muted">
                         </div>
@@ -82,7 +79,7 @@
             <div class="mt-10 flex justify-end">
                 <button type="submit"
                     class="px-4 py-2 text-xs uppercase tracking-widest text-coffee border border-sepia-edge/40 hover:bg-coffee hover:text-parchment-light transition-all duration-300 shadow-[3px_3px_0px_#d2b48c] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
-                    &larr; Simpan
+                    &larr; Perbarui
                 </button>
             </div>
         </form>
