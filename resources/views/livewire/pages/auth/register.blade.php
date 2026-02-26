@@ -11,6 +11,8 @@ use Livewire\Volt\Component;
 new #[Layout('layouts.auth')] class extends Component {
     public string $name = '';
     public string $email = '';
+    public string $address = '';
+    public string $phone = '';
     public string $password = '';
     public string $password_confirmation = '';
 
@@ -22,6 +24,8 @@ new #[Layout('layouts.auth')] class extends Component {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'address' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20'],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -33,7 +37,7 @@ new #[Layout('layouts.auth')] class extends Component {
 
         Auth::login($user);
 
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        $this->redirect(route('home', absolute: false), navigate: true);
     }
 }; ?>
 
@@ -51,6 +55,20 @@ new #[Layout('layouts.auth')] class extends Component {
             <x-input-label for="email" value="Email" />
             <input wire:model="email" id="email" type="email" required class="form-input w-full mt-1">
             <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
+        </div>
+
+        {{-- Address --}}
+        <div>
+            <x-input-label for="address" value="Address" />
+            <input wire:model="address" id="address" type="text" required class="form-input w-full mt-1">
+            <x-input-error :messages="$errors->get('address')" class="mt-1 text-xs" />
+        </div>
+
+        {{-- Phone --}}
+        <div>
+            <x-input-label for="phone" value="Phone Number" />
+            <input wire:model="phone" id="phone" type="number" required class="form-input w-full mt-1" maxlength="12">
+            <x-input-error :messages="$errors->get('phone')" class="mt-1 text-xs" />
         </div>
 
         {{-- Password --}}

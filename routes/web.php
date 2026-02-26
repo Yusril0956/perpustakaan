@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Admin\Books\Index as BookIndex;
 use App\Livewire\Admin\Books\Create as BookCreate;
 use App\Livewire\Admin\Users\Index as UsersIndex;
+use App\Livewire\Admin\Users\Create as UsersCreate;
 use App\Livewire\Guest\BookExplorer;
 use App\Livewire\Member\Profile\Show as ShowProfile;
 
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->name('home');
 Route::view('about', 'about')->name('about');
+Route::view('rules', 'rules')->name('rules');
 Route::get('/jelajah', BookExplorer::class)->name('explore');
 
 Route::view('dashboard', 'dashboard')
@@ -40,6 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin/books/create', BookCreate::class)->name('admin.books.create');
 
     Route::get('/admin/users', UsersIndex::class)->name('admin.users.index');
+    Route::get('/admin/users/create', UsersCreate::class)->name('admin.users.create');
     Route::get('/profile', ShowProfile::class)->name('profile.show');
 });
 

@@ -30,7 +30,7 @@
                         <select wire:model="form.category_id" class="form-input text-lg italic">
                             <option value="">Pilih Rak...</option>
                             @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -48,12 +48,12 @@
                             Sampul</label>
                         <div class="mt-2 flex items-center gap-4">
                             @if ($form->cover_image)
-                                <img src="{{ $form->cover_image->temporaryUrl() }}" class="w-20 h-28 object-cover border">
+                            <img src="{{ $form->cover_image->temporaryUrl() }}" class="w-20 h-28 object-cover border">
                             @else
-                                <div
-                                    class="w-20 h-28 border-dashed border p-2 text-[10px] italic text-muted flex items-center justify-center text-center">
-                                    Belum ada gambar
-                                </div>
+                            <div
+                                class="w-20 h-28 border-dashed border p-2 text-[10px] italic text-muted flex items-center justify-center text-center">
+                                Belum ada gambar
+                            </div>
                             @endif
                             <input type="file" wire:model="form.cover_image" class="text-xs text-muted">
                         </div>
@@ -69,18 +69,11 @@
             </div>
 
             <div class="mt-10 flex justify-end">
-                <x-ui.button type="submit" variant="primary" class="w-full md:w-auto">
-                    Simpan ke Inventaris
-                </x-ui.button>
+                <button type="submit"
+                    class="px-4 py-2 text-xs uppercase tracking-widest text-coffee border border-sepia-edge/40 hover:bg-coffee hover:text-parchment-light transition-all duration-300 shadow-[3px_3px_0px_#d2b48c] active:shadow-none active:translate-x-[2px] active:translate-y-[2px]">
+                    &larr; Simpan
+                </button>
             </div>
         </form>
-    </div>
-</div>
-
-<div class="col-span-1">
-    <label class="text-sm text-muted">Cover Preview</label>
-    <div class="mt-2">
-        <img src="{{ $book?->cover_url ?? asset('images/book-placeholder.svg') }}" alt="cover preview"
-            class="w-36 h-48 object-cover rounded border">
     </div>
 </div>

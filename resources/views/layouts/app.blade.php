@@ -20,10 +20,15 @@
                     {{ auth()->user()->name }}</span>
             </div>
             <div class="flex items-center gap-4">
-                <div
-                    class="w-8 h-8 rounded-full bg-background flex items-center justify-center text-xs font-bold text-ink">
-                    {{ substr(auth()->user()->name, 0, 1) }}
+                <!-- tag role -->
+                <div class="text-xs uppercase tracking-widest text-muted font-bold">
+                    @foreach(auth()->user()->getRoleNames() as $role)
+                    <span class="px-3 py-1 text-xs text-muted font-bold uppercase rounded">{{ $role }}</span>
+                    @endforeach
                 </div>
+                <img src="{{ auth()->user()->profile_photo_url }}"
+                    alt="{{ auth()->user()->name }}"
+                    class="w-14 h-14 rounded-full object-cover border-2 border-accent shadow-md">
             </div>
         </header>
 

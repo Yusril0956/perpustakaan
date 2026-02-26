@@ -12,6 +12,8 @@
     ])>
         @if($icon === 'dashboard')
             <x-heroicon-o-squares-2x2 class="w-5 h-5" />
+        @elseif($icon === 'home')
+            <x-heroicon-o-home class="w-5 h-5" />
         @elseif($icon === 'book')
             <x-heroicon-o-book-open class="w-5 h-5" />
         @elseif($icon === 'users')

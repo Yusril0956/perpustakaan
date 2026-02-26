@@ -23,6 +23,8 @@
         <div class="px-3 mb-2">
             <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Menu</p>
         </div>
+        <x-layout.sidebar-item icon="home" label="Home" href="{{ route('home') }}"
+            :active="request()->routeIs('home')" />
         <x-layout.sidebar-item icon="dashboard" label="Dashboard" href="{{ route('dashboard') }}"
             :active="request()->routeIs('dashboard')" />
 

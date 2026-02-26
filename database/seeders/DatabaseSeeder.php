@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolePermissionSeeder::class);
         $this->call(CategorySeeder::class);
+        $this->call(bookSeeder::class);
 
         \App\Models\Book::factory(50)->create();
 
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'ryl@test.com',
         ], [
             'name' => 'eserel',
+            'profile_photo_path' => 'images/pp.jfif',
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole('admin');
