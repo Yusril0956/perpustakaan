@@ -1,53 +1,80 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Admin\Books\Index as BookIndex;
-use App\Livewire\Admin\Books\Create as BookCreate;
-use App\Livewire\Admin\Users\Index as UsersIndex;
-use App\Livewire\Admin\Users\Create as UsersCreate;
-use App\Livewire\Admin\Users\Edit as UsersEdit;
-use App\Livewire\Guest\BookExplorer;
-use App\Livewire\Member\Profile\Show as ShowProfile;
 
+// ============================================
+// Public Routes (Guest)
+// ============================================
 
 Route::view('/', 'welcome')->name('home');
 Route::view('about', 'about')->name('about');
 Route::view('rules', 'rules')->name('rules');
-Route::get('/jelajah', BookExplorer::class)->name('explore');
+Route::get('/jelajah', \App\Livewire\Guest\BookExplorer::class)->name('explore');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-// Member Routes
-Route::get('/pinjaman-saya', \App\Livewire\Member\Loans\Index::class)
-    ->middleware(['auth', 'verified'])
-    ->name('member.loans.index');
-
-Route::get('/wishlist', \App\Livewire\Member\Wishlist\Index::class)
-    ->middleware(['auth', 'verified'])
-    ->name('member.wishlist.index');
-
-Route::get('/rak', \App\Livewire\Member\Categories\Index::class)
-    ->middleware(['auth', 'verified'])
-    ->name('member.categories.index');
-
-// Admin Routes
-Route::get('/validasi-pinjam', \App\Livewire\Admin\Loans\Validation::class)
-    ->middleware(['auth', 'verified', 'can:manage transactions'])
-    ->name('admin.loans.validation');
-
+// ============================================
+// Protected Routes (Authenticated)
+// ============================================
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/admin/books', BookIndex::class)->name('admin.books.index');
-    Route::get('/admin/books/create', BookCreate::class)->name('admin.books.create');
-    Route::get('/admin/books/{book}/edit', \App\Livewire\Admin\Books\Edit::class)->name('admin.books.edit');
 
-    Route::get('/admin/users', UsersIndex::class)->name('admin.users.index');
-    Route::get('/admin/users/create', UsersCreate::class)->name('admin.users.create');
-    Route::get('/admin/users/{user}/edit', UsersEdit::class)->name('admin.users.edit');
-    Route::get('/profile', ShowProfile::class)->name('profile.show');
+    // ---- Member Routes ----
+    Route::prefix('member')->as('member.')->group(function () {
+        Route::get('dashboard', \App\Livewire\Member\Dashboard\Show::class)
+            ->name('dashboard');
+    });
+
+    Route::get('/pinjaman-saya', \App\Livewire\Member\Loans\Index::class)
+        ->name('member.loans.index');
+
+    Route::get('/wishlist', \App\Livewire\Member\Wishlist\Index::class)
+        ->name('member.wishlist.index');
+
+    Route::get('/rak', \App\Livewire\Member\Categories\Index::class)
+        ->name('member.categories.index');
+
+    // User Profile
+    Route::get('profile', \App\Livewire\Member\Profile\Show::class)
+        ->name('profile.show');
 });
 
+// ============================================
+// Admin Routes
+// ============================================
+
+Route::middleware(['auth', 'verified'])
+    ->prefix('admin')
+    ->as('admin.')
+    ->group(function () {
+
+        // Dashboard & Overview
+        Route::get('dashboard', \App\Livewire\Admin\Dashboard\Show::class)
+            ->name('dashboard');
+
+        // Loan Management
+        Route::get('loans/management', \App\Livewire\Admin\Loans\Management::class)
+            ->name('loans.management');
+
+        Route::get('loans/validation', \App\Livewire\Admin\Loans\Validation::class)
+            ->middleware('can:manage transactions')
+            ->name('loans.validation');
+
+        // User Management
+        Route::livewireResource('users', [
+            'index' => \App\Livewire\Admin\Users\Index::class,
+            'create' => \App\Livewire\Admin\Users\Create::class,
+            'edit' => \App\Livewire\Admin\Users\Edit::class,
+        ]);
+
+        // Book Management
+        Route::livewireResource('books', [
+            'index' => \App\Livewire\Admin\Books\Index::class,
+            'create' => \App\Livewire\Admin\Books\Create::class,
+            'edit' => \App\Livewire\Admin\Books\Edit::class,
+        ]);
+    });
+
+// ============================================
+// Authentication Routes
+// ============================================
 
 require __DIR__ . '/auth.php';

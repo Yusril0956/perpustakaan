@@ -25,10 +25,11 @@
         </div>
         <x-layout.sidebar-item icon="home" label="Home" href="{{ route('home') }}"
             :active="request()->routeIs('home')" />
-        <x-layout.sidebar-item icon="dashboard" label="Dashboard" href="{{ route('dashboard') }}"
-            :active="request()->routeIs('dashboard')" />
 
         @role('admin')
+            <x-layout.sidebar-item icon="dashboard" label="Dashboard" href="{{ route('admin.dashboard') }}"
+                :active="request()->routeIs('admin.dashboard')" />
+
             <!-- Admin Section -->
             <div class="px-3 mt-6 mb-2">
                 <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Katalog</p>
@@ -41,22 +42,30 @@
             </div>
             <x-layout.sidebar-item icon="users" label="Data Anggota" href="{{ route('admin.users.index') }}"
                 :active="request()->routeIs('admin.users.index')" />
-            <x-layout.sidebar-item icon="clipboard" label="Validasi Pinjaman" href="{{ route('admin.loans.validation') }}"
-                :active="request()->routeIs('admin.loans.validation')" />
+            <x-layout.sidebar-item icon="bookmark-square" label="Peminjaman" href="{{ route('admin.loans.management') }}"
+                :active="request()->routeIs('admin.loans.management')" />
         @else
             <!-- Member Section -->
             <div class="px-3 mt-6 mb-2">
+                <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Dashboard</p>
+            </div>
+            <x-layout.sidebar-item icon="chart-bar" label="Ringkasan" href="{{ route('member.dashboard') }}"
+                :active="request()->routeIs('member.dashboard')" />
+
+            <div class="px-3 mt-6 mb-2">
                 <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Jelajahi</p>
             </div>
-            <x-layout.sidebar-item icon="book" label="Explore" href="{{ route('member.categories.index') }}"
+            <x-layout.sidebar-item icon="book" label="Koleksi Buku" href="{{ route('explore') }}"
+                :active="request()->routeIs('explore')" />
+            <x-layout.sidebar-item icon="folder-open" label="Rak Penulis" href="{{ route('member.categories.index') }}"
                 :active="request()->routeIs('member.categories.index')" />
 
             <div class="px-3 mt-6 mb-2">
                 <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Aktivitas</p>
             </div>
-            <x-layout.sidebar-item icon="clock" label="Pinjaman Aktif" href="{{ route('member.loans.index') }}"
+            <x-layout.sidebar-item icon="book-open" label="Sedang Dipinjam" href="{{ route('member.loans.index') }}"
                 :active="request()->routeIs('member.loans.index')" />
-            <x-layout.sidebar-item icon="bookmark" label="Ingin Dibaca" href="{{ route('member.wishlist.index') }}"
+            <x-layout.sidebar-item icon="heart" label="Ingin Dibaca" href="{{ route('member.wishlist.index') }}"
                 :active="request()->routeIs('member.wishlist.index')" />
         @endrole
     </nav>

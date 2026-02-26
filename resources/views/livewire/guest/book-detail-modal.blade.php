@@ -42,9 +42,13 @@
                             class="absolute -top-2 left-2 bg-[#f4ecd8] px-1 text-[9px] uppercase font-bold text-coffee/60 tracking-widest">
                             Status</div>
                         <div
-                            class="text-sm font-bold mt-1 flex items-center gap-2 {{ $selectedBook->available_stock > 0 ? 'text-green-800' : 'text-red-800' }}">
+                            class="text-sm font-bold mt-1 flex items-center gap-2 {{ $selectedBook->can_borrow > 0 ? 'text-green-800' : 'text-red-800' }}">
                             <x-heroicon-o-archive-box class="w-4 h-4" />
-                            {{ $selectedBook->available_stock }}/{{ $selectedBook->total_stock }} Unit
+                            @if($selectedBook->can_borrow > 0)
+                                {{ $selectedBook->can_borrow }}/{{ $selectedBook->total_stock }} Tersedia
+                            @else
+                                Sedang Dipinjam
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -69,7 +73,7 @@
 
                 <div class="pt-6 border-t-2 border-dashed border-sepia-edge/50 space-y-4">
                     @auth
-                        @if($selectedBook->available_stock > 0)
+                        @if($selectedBook->can_borrow > 0)
                             <button type="button" wire:click="requestLoan({{ $selectedBook->id }})"
                                 class="w-full bg-coffee text-parchment-light px-4 py-3 font-bold uppercase tracking-widest text-sm border-2 border-ink shadow-[4px_4px_0px_#2c2420] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#2c2420] transition-all flex items-center justify-center gap-2">
                                 <x-heroicon-o-bookmark-square class="w-5 h-5" />

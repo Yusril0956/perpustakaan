@@ -60,37 +60,33 @@ class BookExplorer extends Component
 
         $book = Book::find($bookId);
 
-        if (!$book || $book->available_stock <= 0) {
-            session()->flash('error', 'Buku tidak tersedia untuk dipinjam.');
+        if (!$book) {
+            session()->flash('error', 'Buku tidak ditemukan.');
             return;
         }
 
-        // Check if user already has active loan of this book
+        // Check if user already has active/pending loan of this book
         $existingLoan = Loan::where('user_id', auth()->id())
             ->where('book_id', $bookId)
-            ->where('status', 'borrowed')
+            ->whereIn('status', ['borrowed', 'active', 'pending'])
             ->first();
 
         if ($existingLoan) {
-            session()->flash('error', 'Anda sudah meminjam buku ini.');
+            session()->flash('error', 'Anda sudah memiliki permintaan pinjam untuk buku ini.');
             return;
         }
 
-        // Create new loan
-        $loan = Loan::create([
+        // Create new loan with pending status
+        Loan::create([
             'user_id' => auth()->id(),
             'book_id' => $bookId,
-            'loan_date' => now(),
-            'due_date' => now()->addDays(7),
-            'status' => 'borrowed',
+            'booking_date' => now()->toDateString(),
+            'status' => 'pending',
             'daily_fine_fee' => 5000,
         ]);
 
-        // Update available stock
-        $book->decrement('available_stock');
-
         $this->closeDetail();
-        session()->flash('message', 'Permintaan pinjam berhasil! Periksa halaman pinjaman Anda.');
+        session()->flash('message', 'Permintaan pinjam berhasil dikirim! Tunggu persetujuan admin.');
     }
 
     public function render()
@@ -107,10 +103,10 @@ class BookExplorer extends Component
         }
 
         return view('livewire.guest.book-explorer', [
-            'recommendedBooks' => Book::where('available_stock', '>', 0)->take(3)->get(),
-            'popularBooks' => Book::where('available_stock', '>', 0)->orderBy('view_count', 'desc')->take(6)->get(),
+            'recommendedBooks' => Book::take(3)->get(),
+            'popularBooks' => Book::orderBy('view_count', 'desc')->take(6)->get(),
             'categories' => Category::withCount('books')->get(),
-            'allBooks' => $query->where('available_stock', '>', 0)->latest()->paginate(12),
+            'allBooks' => $query->latest()->paginate(12),
         ]);
     }
 }

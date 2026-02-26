@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Book::factory(50)->create();
 
+        $this->call(TestLoansSeeder::class);
+
         $admin = User::firstOrCreate([
             'email' => 'ryl@test.com',
         ], [

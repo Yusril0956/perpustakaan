@@ -9,6 +9,7 @@ class Loan extends Model
     protected $fillable = [
         'user_id',
         'book_id',
+        'booking_date',
         'loan_date',
         'due_date',
         'return_date',
@@ -24,6 +25,16 @@ class Loan extends Model
     public function book()
     {
         return $this->belongsTo(Book::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'booking_date' => 'date',
+            'loan_date' => 'date',
+            'due_date' => 'date',
+            'return_date' => 'date',
+        ];
     }
 
     public function getFineAttribute()

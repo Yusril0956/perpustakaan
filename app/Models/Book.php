@@ -24,6 +24,19 @@ class Book extends Model
     }
 
     /**
+     * Get number of books still available for borrowing
+     * Calculated: total_stock - (active + pending loans)
+     */
+    public function getCanBorrowAttribute()
+    {
+        $reserved = $this->loans()
+            ->whereIn('status', ['active', 'pending'])
+            ->count();
+
+        return max(0, $this->total_stock - $reserved);
+    }
+
+    /**
      * Safe URL for the book cover.
      *
      * Usage: $book->cover_url

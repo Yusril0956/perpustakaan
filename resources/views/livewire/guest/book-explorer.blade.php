@@ -94,8 +94,8 @@
 
                                 <div
                                     class="absolute top-2 right-2 bg-parchment-base text-[10px] font-bold px-2 py-1 border border-sepia-edge/50 shadow-sm">
-                                    @if($book->available_stock > 0)
-                                        <span class="text-green-800">Tersedia {{ $book->available_stock }}</span>
+                                    @if($book->can_borrow > 0)
+                                        <span class="text-green-800">Tersedia {{ $book->can_borrow }}</span>
                                     @else
                                         <span class="text-red-800">Dipinjam</span>
                                     @endif
@@ -123,9 +123,9 @@
                                         class="w-3 h-3 transform group-hover/btn:translate-x-1 transition-transform" />
                                 </button>
 
-                                @if($book->available_stock > 0)
+                                @if($book->can_borrow > 0)
                                     <button type="button" wire:click="requestLoan({{ $book->id }})"
-                                        class="text-[10px] font-bold uppercase tracking-widest text-ink border-2 border-ink px-3 py-1 hover:bg-ink hover:text-[#f4ecd8] transition-colors shadow-[2px_2px_0px_#2c2420] active:translate-y-[2px] active:shadow-none">
+                                        class="text-[10px] font-bold uppercase tracking-widest text-ink border-2 border-ink px-3 py-1 hover:bg-ink hover:text-parchment-light transition-colors shadow-[2px_2px_0px_#2c2420] active:translate-y-[2px] active:shadow-none">
                                         Pinjam
                                     </button>
                                 @else
