@@ -18,15 +18,28 @@
             </div>
 
             <div class="flex items-center space-x-10 relative z-10">
-                <x-layout.nav-link href="{{ route('explore') }}" :active="request()->is('explore')">Explore</x-layout.nav-link>
+                <x-layout.nav-link href="{{ route('explore') }}"
+                    :active="request()->is('explore')">Explore</x-layout.nav-link>
                 <x-layout.nav-link href="/about" :active="request()->is('about')">Tentang</x-layout.nav-link>
 
                 @auth
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2 group italic text-coffee font-bold">
+                    @role('admin')
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center gap-2 group italic text-coffee font-bold">
                         <x-heroicon-o-academic-cap class="w-5 h-5 text-sepia-edge" />
                         <span class="border-b border-dashed border-coffee group-hover:border-solid transition-all">Meja
                             Belajar</span>
                     </a>
+                    @endrole
+
+                    @role('anggota')
+                    <a href="{{ route('member.dashboard') }}"
+                        class="flex items-center gap-2 group italic text-coffee font-bold">
+                        <x-heroicon-o-academic-cap class="w-5 h-5 text-sepia-edge" />
+                        <span class="border-b border-dashed border-coffee group-hover:border-solid transition-all">Meja
+                            Belajar</span>
+                    </a>
+                    @endrole
                 @else
                     <div class="flex items-center gap-6">
                         <a href="{{ route('login') }}"

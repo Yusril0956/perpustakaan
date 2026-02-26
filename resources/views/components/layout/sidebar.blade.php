@@ -1,94 +1,86 @@
-<aside class="fixed left-0 top-0 h-screen w-64 bg-surface text-ink shadow-lg z-50 border-r border-ink/5 flex flex-col overflow-hidden">
-    <!-- Header & Profile Card -->
-    <div class="flex-shrink-0 p-6 border-b border-ink/10">
-        <!-- Logo Section -->
-        <div class="flex items-center gap-3 mb-6">
-            <div class="w-12 h-12 bg-gradient-to-br from-coffee to-coffee/80 rounded-lg flex items-center justify-center shadow-md">
-                <svg class="w-6 h-6 text-parchment-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
-                    </path>
-                </svg>
-            </div>
-            <div>
-                <h2 class="font-bold text-sm tracking-wide">Pustaka</h2>
-                <p class="text-xs text-muted font-medium">Arsip Digital</p>
-            </div>
+<aside class="fixed left-0 top-0 h-screen w-64 bg-[#fcfaf5] text-ink z-50 border-r flex flex-col shadow-[-10px_0_30px_rgba(44,36,32,0.03)_inset]">
+    <div class="flex-shrink-0 pt-10 pb-8 px-6 text-center relative border-b">
+        <div class="absolute bottom-[3px] left-6 right-6 border-b border-ink/10"></div>
+        
+        <x-heroicon-o-book-open class="w-7 h-7 mx-auto text-ink mb-3 stroke-[1.5]" />
+        <h1 class="font-serif text-2xl font-black tracking-[0.15em] text-ink uppercase">Pustaka</h1>
+        
+        <div class="flex items-center justify-center gap-3 mt-3 opacity-80">
+            <div class="h-px w-8 bg-coffee/40"></div>
+            <p class="text-[9px] font-mono uppercase tracking-[0.3em] text-coffee">Arsip Digital</p>
+            <div class="h-px w-8 bg-coffee/40"></div>
         </div>
     </div>
 
-    <!-- Navigation Menu -->
-    <nav class="flex-1 overflow-y-auto px-3 py-6 space-y-1">
-        <!-- Main Menu -->
-        <div class="px-3 mb-2">
-            <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Menu</p>
-        </div>
-        <x-layout.sidebar-item icon="home" label="Home" href="{{ route('home') }}"
+    <nav class="flex-1 overflow-y-auto py-6">
+        <x-layout.sidebar-item icon="home" label="Beranda" href="{{ route('home') }}"
             :active="request()->routeIs('home')" />
 
         @role('admin')
             <x-layout.sidebar-item icon="dashboard" label="Dashboard" href="{{ route('admin.dashboard') }}"
                 :active="request()->routeIs('admin.dashboard')" />
 
-            <!-- Admin Section -->
-            <div class="px-3 mt-6 mb-2">
-                <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Katalog</p>
+            <div class="px-8 mt-8 mb-3 flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">I. Katalog</span>
+                <div class="h-px flex-1 bg-ink/5"></div>
             </div>
+            
             <x-layout.sidebar-item icon="book" label="Kelola Buku" href="{{ route('admin.books.index') }}"
                 :active="request()->routeIs('admin.books.index', 'admin.books.create')" />
 
-            <div class="px-3 mt-6 mb-2">
-                <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Manajemen</p>
+            <div class="px-8 mt-8 mb-3 flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">II. Manajemen</span>
+                <div class="h-px flex-1 bg-ink/5"></div>
             </div>
+
             <x-layout.sidebar-item icon="users" label="Data Anggota" href="{{ route('admin.users.index') }}"
                 :active="request()->routeIs('admin.users.index')" />
-            <x-layout.sidebar-item icon="bookmark-square" label="Peminjaman" href="{{ route('admin.loans.management') }}"
+            <x-layout.sidebar-item icon="clipboard" label="Peminjaman" href="{{ route('admin.loans.management') }}"
                 :active="request()->routeIs('admin.loans.management')" />
         @else
-            <!-- Member Section -->
-            <div class="px-3 mt-6 mb-2">
-                <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Dashboard</p>
+            <div class="px-8 mt-8 mb-3 flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">I. Pribadi</span>
+                <div class="h-px flex-1 bg-ink/5"></div>
             </div>
-            <x-layout.sidebar-item icon="chart-bar" label="Ringkasan" href="{{ route('member.dashboard') }}"
+            
+            <x-layout.sidebar-item icon="dashboard" label="Ringkasan" href="{{ route('member.dashboard') }}"
                 :active="request()->routeIs('member.dashboard')" />
 
-            <div class="px-3 mt-6 mb-2">
-                <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Jelajahi</p>
+            <div class="px-8 mt-8 mb-3 flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">II. Jelajahi</span>
+                <div class="h-px flex-1 bg-ink/5"></div>
             </div>
+
             <x-layout.sidebar-item icon="book" label="Koleksi Buku" href="{{ route('explore') }}"
                 :active="request()->routeIs('explore')" />
             <x-layout.sidebar-item icon="folder-open" label="Rak Penulis" href="{{ route('member.categories.index') }}"
                 :active="request()->routeIs('member.categories.index')" />
 
-            <div class="px-3 mt-6 mb-2">
-                <p class="text-xs font-bold uppercase tracking-widest text-muted/60">Aktivitas</p>
+            <div class="px-8 mt-8 mb-3 flex items-center gap-2">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">III. Aktivitas</span>
+                <div class="h-px flex-1 bg-ink/5"></div>
             </div>
+
             <x-layout.sidebar-item icon="book-open" label="Sedang Dipinjam" href="{{ route('member.loans.index') }}"
                 :active="request()->routeIs('member.loans.index')" />
-            <x-layout.sidebar-item icon="heart" label="Ingin Dibaca" href="{{ route('member.wishlist.index') }}"
+            <x-layout.sidebar-item icon="bookmark" label="Ingin Dibaca" href="{{ route('member.wishlist.index') }}"
                 :active="request()->routeIs('member.wishlist.index')" />
         @endrole
     </nav>
 
-    <!-- Footer -->
-    <div class="flex-shrink-0 border-t border-ink/10 bg-gradient-to-t from-background/50 to-transparent p-3 space-y-2">
+    <div class="flex-shrink-0 p-6 border-t bg-[#f9f7f1]">
         <a href="{{ route('profile.show') }}" 
-            class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-background/60 text-muted hover:text-ink group">
-            <svg class="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-            <span>Profil Saya</span>
+            class="flex items-center gap-3 px-4 py-2.5 text-sm font-serif text-coffee hover:text-ink transition-colors group">
+            <x-heroicon-o-user class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
+            <span>Profil Pengguna</span>
         </a>
 
-        <form method="POST" action="{{ route('logout') }}" class="w-full">
+        <form method="POST" action="{{ route('logout') }}" class="w-full mt-1">
             @csrf
             <button 
-                class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-red-50 text-muted hover:text-red-600 group">
-                <svg class="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                </svg>
-                <span>Logout</span>
+                class="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-serif text-coffee/80 hover:text-red-800 transition-colors group">
+                <x-heroicon-o-arrow-right-on-rectangle class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
+                <span>Tutup Sesi</span>
             </button>
         </form>
     </div>

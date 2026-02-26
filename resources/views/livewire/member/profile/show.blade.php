@@ -149,10 +149,10 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="p-4 text-sm">{{ $loan->borrowed_at->format('d F Y') }}</td>
+                                <td class="p-4 text-sm">{{ $loan->borrowed_at?->format('d F Y') ?? '-' }}</td>
                                 <td class="p-4 text-sm">
-                                    <span class="{{ $loan->due_date->isPast() ? 'text-red-600 font-bold' : '' }}">
-                                        {{ $loan->due_date->format('d F Y') }}
+                                    <span class="{{ $loan->due_date?->isPast() ? 'text-red-600 font-bold' : '' }}">
+                                        {{ $loan->due_date?->format('d F Y') ?? '-' }}
                                     </span>
                                 </td>
                                 <td class="p-4">
@@ -204,13 +204,9 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="p-4 text-sm">{{ $loan->borrowed_at->format('d F Y') }}</td>
+                                    <td class="p-4 text-sm">{{ $loan->borrowed_at?->format('d F Y') ?? '-' }}</td>
                                     <td class="p-4 text-sm">
-                                        @if($loan->returned_at)
-                                            {{ $loan->returned_at->format('d F Y') }}
-                                        @else
-                                            -
-                                        @endif
+                                        {{ $loan->returned_at?->format('d F Y') ?? '-' }}
                                     </td>
                                     <td class="p-4">
                                         @if($loan->status === 'borrowed')

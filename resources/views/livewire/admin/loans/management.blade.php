@@ -57,11 +57,12 @@
                                                 @endif
                                             </td>
                                             <td class="p-4">
-                                                <span class="inline-block px-3 py-1 text-[10px] uppercase font-bold tracking-wider rounded-sm
-                                                        {{ $loan->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                                        {{ $loan->status === 'active' ? 'bg-green-100 text-green-800' : '' }}
-                                                        {{ $loan->status === 'returned' ? 'bg-blue-100 text-blue-800' : '' }}
-                                                        {{ $loan->status === 'cancelled' ? 'bg-red-100 text-red-800' : '' }}">
+                                                <span
+                                                    class="inline-block px-3 py-1 text-[10px] uppercase font-bold tracking-wider rounded-sm
+                                                                                                {{ $loan->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                                                                                                {{ $loan->status === 'active' ? 'bg-green-100 text-green-800' : '' }}
+                                                                                                {{ $loan->status === 'returned' ? 'bg-blue-100 text-blue-800' : '' }}
+                                                                                                {{ $loan->status === 'cancelled' ? 'bg-red-100 text-red-800' : '' }}">
                                                     {{ match ($loan->status) {
                             'pending' => 'Menunggu',
                             'active' => 'Aktif',

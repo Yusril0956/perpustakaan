@@ -86,7 +86,8 @@ class BookExplorer extends Component
         ]);
 
         $this->closeDetail();
-        session()->flash('message', 'Permintaan pinjam berhasil dikirim! Tunggu persetujuan admin.');
+        // session()->flash('message', 'Permintaan pinjam berhasil dikirim! Tunggu persetujuan admin.');
+        return redirect()->route('member.dashboard');
     }
 
     public function render()
