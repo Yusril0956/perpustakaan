@@ -15,7 +15,7 @@
 
     <x-layout.guest-navbar />
 
-    <main class="relative z-10 pt-32 pb-16 min-h-screen">
+    <main class="pt-32 pb-16 min-h-screen">
         {{ $slot }}
     </main>
 
