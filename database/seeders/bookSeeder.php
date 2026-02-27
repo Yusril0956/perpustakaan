@@ -36,7 +36,29 @@ class bookSeeder extends Seeder
             'cover_image' => 'covers/weakheroclass.jfif',
         ]);
         Book::firstOrCreate([
-            'isbn' => '978-0-7432-7356-5',
+            'isbn' => '978-1-4241-5325-0',
+        ], [
+            'title' => 'Stranger Things',
+            'author' => 'Netflix',
+            'description' => 'A story about a group of friends who uncover supernatural mysteries in their small town.',
+            'total_stock' => 3,
+            'available_stock' => 3,
+            'category_id' => 3,
+            'cover_image' => 'covers/strangerthings.jpeg',
+        ]);
+        Book::firstOrCreate([
+            'isbn' => '978-1-2345-6789-5',
+        ], [
+            'title' => 'Losser Life',
+            'author' => 'someone',
+            'description' => 'A story about a loser who becomes a winner.',
+            'total_stock' => 3,
+            'available_stock' => 3,
+            'category_id' => 3,
+            'cover_image' => 'covers/losserlife.jpeg',
+        ]);
+        Book::firstOrCreate([
+            'isbn' => '978-1-2345-6789-0',
         ], [
             'title' => 'The Manipulated',
             'author' => 'Eserel',
@@ -47,7 +69,7 @@ class bookSeeder extends Seeder
             'cover_image' => 'covers/themanipulated.jfif',
         ]);
         Book::firstOrCreate([
-            'isbn' => '978-0-7432-7356-5',
+            'isbn' => '978-1-2345-6789-1',
         ], [
             'title' => 'Can This Love Be Translated?',
             'author' => 'Eserel',
@@ -58,7 +80,7 @@ class bookSeeder extends Seeder
             'cover_image' => 'covers/canthislovebetranslated.jfif',
         ]);
         Book::firstOrCreate([
-            'isbn' => '978-0-7432-7356-5',
+            'isbn' => '978-1-2345-6789-2',
         ], [
             'title' => 'All of Us Are Dead',
             'author' => 'Netflix',
@@ -69,7 +91,7 @@ class bookSeeder extends Seeder
             'cover_image' => 'covers/allofusaredead.jfif',
         ]);
         Book::firstOrCreate([
-            'isbn' => '978-0-7432-7356-5',
+            'isbn' => '978-1-2345-6789-3',
         ], [
             'title' => 'Lookism',
             'author' => 'Park Tae-jun',
@@ -80,7 +102,7 @@ class bookSeeder extends Seeder
             'cover_image' => 'covers/lookism.jfif',
         ]);
         Book::firstOrCreate([
-            'isbn' => '978-0-7432-7356-5',
+            'isbn' => '978-1-2345-6789-4',
         ], [
             'title' => 'Breaking Bad',
             'author' => 'Vince Gilligan',
@@ -89,6 +111,28 @@ class bookSeeder extends Seeder
             'available_stock' => 3,
             'category_id' => 3,
             'cover_image' => 'covers/breakingbad.jfif',
+        ]);
+        Book::firstOrCreate([
+            'isbn' => '978-1-2345-6789-6',
+        ], [
+            'title' => 'Windbreaker',
+            'author' => 'Yongseok Jo',
+            'description' => 'A story about a high school student who becomes a professional athlete.',
+            'total_stock' => 50,
+            'available_stock' => 3,
+            'category_id' => 3,
+            'cover_image' => 'covers/windbreaker.jpeg',
+        ]);
+        Book::firstOrCreate([
+            'isbn' => '978-1-2345-6789-7',
+        ], [
+            'title' => 'How to Fight',
+            'author' => 'park tae-jun',
+            'description' => 'A story about a high school student who learns how to fight.',
+            'total_stock' => 50,
+            'available_stock' => 3,
+            'category_id' => 3,
+            'cover_image' => 'covers/howtofight.jpeg',
         ]);
     }
 }

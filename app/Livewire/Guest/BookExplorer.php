@@ -105,7 +105,7 @@ class BookExplorer extends Component
 
         return view('livewire.guest.book-explorer', [
             'recommendedBooks' => Book::take(3)->get(),
-            'popularBooks' => Book::orderBy('view_count', 'desc')->take(6)->get(),
+            'popularBooks' => Book::orderBy('available_stock', 'asc')->take(6)->get(),
             'categories' => Category::withCount('books')->get(),
             'allBooks' => $query->latest()->paginate(12),
         ]);

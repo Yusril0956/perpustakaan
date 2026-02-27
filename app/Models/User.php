@@ -63,11 +63,15 @@ class User extends Authenticatable
 
     public function getProfilePhotoUrlAttribute()
     {
-        if ($this->profile_photo_path && \Storage::disk('public')->exists($this->profile_photo_path)) {
-            return \Storage::url($this->profile_photo_path);
+        if ($this->profile_photo_path) {
+            if (\Storage::disk('public')->exists($this->profile_photo_path)) {
+                return \Storage::url($this->profile_photo_path);
+            }
+            if (file_exists(public_path($this->profile_photo_path))) {
+                return asset($this->profile_photo_path);
+            }
         }
 
-        // Fallback to UI-Avatars with vintage background color
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=f4ecd8&color=6f4e37&size=400&bold=true';
     }
 }
