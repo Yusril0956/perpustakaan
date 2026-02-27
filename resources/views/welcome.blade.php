@@ -1,246 +1,203 @@
 <x-guest-layout>
-    <div class="min-h-screen bg-gradient-to-br from-parchment-base via-white to-parchment-light">
-        <!-- Hero Section -->
-        <div class="max-w-7xl mx-auto px-6 py-16">
-            <section class="text-center mb-24">
+    <div class="min-h-screen bg-[#fcfaf5] text-ink relative overflow-hidden selection:bg-ink selection:text-[#fcfaf5]">
+
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-6 py-16 relative z-10">
+
+            <section class="text-center mb-24 border-b-4 border-double border-ink pb-16">
                 <div class="mb-8">
-                    <div
-                        class="inline-flex items-center gap-2 bg-coffee/10 px-4 py-2 rounded-full text-coffee text-sm font-medium mb-6">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Sistem Perpustakaan Digital Modern
+                    <div class="inline-flex items-center gap-2 border-2 border-ink bg-ink/5 px-4 py-1 text-ink text-xs font-mono font-black uppercase tracking-widest mb-6 shadow-[4px_4px_0px_rgba(44,36,32,1)]">
+                        <x-heroicon-s-archive-box class="w-4 h-4" />
+                        [ Dokumen Publik - Terbuka Untuk Umum ]
                     </div>
                 </div>
 
-                <h1 class="text-6xl md:text-8xl font-bold text-ink mb-8 italic tracking-tight leading-tight">
-                    Arsip Cerita & <br>
-                    <span class="text-coffee">Pengetahuan Abadi</span>
+                <h1 class="text-6xl md:text-8xl font-black text-ink mb-6 font-serif uppercase tracking-tight leading-none">
+                    Arsip Cerita <br>
+                    <span class="border-b-4 border-ink">Pengetahuan Abadi</span>
                 </h1>
 
-                <div class="flex justify-center items-center gap-4 mb-12">
-                    <div class="h-[1px] w-24 bg-sepia-edge"></div>
-                    <p class="text-coffee italic text-lg">Menjelajahi masa lalu melalui tinta digital</p>
-                    <div class="h-[1px] w-24 bg-sepia-edge"></div>
+                <div class="flex justify-center items-center gap-4 mb-12 font-mono text-sm uppercase tracking-widest text-ink/70">
+                    <div class="h-px w-16 bg-ink/50"></div>
+                    <p>Menjelajahi masa lalu melalui tinta digital</p>
+                    <div class="h-px w-16 bg-ink/50"></div>
                 </div>
 
-                <!-- Search Bar -->
                 <div class="max-w-2xl mx-auto mb-12">
-                    <form action="{{ route('login') }}" method="GET" class="relative">
-                        <div class="relative">
-                            <input type="text" name="search" placeholder="Cari judul buku, penulis, atau kategori..."
-                                class="w-full pl-12 pr-4 py-4 bg-white/90 backdrop-blur-sm border-2 border-coffee/20 rounded-xl focus:border-coffee focus:ring-0 text-lg italic placeholder-coffee/50 shadow-lg">
+                    <form action="{{ route('login') }}" method="GET" class="relative flex shadow-[8px_8px_0px_rgba(44,36,32,1)] focus-within:shadow-[4px_4px_0px_rgba(44,36,32,1)] focus-within:translate-y-1 focus-within:translate-x-1 transition-all">
+                        <div class="relative flex-1">
+                            <input type="text" name="search" placeholder="CARI JUDUL, PENULIS, ATAU KATEGORI..."
+                                class="w-full pl-12 pr-4 py-4 bg-[#fcfaf5] border-2 border-ink border-r-0 focus:ring-0 font-mono text-sm placeholder-ink/40 uppercase">
                             <div class="absolute left-4 top-1/2 transform -translate-y-1/2">
-                                <svg class="w-6 h-6 text-coffee/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                </svg>
+                                <x-heroicon-o-magnifying-glass class="w-6 h-6 text-ink/60" />
                             </div>
                         </div>
-                        <button type="submit" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-coffee text-parchment-base px-6 py-2 rounded-lg font-semibold hover:bg-coffee/90 transition-all duration-300 shadow-md">
-                            Cari
+                        <button type="submit" class="bg-ink text-[#fcfaf5] px-8 py-4 font-mono font-black uppercase tracking-widest border-2 border-ink hover:bg-ink/90 transition-colors">
+                            Lacak
                         </button>
                     </form>
-                    <p class="text-center text-coffee/60 text-sm mt-2 italic">Masuk untuk mengakses fitur pencarian lengkap</p>
+                    <p class="text-center text-ink/60 font-mono text-[10px] mt-4 uppercase">* Harap melapor ke petugas (Login) untuk akses brankas penuh</p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
                     <a href="{{ route('login') }}"
-                        class="inline-flex items-center gap-2 bg-coffee text-parchment-base px-8 py-4 rounded-lg font-semibold hover:bg-coffee/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Masuk ke Akun
+                        class="inline-flex items-center gap-2 bg-ink text-[#fcfaf5] border-2 border-ink px-8 py-3 font-mono text-sm font-black uppercase tracking-widest shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all">
+                        <x-heroicon-o-key class="w-5 h-5" />
+                        Akses Masuk
                     </a>
                     <a href="{{ route('register') }}"
-                        class="inline-flex items-center gap-2 border-2 border-coffee text-coffee px-8 py-4 rounded-lg font-semibold hover:bg-coffee hover:text-parchment-base transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                        </svg>
-                        Daftar Anggota Baru
+                        class="inline-flex items-center gap-2 bg-[#fcfaf5] text-ink border-2 border-ink px-8 py-3 font-mono text-sm font-black uppercase tracking-widest shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all">
+                        <x-heroicon-o-document-plus class="w-5 h-5" />
+                        Registrasi Baru
                     </a>
                 </div>
             </section>
 
-            <!-- Features Grid -->
             <section class="grid md:grid-cols-3 gap-8 mb-24">
-                <div
-                    class="bg-white/70 backdrop-blur-sm p-8 rounded-xl border border-sepia-edge/20 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-coffee/10 rounded-full flex items-center justify-center mb-6 mx-auto">
-                        <svg class="w-8 h-8 text-coffee" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
+                <div class="bg-[#fcfaf5] p-8 border-2 border-ink shadow-[8px_8px_0px_rgba(44,36,32,1)] relative">
+                    <div class="absolute top-0 right-0 bg-ink text-[#fcfaf5] font-mono text-[10px] px-2 py-1 uppercase">Bab 01</div>
+                    <div class="w-12 h-12 border-2 border-ink flex items-center justify-center mb-6 transform -rotate-3 bg-ink/5">
+                        <x-heroicon-o-book-open class="w-6 h-6 text-ink" />
                     </div>
-                    <h3 class="text-xl font-bold text-ink mb-4 text-center italic">Koleksi Lengkap</h3>
-                    <p class="text-coffee/80 text-center leading-relaxed">
-                        Ribuan judul buku dari berbagai kategori siap menemani perjalanan intelektual Anda. Dari novel
-                        klasik hingga buku pengetahuan terkini.
+                    <h3 class="text-xl font-black font-serif text-ink mb-3 uppercase">Koleksi Lengkap</h3>
+                    <p class="text-ink/80 font-mono text-xs leading-relaxed text-justify">
+                        Ribuan literatur dari berbagai kategori siap menemani perjalanan intelektual Anda. Dari naskah klasik hingga jurnal terkini.
                     </p>
                 </div>
 
-                <div
-                    class="bg-white/70 backdrop-blur-sm p-8 rounded-xl border border-sepia-edge/20 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-coffee/10 rounded-full flex items-center justify-center mb-6 mx-auto">
-                        <svg class="w-8 h-8 text-coffee" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
+                <div class="bg-[#fcfaf5] p-8 border-2 border-ink shadow-[8px_8px_0px_rgba(44,36,32,1)] relative">
+                    <div class="absolute top-0 right-0 bg-ink text-[#fcfaf5] font-mono text-[10px] px-2 py-1 uppercase">Bab 02</div>
+                    <div class="w-12 h-12 border-2 border-ink flex items-center justify-center mb-6 transform rotate-3 bg-ink/5">
+                        <x-heroicon-o-bolt class="w-6 h-6 text-ink" />
                     </div>
-                    <h3 class="text-xl font-bold text-ink mb-4 text-center italic">Akses Cepat</h3>
-                    <p class="text-coffee/80 text-center leading-relaxed">
-                        Sistem pencarian canggih memungkinkan Anda menemukan buku impian dalam hitungan detik. Tidak
-                        perlu antri berjam-jam.
+                    <h3 class="text-xl font-black font-serif text-ink mb-3 uppercase">Pencarian Kilat</h3>
+                    <p class="text-ink/80 font-mono text-xs leading-relaxed text-justify">
+                        Sistem indeksasi canggih memungkinkan Anda melacak letak rak dokumen dalam hitungan detik. Tanpa perlu membuka laci manual.
                     </p>
                 </div>
 
-                <div
-                    class="bg-white/70 backdrop-blur-sm p-8 rounded-xl border border-sepia-edge/20 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div class="w-16 h-16 bg-coffee/10 rounded-full flex items-center justify-center mb-6 mx-auto">
-                        <svg class="w-8 h-8 text-coffee" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                        </svg>
+                <div class="bg-[#fcfaf5] p-8 border-2 border-ink shadow-[8px_8px_0px_rgba(44,36,32,1)] relative">
+                    <div class="absolute top-0 right-0 bg-ink text-[#fcfaf5] font-mono text-[10px] px-2 py-1 uppercase">Bab 03</div>
+                    <div class="w-12 h-12 border-2 border-ink flex items-center justify-center mb-6 transform -rotate-2 bg-ink/5">
+                        <x-heroicon-o-shield-check class="w-6 h-6 text-ink" />
                     </div>
-                    <h3 class="text-xl font-bold text-ink mb-4 text-center italic">Keamanan Terjamin</h3>
-                    <p class="text-coffee/80 text-center leading-relaxed">
-                        Data pribadi Anda aman bersama kami. Sistem keamanan berlapis memastikan privasi dan keamanan
-                        informasi Anda.
+                    <h3 class="text-xl font-black font-serif text-ink mb-3 uppercase">Kerahasiaan Terjaga</h3>
+                    <p class="text-ink/80 font-mono text-xs leading-relaxed text-justify">
+                        Log sirkulasi dan data pribadi terenkripsi dengan protokol keamanan berlapis. Privasi pembaca adalah sumpah kami.
                     </p>
                 </div>
             </section>
 
-            <!-- Stats Section -->
-            <section class="bg-coffee text-parchment-base rounded-2xl p-12 mb-24 shadow-2xl">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold italic mb-4">Angka-angka Pustaka Kami</h2>
-                    <p class="text-parchment-base/80">Prestasi yang terus berkembang bersama komunitas pembaca</p>
-                </div>
+            <section class="border-4 border-double border-ink p-1 relative mb-24">
+                <div class="bg-ink text-[#fcfaf5] p-12 text-center">
+                    <h2 class="text-3xl font-black font-serif uppercase mb-4">Statistik Inventaris</h2>
+                    <p class="font-mono text-sm text-[#fcfaf5]/70 mb-12">Laporan sirkulasi harian - Diperbarui secara otomatis</p>
 
-                <div class="grid md:grid-cols-4 gap-8 text-center">
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                        <div class="text-4xl font-bold mb-2">2,500+</div>
-                        <div class="text-parchment-base/80">Judul Buku</div>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                        <div class="text-4xl font-bold mb-2">1,200+</div>
-                        <div class="text-parchment-base/80">Anggota Aktif</div>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                        <div class="text-4xl font-bold mb-2">15,000+</div>
-                        <div class="text-parchment-base/80">Peminjaman</div>
-                    </div>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6">
-                        <div class="text-4xl font-bold mb-2">98%</div>
-                        <div class="text-parchment-base/80">Kepuasan</div>
+                    <div class="grid md:grid-cols-4 gap-8">
+                        <div class="border border-dashed border-[#fcfaf5]/30 p-6 relative">
+                            <div class="text-4xl font-black font-serif mb-2">2,500+</div>
+                            <div class="font-mono text-xs uppercase tracking-widest text-[#fcfaf5]/70">Naskah</div>
+                        </div>
+                        <div class="border border-dashed border-[#fcfaf5]/30 p-6">
+                            <div class="text-4xl font-black font-serif mb-2">1,200+</div>
+                            <div class="font-mono text-xs uppercase tracking-widest text-[#fcfaf5]/70">Anggota</div>
+                        </div>
+                        <div class="border border-dashed border-[#fcfaf5]/30 p-6">
+                            <div class="text-4xl font-black font-serif mb-2">15,000+</div>
+                            <div class="font-mono text-xs uppercase tracking-widest text-[#fcfaf5]/70">Sirkulasi</div>
+                        </div>
+                        <div class="border border-dashed border-[#fcfaf5]/30 p-6">
+                            <div class="text-4xl font-black font-serif mb-2">98%</div>
+                            <div class="font-mono text-xs uppercase tracking-widest text-[#fcfaf5]/70">Presisi</div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Featured Books Section -->
             <section class="mb-24">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-ink italic mb-4">Koleksi Terbaru Kami</h2>
-                    <p class="text-coffee/80 text-lg">Jelajahi buku-buku terbaru yang siap menemani perjalanan
-                        intelektual Anda</p>
+                <div class="flex items-end justify-between border-b-2 border-ink pb-4 mb-8">
+                    <div>
+                        <h2 class="text-3xl font-black font-serif text-ink uppercase">Koleksi Terkini</h2>
+                        <p class="font-mono text-sm text-ink/70 mt-2">Arsip yang baru saja masuk ke brankas kami.</p>
+                    </div>
+                    <a href="{{ route('login') }}" class="font-mono text-xs font-black uppercase text-ink hover:underline decoration-2 underline-offset-4 hidden md:block">
+                        Lihat Seluruh Indeks &rarr;
+                    </a>
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     @php
-                        $featuredBooks = \App\Models\Book::with('category')->latest()->take(8)->get();
+                    // Memastikan query tidak error jika tabel kosong
+                    $featuredBooks = \App\Models\Book::with('category')->latest()->take(4)->get();
                     @endphp
 
                     @forelse($featuredBooks as $book)
-                        <div
-                            class="bg-white/70 backdrop-blur-sm rounded-xl border border-sepia-edge/20 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-                            <div
-                                class="aspect-[3/4] bg-gradient-to-br from-coffee/10 to-sepia-edge/10 flex items-center justify-center p-4">
-                                @if($book->cover_image)
-                                    <img src="{{ $book->cover_image }}" alt="{{ $book->title }}"
-                                        class="w-full h-full object-cover rounded-lg shadow-md">
+                    <div class="group bg-[#fcfaf5] border-2 border-ink p-3 shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_rgba(44,36,32,1)] transition-all flex flex-col">
+
+                        <div class="aspect-[3/4] border-2 border-ink mb-4 relative overflow-hidden bg-ink/5 p-1">
+                            @if($book->cover_image)
+                            <img src="{{ $book->cover_image }}" alt="{{ $book->title }}"
+                                class="w-full h-full object-cover filter sepia-[30%] grayscale-[20%] group-hover:filter-none transition-all duration-500">
+                            @else
+                            <div class="w-full h-full flex flex-col items-center justify-center border border-dashed border-ink/40">
+                                <x-heroicon-o-photo class="w-8 h-8 text-ink/30 mb-2" />
+                                <span class="font-mono text-[10px] text-ink/40 uppercase">Tanpa Sampul</span>
+                            </div>
+                            @endif
+
+                            <div class="absolute top-2 right-2 bg-[#fcfaf5] border border-ink px-2 py-0.5 font-mono text-[9px] font-black uppercase shadow-sm">
+                                {{ $book->category->name ?? 'UMUM' }}
+                            </div>
+                        </div>
+
+                        <div class="flex-1 flex flex-col">
+                            <h3 class="font-black font-serif text-lg text-ink line-clamp-2 leading-tight mb-1 uppercase" title="{{ $book->title }}">
+                                {{ $book->title }}
+                            </h3>
+                            <p class="text-ink/70 font-mono text-[10px] uppercase mb-4">
+                                PENA: {{ $book->author }}
+                            </p>
+
+                            <div class="mt-auto pt-3 border-t border-dashed border-ink/30 flex items-center justify-between font-mono text-[10px] font-black uppercase">
+                                <span>STOK: {{ $book->available_stock }}/{{ $book->total_stock }}</span>
+                                @if($book->available_stock > 0)
+                                <span class="text-ink border border-ink px-1.5 py-0.5 bg-green-500/20">TERSEDIA</span>
                                 @else
-                                    <div class="w-full h-full bg-coffee/20 rounded-lg flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-coffee/60" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                        </svg>
-                                    </div>
+                                <span class="text-ink border border-ink px-1.5 py-0.5 bg-red-500/20">DIPINJAM</span>
                                 @endif
                             </div>
-
-                            <div class="p-4">
-                                <div class="mb-2">
-                                    <span
-                                        class="inline-block bg-coffee/10 text-coffee text-xs px-2 py-1 rounded-full font-medium">
-                                        {{ $book->category->name ?? 'Umum' }}
-                                    </span>
-                                </div>
-
-                                <h3 class="font-bold text-ink mb-2 line-clamp-2 italic text-sm leading-tight"
-                                    title="{{ $book->title }}">
-                                    {{ $book->title }}
-                                </h3>
-
-                                <p class="text-coffee/70 text-xs mb-3 italic">
-                                    oleh {{ $book->author }}
-                                </p>
-
-                                <div class="flex items-center justify-between text-xs text-coffee/60">
-                                    <span>Stok: {{ $book->available_stock }}/{{ $book->total_stock }}</span>
-                                    @if($book->available_stock > 0)
-                                        <span class="text-green-600 font-medium">Tersedia</span>
-                                    @else
-                                        <span class="text-red-600 font-medium">Habis</span>
-                                    @endif
-                                </div>
-                            </div>
                         </div>
+                    </div>
                     @empty
-                        <div class="col-span-full text-center py-12">
-                            <svg class="w-16 h-16 text-coffee/40 mx-auto mb-4" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <p class="text-coffee/60 italic">Koleksi buku sedang disiapkan...</p>
-                        </div>
+                    <div class="col-span-full text-center py-16 border-2 border-dashed border-ink bg-ink/5">
+                        <x-heroicon-o-archive-box-x-mark class="w-12 h-12 text-ink/30 mx-auto mb-3" />
+                        <p class="font-mono text-sm text-ink/60 uppercase font-black">Laci arsip masih kosong.</p>
+                    </div>
                     @endforelse
-                </div>
-
-                <div class="text-center mt-8">
-                    <a href="{{ route('login') }}"
-                        class="inline-flex items-center gap-2 bg-coffee text-parchment-base px-6 py-3 rounded-lg font-semibold hover:bg-coffee/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        Jelajahi Semua Koleksi
-                    </a>
                 </div>
             </section>
 
-            <!-- About Section -->
-            <section class="bg-parchment-base border border-sepia-edge/30 rounded-2xl p-12 shadow-inner text-center">
-                <div class="max-w-4xl mx-auto">
-                    <h3 class="text-3xl font-bold text-ink mb-6 italic">Tentang Pustaka Arsip</h3>
-                    <p class="text-coffee/90 leading-relaxed text-lg mb-8">
-                        Ini bukan sekadar database. Ini adalah upaya kami merawat ingatan kolektif bangsa.
-                        Setiap halaman yang Anda baca di sini adalah bagian dari sejarah yang kami digitalkan
-                        agar tetap hidup di meja-meja belajar generasi mendatang.
+            <section class="bg-[#fcfaf5] border-4 border-ink p-1 shadow-[12px_12px_0px_rgba(44,36,32,1)] relative">
+                <div class="absolute top-2 left-2 w-3 h-3 border-t-2 border-l-2 border-ink"></div>
+                <div class="absolute top-2 right-2 w-3 h-3 border-t-2 border-r-2 border-ink"></div>
+                <div class="absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 border-ink"></div>
+                <div class="absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 border-ink"></div>
+
+                <div class="border border-ink p-10 text-center relative z-10">
+                    <h3 class="text-3xl font-black font-serif text-ink mb-6 uppercase tracking-widest border-b-2 border-dashed border-ink/30 inline-block pb-2">Manifesto Pustaka</h3>
+                    <p class="font-mono text-sm text-ink/80 leading-loose max-w-3xl mx-auto mb-10 text-justify">
+                        Sistem ini bukan sekadar pangkalan data. Ini adalah upaya kami merawat ingatan kolektif. Setiap naskah yang Anda akses di sini adalah bagian dari sejarah yang kami digitalkan agar tetap beresonansi di meja-meja belajar generasi mendatang, menentang kelapukan waktu dan pelapukan kertas.
                     </p>
 
-                    <div class="grid md:grid-cols-2 gap-8 text-left">
-                        <div class="bg-white/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-ink mb-3 italic">Visi Kami</h4>
-                            <p class="text-coffee/80">Menjadi jembatan antara pengetahuan masa lalu dan inovasi masa
-                                depan melalui teknologi digital.</p>
+                    <div class="grid md:grid-cols-2 gap-0 border-2 border-ink text-left">
+                        <div class="p-6 border-b-2 md:border-b-0 md:border-r-2 border-ink bg-ink/5">
+                            <h4 class="font-black font-serif text-ink mb-2 uppercase text-lg">I. Visi Utama</h4>
+                            <p class="font-mono text-xs text-ink/70 leading-relaxed text-justify">Menjadi jembatan perantara antara mahakarya pengetahuan masa lalu dengan pemikiran inovatif masa depan melalui implementasi teknologi pengarsipan digital.</p>
                         </div>
-                        <div class="bg-white/50 p-6 rounded-lg">
-                            <h4 class="font-bold text-ink mb-3 italic">Misi Kami</h4>
-                            <p class="text-coffee/80">Menyediakan akses mudah dan merata terhadap khazanah pengetahuan
-                                untuk semua lapisan masyarakat.</p>
+                        <div class="p-6 bg-[#fcfaf5]">
+                            <h4 class="font-black font-serif text-ink mb-2 uppercase text-lg">II. Misi Operasional</h4>
+                            <p class="font-mono text-xs text-ink/70 leading-relaxed text-justify">Menyediakan akses sirkulasi dokumen yang terstruktur, presisi, dan merata terhadap seluruh khazanah literatur untuk semua lapisan intelektual masyarakat.</p>
                         </div>
                     </div>
                 </div>
