@@ -26,7 +26,7 @@ class Edit extends Component
     {
         $this->form->update();
 
-        session()->flash('message', 'Buku berhasil diperbarui.');
+        session()->flash('success', 'Buku berhasil diperbarui.');
         return $this->redirect(route('admin.books.index'), navigate: true);
     }
 

@@ -31,13 +31,13 @@ class Management extends Component
         $loan = Loan::with('book', 'user')->find($loanId);
 
         if (!$loan || $loan->status !== 'pending') {
-            session()->flash('error', 'Permintaan tidak valid.');
+            $this->dispatch('alert', ['type' => 'error', 'message' => 'Permintaan tidak valid.']);
             return;
         }
 
         $book = $loan->book;
         if ($book->available_stock <= 0) {
-            session()->flash('error', 'Stok buku tidak tersedia.');
+            $this->dispatch('alert', ['type' => 'error', 'message' => 'Stok buku tidak tersedia.']);
             return;
         }
 
@@ -51,7 +51,7 @@ class Management extends Component
         // Decrease available stock
         $book->decrement('available_stock');
 
-        session()->flash('message', "Peminjaman dari {$loan->user->name} disetujui.");
+        $this->dispatch('alert', ['type' => 'success', 'message' => "Peminjaman dari {$loan->user->name} disetujui."]);
     }
 
     public function rejectLoan($loanId)
@@ -59,13 +59,13 @@ class Management extends Component
         $loan = Loan::with('user')->find($loanId);
 
         if (!$loan || $loan->status !== 'pending') {
-            session()->flash('error', 'Permintaan tidak valid.');
+            $this->dispatch('alert', ['type' => 'error', 'message' => 'Permintaan tidak valid.']);
             return;
         }
 
         $loan->update(['status' => 'cancelled']);
 
-        session()->flash('message', "Peminjaman dari {$loan->user->name} ditolak.");
+        $this->dispatch('alert', ['type' => 'success', 'message' => "Peminjaman dari {$loan->user->name} ditolak."]);
     }
 
     public function returnLoan($loanId)
@@ -73,7 +73,7 @@ class Management extends Component
         $loan = Loan::with('book', 'user')->find($loanId);
 
         if (!$loan || $loan->status !== 'active') {
-            session()->flash('error', 'Loan tidak aktif.');
+            $this->dispatch('alert', ['type' => 'error', 'message' => 'Loan tidak aktif.']);
             return;
         }
 
@@ -86,7 +86,7 @@ class Management extends Component
         // Increase available stock
         $loan->book->increment('available_stock');
 
-        session()->flash('message', "Buku dari {$loan->user->name} berhasil dikembalikan.");
+        $this->dispatch('alert', ['type' => 'success', 'message' => "Buku dari {$loan->user->name} berhasil dikembalikan."]);
     }
 
     public function render()

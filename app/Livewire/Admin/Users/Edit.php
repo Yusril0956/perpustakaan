@@ -22,7 +22,7 @@ class Edit extends Component
     {
         $this->form->update();
 
-        session()->flash('message', 'User berhasil diperbarui.');
+        session()->flash('success', 'User berhasil diperbarui.');
         return $this->redirect(route('admin.users.index'), navigate: true);
     }
 

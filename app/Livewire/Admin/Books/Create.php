@@ -20,7 +20,7 @@ class Create extends Component
     {
         $this->form->store();
 
-        session()->flash('message', 'Buku berhasil didaftarkan ke dalam rak.');
+        session()->flash('success', 'Buku berhasil didaftarkan ke dalam rak.');
         return $this->redirect(route('admin.books.index'), navigate: true);
     }
 

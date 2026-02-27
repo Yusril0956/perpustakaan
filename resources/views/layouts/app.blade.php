@@ -56,7 +56,7 @@
             {{ $slot }}
         </main>
     </div>
-
+    <x-layout.alert />
     @livewireScripts
 </body>
 

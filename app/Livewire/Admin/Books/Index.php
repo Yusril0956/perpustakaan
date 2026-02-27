@@ -23,7 +23,7 @@ class Index extends Component
     public function delete($id)
     {
         Book::find($id)->delete();
-        session()->flash('message', 'Buku berhasil dihapus dari arsip.');
+        session()->flash('success', 'Buku berhasil dihapus dari arsip.');
     }
 
     public function render()

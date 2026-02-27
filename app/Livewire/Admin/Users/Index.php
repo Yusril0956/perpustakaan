@@ -22,10 +22,12 @@ class Index extends Component
 
     public function delete($userId)
     {
-        $user = User::find($userId);
+        $user = User::with('loans')->find($userId);
         if ($user) {
+            // Delete related loans first
+            $user->loans()->delete();
             $user->delete();
-            session()->flash('message', 'User berhasil dihapus.');
+            session()->flash('success', 'User berhasil dihapus.');
         }
     }
 

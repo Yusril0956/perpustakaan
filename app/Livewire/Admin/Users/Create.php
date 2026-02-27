@@ -16,7 +16,7 @@ class Create extends Component
     {
         $this->form->store();
 
-        session()->flash('message', 'User berhasil ditambahkan.');
+        session()->flash('success', 'User berhasil ditambahkan.');
         return $this->redirect(route('admin.users.index'), navigate: true);
     }
 
