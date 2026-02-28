@@ -34,24 +34,28 @@ class Show extends Component
         $this->activeLoans = $this->user->activeLoans()->get();
         $this->loans = $this->user->loans()
             ->with('book')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->limit(10)
             ->get();
     }
 
-    public function updatedPhoto()
+    public function savePhoto()
     {
-        $this->validateOnly('photo');
-        
+        if (!$this->photo)
+            return;
+
+        $this->validate();
+
         if ($this->user->profile_photo_path) {
             Storage::disk('public')->delete($this->user->profile_photo_path);
         }
 
-        $path = $this->photo->store('profile-photos', 'public');
-        $this->user->profile_photo_path = $path;
+        $this->user->profile_photo_path = $this->photo->store('profile-photos', 'public');
         $this->user->save();
 
-        session()->flash('success', 'Foto profil diperbarui.');
+        $this->photo = null;
+
+        $this->dispatch('photo-saved');
     }
 
     public function removePhoto()
@@ -63,7 +67,7 @@ class Show extends Component
         $this->user->profile_photo_path = null;
         $this->user->save();
 
-        session()->flash('success', 'Foto profil dihapus.');
+        $this->dispatch('photo-removed');
     }
 
     public function render()

@@ -1,130 +1,171 @@
-<div>
-    <div class="space-y-8 text-ink">
-        <div class="border-b-2 border-ink pb-4">
-            <h2 class="text-3xl font-bold italic font-serif">Manajemen Peminjaman</h2>
-            <p class="text-xs uppercase tracking-widest text-muted mt-1">Buku Induk Sirkulasi Pustaka</p>
-        </div>
+<div x-data="{ confirming: null }">
+    <div class="space-y-10 text-ink">
 
-        <div class="bg-surface p-6 border border-ink shadow-sm relative">
-            <div class="absolute top-0 left-0 w-2 h-full bg-ink"></div>
-
-            <div class="mb-6">
-                <label class="text-xs uppercase tracking-widest text-muted block mb-3 font-bold">Kategori Status
-                    Arsip</label>
-                <div class="flex flex-wrap gap-3">
-                    @foreach(['pending' => 'Menunggu', 'active' => 'Aktif', 'returned' => 'Dikembalikan', 'cancelled' => 'Ditolak'] as $value => $label)
-                                    <button wire:click="$set('filter', '{{ $value }}')" class="px-4 py-2 text-xs uppercase font-bold tracking-widest transition-all duration-200 
-                                                                            {{ $filter === $value
-                        ? 'bg-coffee text-parchment-light shadow-[4px_4px_0px_#2c2420] border border-[#2c2420] -translate-y-0.5'
-                        : 'border border-ink text-ink hover:bg-ink hover:text-surface' }}">
-                                        {{ $label }}
-                                    </button>
-                    @endforeach
+        {{-- Header Section --}}
+        <div class="flex flex-col md:flex-row md:items-end justify-between border-b-4 border-ink pb-6 gap-4">
+            <div>
+                <h2 class="text-4xl font-serif italic font-black uppercase tracking-tight">Manajemen Sirkulasi</h2>
+                <div class="flex items-center gap-3 mt-3">
+                    <span
+                        class="px-3 py-1 bg-ink text-[#fcfaf5] font-mono text-[10px] font-black uppercase tracking-widest">
+                        Buku Induk
+                    </span>
+                    <span class="font-mono text-xs uppercase tracking-[0.2em] text-ink font-bold">
+                        Kendali Pustaka
+                    </span>
                 </div>
             </div>
 
-            <div class="pt-4 border-t border-ink/20 border-dashed">
-                <label class="text-xs uppercase tracking-widest text-muted block mb-2 font-bold">Pencarian
-                    Sirkulasi</label>
-                <input wire:model.live.debounce="300ms" type="text"
-                    placeholder="Ketik nama anggota atau judul pustaka..."
-                    class="w-full bg-transparent border-0 border-b-2 border-ink border-dashed focus:border-solid focus:ring-0 px-0 py-2 text-xl font-serif italic placeholder:text-muted/50 text-ink">
+            {{-- Loading Indicator Alpine --}}
+            <div wire:loading
+                class="px-4 py-2 border-2 border-ink border-dashed font-mono text-[10px] font-black uppercase text-ink animate-pulse bg-ink/5">
+                Sinkronisasi Arsip...
             </div>
         </div>
 
-        <div class="bg-surface border-2 border-ink overflow-x-auto">
+        {{-- Filter & Search Card --}}
+        <div class="bg-white border-2 border-ink p-8 shadow-[8px_8px_0px_#2c2420] relative">
+            {{-- Ornamen Sudut (Isolasi Kertas) --}}
+            <div class="absolute -top-3 -left-3 w-8 h-3 bg-ink/20 rotate-45"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {{-- Status Filter --}}
+                <div>
+                    <label class="text-[12px] font-mono uppercase tracking-widest text-ink block mb-4 font-black">
+                        Klasifikasi Status Arsip
+                    </label>
+                    <div class="flex flex-wrap gap-3">
+                        @foreach(['pending' => 'Menunggu', 'active' => 'Aktif', 'returned' => 'Selesai', 'cancelled' => 'Ditolak'] as $val => $label)
+                            <button wire:click="$set('filter', '{{ $val }}')" class="px-5 py-2 text-[10px] font-mono uppercase font-black tracking-widest transition-all border-2 border-ink {{ $filter === $val
+                            ? 'bg-ink text-[#fcfaf5] translate-y-[4px] shadow-none'
+                            : 'bg-transparent text-ink shadow-[4px_4px_0px_#2c2420] hover:bg-ink/5 active:translate-y-[4px] active:shadow-none' }}">
+                            {{ $label }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+
+                {{-- Search --}}
+                <div>
+                    <label class="text-[12px] font-mono uppercase tracking-widest text-ink block mb-4 font-black">
+                        Pencarian Spesifik (Anggota / Judul)
+                    </label>
+                    <div class="relative">
+                        <input wire:model.live.debounce.400ms="search" type="text"
+                            placeholder="Ketik kata kunci untuk mencari..."
+                            class="w-full bg-transparent border-0 border-b-[3px] border-ink focus:ring-0 focus:outile px-0 py-2 text-2xl font-serif italic text-ink placeholder:text-ink/20 transition-colors">
+                        <div class="absolute right-0 bottom-3 text-ink">
+                            <svg class="w-6 h-6 stroke-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Table Section (Gaya Ledger/Buku Kas Besar) --}}
+        <div class="bg-white border-2 border-ink overflow-hidden shadow-[12px_12px_0px_#2c2420]">
             <table class="w-full text-left border-collapse">
-                <thead class="bg-background text-xs uppercase tracking-widest border-b-2 border-ink">
+                <thead class="bg-ink text-[#fcfaf5] text-[11px] font-mono uppercase tracking-[0.2em]">
                     <tr>
-                        <th class="p-4 border-r border-ink/20">Identitas Anggota</th>
-                        <th class="p-4 border-r border-ink/20">Judul Pustaka</th>
-                        <th class="p-4 border-r border-ink/20">Keterangan Waktu</th>
-                        <th class="p-4 border-r border-ink/20">Status</th>
-                        <th class="p-4 text-right">Tindakan</th>
+                        <th class="p-5 border-r border-white/20 cursor-pointer hover:bg-coffee transition-colors w-1/4"
+                            wire:click="sort('user_id')">
+                            Identitas Anggota @if($sortBy === 'user_id') <span
+                            class="text-white">{{ $sortDir === 'asc' ? '↑' : '↓' }}</span> @endif
+                        </th>
+                        <th class="p-5 border-r border-white/20 cursor-pointer hover:bg-coffee transition-colors w-1/3"
+                            wire:click="sort('book_id')">
+                            Koleksi Pustaka @if($sortBy === 'book_id') <span
+                            class="text-white">{{ $sortDir === 'asc' ? '↑' : '↓' }}</span> @endif
+                        </th>
+                        <th class="p-5 border-r border-white/20 w-1/5">Catatan Waktu</th>
+                        <th class="p-5 text-right">Otorisasi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-ink/20 text-ink">
-                    @forelse($loans as $loan)
-                                        <tr class="hover:bg-background transition-colors group">
-                                            <td class="p-4 border-r border-ink/20 align-top">
-                                                <div class="font-bold font-serif text-lg italic">{{ $loan->user->name }}</div>
-                                                <div class="text-xs font-mono text-muted mt-1">{{ $loan->user->email }}</div>
-                                            </td>
-                                            <td class="p-4 border-r border-ink/20 align-top">
-                                                <div class="font-bold font-serif italic">{{ $loan->book->title }}</div>
-                                                <div class="text-xs uppercase tracking-wider text-muted mt-1">{{ $loan->book->author }}
-                                                </div>
-                                            </td>
-                                            <td
-                                                class="p-4 text-xs font-mono border-r border-ink/20 leading-relaxed align-top whitespace-nowrap">
-                                                @if($filter === 'pending')
-                                                    <div>Diajukan: {{ $loan->booking_date->format('d M Y') }}</div>
-                                                @elseif($filter === 'active')
-                                                    <div>Diberikan: {{ $loan->loan_date?->format('d M Y') ?? '-' }}</div>
-                                                    <div class="{{ $loan->due_date?->isPast() ? 'text-red-800 font-bold' : '' }}">
-                                                        Batas: {{ $loan->due_date?->format('d M Y') ?? '-' }}
-                                                    </div>
-                                                @elseif($filter === 'returned')
-                                                    <div>Dikembalikan: {{ $loan->return_date?->format('d M Y') ?? '-' }}</div>
-                                                @else
-                                                    <div>Tercatat: {{ $loan->booking_date->format('d M Y') }}</div>
-                                                @endif
-                                            </td>
-                                            <td class="p-4 border-r border-ink/20 align-top">
-                                                <span
-                                                    class="inline-block px-2 py-1 text-xs font-bold uppercase tracking-widest border
-                                                                                                {{ $loan->status === 'pending' ? 'border-ink border-dashed text-ink' : '' }}
-                                                                                                {{ $loan->status === 'active' ? 'bg-ink border-ink text-surface' : '' }}
-                                                                                                {{ $loan->status === 'returned' ? 'bg-background border-ink text-muted' : '' }}
-                                                                                                {{ $loan->status === 'cancelled' ? 'border-2 border-red-800 text-red-800' : '' }}">
-                                                    {{ match ($loan->status) {
-                            'pending' => 'Menunggu',
-                            'active' => 'Aktif',
-                            'returned' => 'Selesai',
-                            'cancelled' => 'Ditolak',
-                            default => $loan->status
-                        } }}
-                                                </span>
-                                            </td>
-                                            <td class="p-4 text-right space-x-2 whitespace-nowrap align-top">
-                                                @if($filter === 'pending')
-                                                    <button wire:click="approveLoan({{ $loan->id }})"
-                                                        class="inline-block text-xs uppercase tracking-widest font-bold px-2 py-1 border border-transparent hover:border-ink hover:bg-ink hover:text-surface transition-colors">
-                                                        [✓ Setujui]
-                                                    </button>
-                                                    <button wire:click="rejectLoan({{ $loan->id }})"
-                                                        class="inline-block text-xs uppercase tracking-widest font-bold px-2 py-1 text-red-800 border border-transparent hover:border-red-800 hover:bg-red-800 hover:text-surface transition-colors">
-                                                        [× Tolak]
-                                                    </button>
-                                                @elseif($filter === 'active')
-                                                    <button wire:click="returnLoan({{ $loan->id }})"
-                                                        class="inline-block text-xs uppercase tracking-widest font-bold px-2 py-1 border border-transparent hover:border-ink hover:bg-ink hover:text-surface transition-colors">
-                                                        [↵ Terima Kembali]
-                                                    </button>
-                                                @endif
-                                            </td>
-                                        </tr>
+                <tbody class="divide-y-2 divide-ink/20 text-ink">
+                    @forelse($this->loans as $loan)
+                        <tr class="hover:bg-ink/5 transition-colors group">
+                            <td class="p-5 border-r-2 border-ink/20 align-top">
+                                <div class="font-serif text-xl italic font-black text-ink">{{ $loan->user->name }}</div>
+                                <div class="text-[10px] font-mono text-ink/60 mt-1 uppercase font-bold">
+                                    {{ $loan->user->email }}
+                                </div>
+                            </td>
+                            <td class="p-5 border-r-2 border-ink/20 align-top">
+                                <div class="font-serif text-xl italic text-ink font-bold">{{ $loan->book->title }}</div>
+                                <div class="text-[10px] font-mono text-ink/60 mt-1 uppercase tracking-widest font-bold">
+                                    {{ $loan->book->author }}
+                                </div>
+                            </td>
+                            <td class="p-5 border-r-2 border-ink/20 font-mono text-[11px] leading-relaxed align-top">
+                                @if($filter === 'pending')
+                                    <span class="block font-bold">Diajukan:</span>
+                                    <span class="block text-ink/70">{{ $loan->created_at->format('d/m/Y') }}</span>
+                                @elseif($filter === 'active')
+                                    <div class="mb-2">
+                                        <span class="block font-bold text-[9px] uppercase tracking-widest">Tgl Pinjam:</span>
+                                        <span class="block">{{ $loan->loan_date?->format('d/m/Y') }}</span>
+                                    </div>
+                                    <div>
+                                        <span
+                                            class="block font-bold text-[9px] uppercase tracking-widest {{ $loan->due_date?->isPast() ? 'text-red-700' : '' }}">Batas
+                                            Kembali:</span>
+                                        <span class="block font-black {{ $loan->due_date?->isPast() ? 'text-red-700' : '' }}">
+                                            {{ $loan->due_date?->format('d/m/Y') }}
+                                        </span>
+                                    </div>
+                                @else
+                                    <span class="block font-bold">Diselesaikan:</span>
+                                    <span class="block text-ink/70">{{ $loan->return_date?->format('d/m/Y') }}</span>
+                                @endif
+                            </td>
+                            <td class="p-5 text-right align-top">
+                                <div class="flex justify-end gap-3" x-data="{ id: {{ $loan->id }} }">
+                                    @if($filter === 'pending')
+                                        <button @click="if(confirm('Setujui permohonan peminjaman ini?')) $wire.approveLoan(id)"
+                                            class="px-4 py-2 text-[10px] font-mono font-black border-2 border-ink bg-transparent text-ink shadow-[3px_3px_0px_#2c2420] hover:bg-ink hover:text-[#fcfaf5] active:translate-y-[3px] active:shadow-none transition-all">
+                                            [✓] SETUJUI
+                                        </button>
+                                        <button @click="if(confirm('Tolak permohonan ini?')) $wire.rejectLoan(id)"
+                                            class="px-4 py-2 text-[10px] font-mono font-black border-2 border-red-800 bg-transparent text-red-800 shadow-[3px_3px_0px_#991b1b] hover:bg-red-800 hover:text-white active:translate-y-[3px] active:shadow-none transition-all">
+                                            [×] TOLAK
+                                        </button>
+                                    @elseif($filter === 'active')
+                                        <button
+                                            @click="if(confirm('Pastikan fisik buku telah diterima dengan baik. Lanjutkan?')) $wire.returnLoan(id)"
+                                            class="px-5 py-3 text-[10px] font-mono font-black border-2 border-ink bg-ink text-[#fcfaf5] shadow-[4px_4px_0px_rgba(0,0,0,0.3)] hover:bg-coffee active:translate-y-[4px] active:shadow-none transition-all">
+                                            TERIMA KEMBALI &rarr;
+                                        </button>
+                                    @else
+                                        <span
+                                            class="inline-block px-3 py-1 border-2 border-ink/20 text-ink/40 font-mono text-[10px] font-black uppercase tracking-widest transform rotate-2">
+                                            Terarsip
+                                        </span>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
                     @empty
-                                        <tr>
-                                            <td colspan="5" class="p-12 text-center border-dashed border-ink/30 bg-background/50">
-                                                <p class="font-serif italic text-muted text-lg">
-                                                    Tidak ada data peminjaman {{ match ($filter) {
-                            'pending' => 'menunggu',
-                            'active' => 'aktif',
-                            'returned' => 'yang dikembalikan',
-                            'cancelled' => 'yang ditolak',
-                            default => ''
-                        } }} dalam arsip saat ini.
-                                                </p>
-                                            </td>
-                                        </tr>
+                        <tr>
+                            <td colspan="4" class="p-24 text-center bg-ink/5">
+                                <div class="font-serif italic text-3xl text-ink/30 font-black">
+                                    ~ Nihil ~
+                                </div>
+                                <div class="font-mono text-[10px] uppercase tracking-widest text-ink/40 mt-4 font-bold">
+                                    Tidak ada catatan sirkulasi pada laci ini.
+                                </div>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
 
-        <div class="pt-4 border-t-2 border-ink border-dotted">
-            {{ $loans->links('components.ui.pagination') }}
+        {{-- Pagination --}}
+        <div class="pt-6">
+            {{ $this->loans->links() }}
         </div>
     </div>
 </div>

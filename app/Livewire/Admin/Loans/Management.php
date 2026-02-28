@@ -3,106 +3,127 @@
 namespace App\Livewire\Admin\Loans;
 
 use App\Models\Loan;
-use App\Models\Book;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\DB;
 
 #[Layout('layouts.app')]
 class Management extends Component
 {
     use WithPagination;
 
+    #[Url(history: true)]
     public $filter = 'pending';
+
+    #[Url(history: true)]
     public $search = '';
 
-    public function updatingFilter()
+    #[Url(history: true)]
+    public $sortBy = 'created_at';
+
+    #[Url(history: true)]
+    public $sortDir = 'desc';
+
+    /**
+     * Reset halaman saat filter atau pencarian berubah.
+     */
+    public function updatedFilter()
     {
         $this->resetPage();
     }
 
-    public function updatingSearch()
+    public function updatedSearch()
     {
         $this->resetPage();
     }
 
-    public function approveLoan($loanId)
+    /**
+     * Fitur Sorting
+     */
+    public function sort($column)
     {
-        $loan = Loan::with('book', 'user')->find($loanId);
-
-        if (!$loan || $loan->status !== 'pending') {
-            $this->dispatch('alert', ['type' => 'error', 'message' => 'Permintaan tidak valid.']);
-            return;
+        if ($this->sortBy === $column) {
+            $this->sortDir = $this->sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            $this->sortBy = $column;
+            $this->sortDir = 'asc';
         }
-
-        $book = $loan->book;
-        if ($book->available_stock <= 0) {
-            $this->dispatch('alert', ['type' => 'error', 'message' => 'Stok buku tidak tersedia.']);
-            return;
-        }
-
-        // Update loan
-        $loan->update([
-            'status' => 'active',
-            'loan_date' => now()->toDateString(),
-            'due_date' => now()->addDays(7)->toDateString(),
-        ]);
-
-        // Decrease available stock
-        $book->decrement('available_stock');
-
-        $this->dispatch('alert', ['type' => 'success', 'message' => "Peminjaman dari {$loan->user->name} disetujui."]);
     }
 
-    public function rejectLoan($loanId)
+    /**
+     * Menggunakan Computed Property untuk efisiensi query.
+     */
+    #[Computed]
+    public function loans()
     {
-        $loan = Loan::with('user')->find($loanId);
+        return Loan::query()
+            ->with(['user', 'book'])
+            ->where('status', $this->filter)
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->whereHas('user', fn($user) => $user->where('name', 'like', "%{$this->search}%"))
+                        ->orWhereHas('book', fn($book) => $book->where('title', 'like', "%{$this->search}%"));
+                });
+            })
+            // Logika sorting khusus
+            ->orderBy($this->sortBy, $this->sortDir)
+            ->paginate(15);
+    }
 
-        if (!$loan || $loan->status !== 'pending') {
-            $this->dispatch('alert', ['type' => 'error', 'message' => 'Permintaan tidak valid.']);
-            return;
-        }
+    public function approveLoan(int $loanId)
+    {
+        DB::transaction(function () use ($loanId) {
+            $loan = Loan::lockForUpdate()->with('book')->findOrFail($loanId);
 
+            if ($loan->status !== 'pending')
+                throw new \Exception('Status tidak valid.');
+            if ($loan->book->available_stock <= 0)
+                throw new \Exception('Stok habis.');
+
+            $loan->update([
+                'status' => 'active',
+                'loan_date' => now(),
+                'due_date' => now()->addDays(7),
+            ]);
+
+            $loan->book->decrement('available_stock');
+        });
+
+        $this->dispatch('alert', type: 'success', message: 'Peminjaman telah disetujui.');
+    }
+
+    public function rejectLoan(int $loanId)
+    {
+        $loan = Loan::findOrFail($loanId);
         $loan->update(['status' => 'cancelled']);
 
-        $this->dispatch('alert', ['type' => 'success', 'message' => "Peminjaman dari {$loan->user->name} ditolak."]);
+        $this->dispatch('alert', type: 'success', message: 'Peminjaman telah ditolak.');
     }
 
-    public function returnLoan($loanId)
+    public function returnLoan(int $loanId)
     {
-        $loan = Loan::with('book', 'user')->find($loanId);
+        DB::transaction(function () use ($loanId) {
+            $loan = Loan::lockForUpdate()->with('book')->findOrFail($loanId);
 
-        if (!$loan || $loan->status !== 'active') {
-            $this->dispatch('alert', ['type' => 'error', 'message' => 'Loan tidak aktif.']);
-            return;
-        }
+            if ($loan->status !== 'active')
+                throw new \Exception('Peminjaman tidak aktif.');
 
-        // Update loan
-        $loan->update([
-            'status' => 'returned',
-            'return_date' => now()->toDateString(),
-        ]);
+            $loan->update([
+                'status' => 'returned',
+                'return_date' => now(),
+            ]);
 
-        // Increase available stock
-        $loan->book->increment('available_stock');
+            $loan->book->increment('available_stock');
+        });
 
-        $this->dispatch('alert', ['type' => 'success', 'message' => "Buku dari {$loan->user->name} berhasil dikembalikan."]);
+        $this->dispatch('alert', type: 'success', message: 'Buku telah diterima kembali.');
     }
 
     public function render()
     {
-        $query = Loan::with(['user', 'book'])->where('status', $this->filter);
-
-        if ($this->search) {
-            $query->whereHas('user', function ($q) {
-                $q->where('name', 'like', '%' . $this->search . '%');
-            })->orWhereHas('book', function ($q) {
-                $q->where('title', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        return view('livewire.admin.loans.management', [
-            'loans' => $query->latest()->paginate(15),
-        ]);
+        return view('livewire.admin.loans.management');
     }
 }
