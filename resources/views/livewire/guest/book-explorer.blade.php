@@ -140,7 +140,7 @@
                 </div>
 
                 <div class="mt-16">
-                    {{ $allBooks->links('vendor.pagination.vintage') }}
+                    {{ $allBooks->links('components.ui.pagination') }}
                 </div>
             @else
                 <div class="text-center py-24 border-2 border-dashed border-sepia-edge/30 bg-white/20">

@@ -24,7 +24,11 @@ new #[Layout('layouts.auth')] class extends Component {
 }; ?>
 
 <div>
-    <x-auth-session-status class="mb-4 text-sm" :status="session('status')" />
+    @if (session('status'))
+        <div class="font-medium text-sm text-green-600 mb-4">
+            {{ session('status') }}
+        </div>
+    @endif
 
     <form wire:submit="login" class="space-y-4">
         {{-- Email --}}
@@ -49,7 +53,7 @@ new #[Layout('layouts.auth')] class extends Component {
 
         {{-- Actions --}}
         <div class="flex items-center justify-between pt-2">
-            <a href="{{ route('password.request') }}" wire:navigate class="text-sm underline text-muted hover:text-ink">
+            <a href="#" wire:navigate class="text-sm underline text-muted hover:text-ink">
                 Forgot password?
             </a>
 

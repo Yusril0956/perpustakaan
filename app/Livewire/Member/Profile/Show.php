@@ -14,31 +14,18 @@ class Show extends Component
     use WithFileUploads;
 
     public $user;
-    public $name;
-    public $email;
-    public $phone;
-    public $address;
     public $photo;
-    public $isEditing = false;
 
     public $loans = [];
     public $activeLoans = [];
 
     protected $rules = [
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'phone' => 'nullable|string|max:20',
-        'address' => 'nullable|string|max:500',
         'photo' => 'nullable|image|max:1024',
     ];
 
     public function mount()
     {
         $this->user = Auth::user();
-        $this->name = $this->user->name;
-        $this->email = $this->user->email;
-        $this->phone = $this->user->phone ?? '';
-        $this->address = $this->user->address ?? '';
         $this->loadLoans();
     }
 
@@ -52,43 +39,31 @@ class Show extends Component
             ->get();
     }
 
-    public function toggleEdit()
+    public function updatedPhoto()
     {
-        $this->isEditing = !$this->isEditing;
-        if (!$this->isEditing) {
-            // Reset values if canceling edit
-            $this->name = $this->user->name;
-            $this->email = $this->user->email;
-            $this->phone = $this->user->phone ?? '';
-            $this->address = $this->user->address ?? '';
-            $this->photo = null;
+        $this->validateOnly('photo');
+        
+        if ($this->user->profile_photo_path) {
+            Storage::disk('public')->delete($this->user->profile_photo_path);
         }
+
+        $path = $this->photo->store('profile-photos', 'public');
+        $this->user->profile_photo_path = $path;
+        $this->user->save();
+
+        session()->flash('success', 'Foto profil diperbarui.');
     }
 
-    public function save()
+    public function removePhoto()
     {
-        $this->validate();
-
-        $this->user->name = $this->name;
-        $this->user->email = $this->email;
-        $this->user->phone = $this->phone;
-        $this->user->address = $this->address;
-
-        if ($this->photo) {
-            // Delete old photo if exists
-            if ($this->user->profile_photo_path) {
-                Storage::disk('public')->delete($this->user->profile_photo_path);
-            }
-
-            $path = $this->photo->store('profile-photos', 'public');
-            $this->user->profile_photo_path = $path;
+        if ($this->user->profile_photo_path) {
+            Storage::disk('public')->delete($this->user->profile_photo_path);
         }
 
+        $this->user->profile_photo_path = null;
         $this->user->save();
-        $this->isEditing = false;
-        $this->photo = null;
 
-        session()->flash('success', 'Profil berhasil diperbarui!');
+        session()->flash('success', 'Foto profil dihapus.');
     }
 
     public function render()

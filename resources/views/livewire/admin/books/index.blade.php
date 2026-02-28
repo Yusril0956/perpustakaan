@@ -58,7 +58,7 @@
         </div>
 
         <div class="mt-4">
-            {{ $books->links('vendor.pagination.vintage') }}
+            {{ $books->links('components.ui.pagination') }}
         </div>
     </div>
 </div>
