@@ -8,18 +8,26 @@ use App\Models\Loan;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 
 #[Layout('layouts.guest')]
 class BookExplorer extends Component
 {
     use WithPagination;
 
+    // Menyimpan state di URL agar user bisa membagikan link hasil pencariannya
+    #[Url]
     public $currentTab = 'all';
-    public $selectedCategory = null;
-    public $selectedBook = null;
-    public $search = '';
-    public $showDetailModal = false;
 
+    #[Url]
+    public $selectedCategory = null;
+
+    #[Url(history: true)]
+    public $search = '';
+
+    public $selectedBook = null;
+
+    // Reset halaman otomatis saat properti ini berubah
     public function updated($property)
     {
         if (in_array($property, ['currentTab', 'selectedCategory', 'search'])) {
@@ -32,24 +40,21 @@ class BookExplorer extends Component
         $this->currentTab = $tab;
         $this->selectedCategory = null;
         $this->search = '';
+        $this->resetPage();
     }
 
     public function setCategory($id)
     {
         $this->selectedCategory = $id;
         $this->currentTab = 'category';
+        $this->resetPage();
     }
 
-    public function showDetail($bookId)
+    // Mengambil data buku, lalu menyuruh Alpine.js membuka modal
+    public function loadBookDetail($bookId)
     {
         $this->selectedBook = Book::with('category')->find($bookId);
-        $this->showDetailModal = true;
-    }
-
-    public function closeDetail()
-    {
-        $this->showDetailModal = false;
-        $this->selectedBook = null;
+        $this->dispatch('open-book-modal'); // Trigger Alpine.js
     }
 
     public function requestLoan($bookId)
@@ -65,7 +70,7 @@ class BookExplorer extends Component
             return;
         }
 
-        // Check if user already has active/pending loan of this book
+        // Cek apakah user sudah memiliki pinjaman aktif untuk buku ini
         $existingLoan = Loan::where('user_id', auth()->id())
             ->where('book_id', $bookId)
             ->whereIn('status', ['borrowed', 'active', 'pending'])
@@ -76,7 +81,6 @@ class BookExplorer extends Component
             return;
         }
 
-        // Create new loan with pending status
         Loan::create([
             'user_id' => auth()->id(),
             'book_id' => $bookId,
@@ -85,8 +89,9 @@ class BookExplorer extends Component
             'daily_fine_fee' => 5000,
         ]);
 
-        $this->closeDetail();
+        $this->dispatch('close-book-modal'); // Tutup modal instan via Alpine
         session()->flash('success', 'Permintaan pinjam berhasil dikirim! Tunggu persetujuan admin.');
+
         return redirect()->route('member.dashboard');
     }
 
@@ -95,8 +100,10 @@ class BookExplorer extends Component
         $query = Book::query();
 
         if ($this->search) {
-            $query->where('title', 'like', '%' . $this->search . '%')
-                ->orWhere('author', 'like', '%' . $this->search . '%');
+            $query->where(function ($q) {
+                $q->where('title', 'like', '%' . $this->search . '%')
+                    ->orWhere('author', 'like', '%' . $this->search . '%');
+            });
         }
 
         if ($this->selectedCategory) {

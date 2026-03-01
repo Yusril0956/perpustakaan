@@ -1,4 +1,46 @@
-<div x-data="{ confirming: null }">
+<div x-data="{
+    isModalOpen: false,
+    modalTitle: '',
+    modalMessage: '',
+    modalButtonText: '',
+    modalButtonColor: '#2c2622',
+    modalAction: null,
+    modalLoanId: null,
+    openModal(action, loanId, userName, bookTitle) {
+        this.modalAction = action;
+        this.modalLoanId = loanId;
+        const messages = {
+            approve: `Setujui peminjaman dari <strong>${userName}</strong>?<br><br>Koleksi: <em>${bookTitle}</em>`,
+            reject: `Tolak peminjaman dari <strong>${userName}</strong>?<br><br>Koleksi: <em>${bookTitle}</em>`,
+            return: `Konfirmasi pengembalian dari <strong>${userName}</strong>?<br><br>Koleksi: <em>${bookTitle}</em>`
+        };
+        const titles = {
+            approve: 'Setujui Peminjaman',
+            reject: 'Tolak Peminjaman',
+            return: 'Konfirmasi Pengembalian'
+        };
+        const colors = {
+            approve: '#15803d',
+            reject: '#991b1b',
+            return: '#1e40af'
+        };
+        this.modalTitle = titles[action];
+        this.modalMessage = messages[action];
+        this.modalButtonText = action === 'approve' ? '[✓] Setujui' : action === 'reject' ? '[×] Tolak' : '[✓] Terima Kembali';
+        this.modalButtonColor = colors[action];
+        this.isModalOpen = true;
+    },
+    handleModalConfirm() {
+        if (this.modalAction === 'approve') {
+            this.$wire.approveLoan(this.modalLoanId);
+        } else if (this.modalAction === 'reject') {
+            this.$wire.rejectLoan(this.modalLoanId);
+        } else if (this.modalAction === 'return') {
+            this.$wire.returnLoan(this.modalLoanId);
+        }
+        this.isModalOpen = false;
+    }
+}" @keydown.escape="isModalOpen = false">
     <div class="space-y-10 text-ink">
 
         {{-- Header Section --}}
@@ -36,11 +78,12 @@
                     </label>
                     <div class="flex flex-wrap gap-3">
                         @foreach(['pending' => 'Menunggu', 'active' => 'Aktif', 'returned' => 'Selesai', 'cancelled' => 'Ditolak'] as $val => $label)
-                            <button wire:click="$set('filter', '{{ $val }}')" class="px-5 py-2 text-[10px] font-mono uppercase font-black tracking-widest transition-all border-2 border-ink {{ $filter === $val
+                                            <button wire:click="$set('filter', '{{ $val }}')"
+                                                class="px-5 py-2 text-[10px] font-mono uppercase font-black tracking-widest transition-all border-2 border-ink {{ $filter === $val
                             ? 'bg-ink text-[#fcfaf5] translate-y-[4px] shadow-none'
                             : 'bg-transparent text-ink shadow-[4px_4px_0px_#2c2420] hover:bg-ink/5 active:translate-y-[4px] active:shadow-none' }}">
-                            {{ $label }}
-                            </button>
+                                                {{ $label }}
+                                            </button>
                         @endforeach
                     </div>
                 </div>
@@ -65,98 +108,64 @@
             </div>
         </div>
 
-        {{-- Table Section (Gaya Ledger/Buku Kas Besar) --}}
-        <div class="bg-white border-2 border-ink overflow-hidden shadow-[12px_12px_0px_#2c2420]">
+        {{-- Table Section --}}
+        <div class="bg-surface border-2 border-ink overflow-hidden">
             <table class="w-full text-left border-collapse">
-                <thead class="bg-ink text-[#fcfaf5] text-[11px] font-mono uppercase tracking-[0.2em]">
+                <thead class="bg-background text-xs uppercase tracking-widest border-b-2 border-ink">
                     <tr>
-                        <th class="p-5 border-r border-white/20 cursor-pointer hover:bg-coffee transition-colors w-1/4"
-                            wire:click="sort('user_id')">
-                            Identitas Anggota @if($sortBy === 'user_id') <span
-                            class="text-white">{{ $sortDir === 'asc' ? '↑' : '↓' }}</span> @endif
-                        </th>
-                        <th class="p-5 border-r border-white/20 cursor-pointer hover:bg-coffee transition-colors w-1/3"
-                            wire:click="sort('book_id')">
-                            Koleksi Pustaka @if($sortBy === 'book_id') <span
-                            class="text-white">{{ $sortDir === 'asc' ? '↑' : '↓' }}</span> @endif
-                        </th>
-                        <th class="p-5 border-r border-white/20 w-1/5">Catatan Waktu</th>
-                        <th class="p-5 text-right">Otorisasi</th>
+                        <th class="p-4 border-r border-ink">Anggota</th>
+                        <th class="p-4 border-r border-ink">Koleksi Buku</th>
+                        <th class="p-4 border-r border-ink">Catatan Waktu</th>
+                        <th class="p-4 text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y-2 divide-ink/20 text-ink">
+                <tbody class="divide-y divide-ink text-ink">
                     @forelse($this->loans as $loan)
-                        <tr class="hover:bg-ink/5 transition-colors group">
-                            <td class="p-5 border-r-2 border-ink/20 align-top">
-                                <div class="font-serif text-xl italic font-black text-ink">{{ $loan->user->name }}</div>
-                                <div class="text-[10px] font-mono text-ink/60 mt-1 uppercase font-bold">
-                                    {{ $loan->user->email }}
-                                </div>
+                        <tr class="hover:bg-background transition-colors">
+                            <td class="p-4 border-r border-ink">
+                                <div class="font-bold font-serif italic text-ink">{{ $loan->user->name }}</div>
+                                <div class="text-xs text-muted font-mono mt-1">{{ $loan->user->email }}</div>
                             </td>
-                            <td class="p-5 border-r-2 border-ink/20 align-top">
-                                <div class="font-serif text-xl italic text-ink font-bold">{{ $loan->book->title }}</div>
-                                <div class="text-[10px] font-mono text-ink/60 mt-1 uppercase tracking-widest font-bold">
-                                    {{ $loan->book->author }}
-                                </div>
+                            <td class="p-4 border-r border-ink">
+                                <div class="font-bold font-serif italic text-ink">{{ $loan->book->title }}</div>
+                                <div class="text-xs text-muted font-mono mt-1">{{ $loan->book->author }}</div>
                             </td>
-                            <td class="p-5 border-r-2 border-ink/20 font-mono text-[11px] leading-relaxed align-top">
+                            <td class="p-4 font-mono text-xs border-r border-ink">
                                 @if($filter === 'pending')
-                                    <span class="block font-bold">Diajukan:</span>
-                                    <span class="block text-ink/70">{{ $loan->created_at->format('d/m/Y') }}</span>
+                                    <span class="block font-bold text-ink">Diajukan:</span>
+                                    <span class="text-muted">{{ $loan->created_at->format('d/m/Y') }}</span>
                                 @elseif($filter === 'active')
-                                    <div class="mb-2">
-                                        <span class="block font-bold text-[9px] uppercase tracking-widest">Tgl Pinjam:</span>
-                                        <span class="block">{{ $loan->loan_date?->format('d/m/Y') }}</span>
-                                    </div>
-                                    <div>
-                                        <span
-                                            class="block font-bold text-[9px] uppercase tracking-widest {{ $loan->due_date?->isPast() ? 'text-red-700' : '' }}">Batas
-                                            Kembali:</span>
-                                        <span class="block font-black {{ $loan->due_date?->isPast() ? 'text-red-700' : '' }}">
-                                            {{ $loan->due_date?->format('d/m/Y') }}
-                                        </span>
-                                    </div>
+                                    <span class="block font-bold text-ink mb-1">Pinjam:
+                                        {{ $loan->loan_date?->format('d/m/Y') }}</span>
+                                    <span
+                                        class="block font-bold {{ $loan->due_date?->isPast() ? 'text-red-700' : 'text-ink' }}">Kembali:
+                                        {{ $loan->due_date?->format('d/m/Y') }}</span>
                                 @else
-                                    <span class="block font-bold">Diselesaikan:</span>
-                                    <span class="block text-ink/70">{{ $loan->return_date?->format('d/m/Y') }}</span>
+                                    <span class="block font-bold text-ink">Diselesaikan:</span>
+                                    <span class="text-muted">{{ $loan->return_date?->format('d/m/Y') }}</span>
                                 @endif
                             </td>
-                            <td class="p-5 text-right align-top">
-                                <div class="flex justify-end gap-3" x-data="{ id: {{ $loan->id }} }">
-                                    @if($filter === 'pending')
-                                        <button @click="if(confirm('Setujui permohonan peminjaman ini?')) $wire.approveLoan(id)"
-                                            class="px-4 py-2 text-[10px] font-mono font-black border-2 border-ink bg-transparent text-ink shadow-[3px_3px_0px_#2c2420] hover:bg-ink hover:text-[#fcfaf5] active:translate-y-[3px] active:shadow-none transition-all">
-                                            [✓] SETUJUI
-                                        </button>
-                                        <button @click="if(confirm('Tolak permohonan ini?')) $wire.rejectLoan(id)"
-                                            class="px-4 py-2 text-[10px] font-mono font-black border-2 border-red-800 bg-transparent text-red-800 shadow-[3px_3px_0px_#991b1b] hover:bg-red-800 hover:text-white active:translate-y-[3px] active:shadow-none transition-all">
-                                            [×] TOLAK
-                                        </button>
-                                    @elseif($filter === 'active')
-                                        <button
-                                            @click="if(confirm('Pastikan fisik buku telah diterima dengan baik. Lanjutkan?')) $wire.returnLoan(id)"
-                                            class="px-5 py-3 text-[10px] font-mono font-black border-2 border-ink bg-ink text-[#fcfaf5] shadow-[4px_4px_0px_rgba(0,0,0,0.3)] hover:bg-coffee active:translate-y-[4px] active:shadow-none transition-all">
-                                            TERIMA KEMBALI &rarr;
-                                        </button>
-                                    @else
-                                        <span
-                                            class="inline-block px-3 py-1 border-2 border-ink/20 text-ink/40 font-mono text-[10px] font-black uppercase tracking-widest transform rotate-2">
-                                            Terarsip
-                                        </span>
-                                    @endif
-                                </div>
+                            <td class="p-4 text-right space-x-2">
+                                @if($filter === 'pending')
+                                    <button
+                                        @click="openModal('approve', {{ $loan->id }}, '{{ addslashes($loan->user->name) }}', '{{ addslashes($loan->book->title) }}')"
+                                        class="text-sm italic text-ink hover:text-green-700 transition">Setujui</button>
+                                    <button
+                                        @click="openModal('reject', {{ $loan->id }}, '{{ addslashes($loan->user->name) }}', '{{ addslashes($loan->book->title) }}')"
+                                        class="text-sm italic text-red-800 hover:text-red-600 transition">Tolak</button>
+                                @elseif($filter === 'active')
+                                    <button
+                                        @click="openModal('return', {{ $loan->id }}, '{{ addslashes($loan->user->name) }}', '{{ addslashes($loan->book->title) }}')"
+                                        class="text-sm italic text-ink hover:text-blue-700 transition">Kembalikan</button>
+                                @else
+                                    <span class="text-xs text-muted italic">Terarsip</span>
+                                @endif
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="p-24 text-center bg-ink/5">
-                                <div class="font-serif italic text-3xl text-ink/30 font-black">
-                                    ~ Nihil ~
-                                </div>
-                                <div class="font-mono text-[10px] uppercase tracking-widest text-ink/40 mt-4 font-bold">
-                                    Tidak ada catatan sirkulasi pada laci ini.
-                                </div>
-                            </td>
+                            <td colspan="4" class="p-10 text-center italic text-muted">Belum ada catatan sirkulasi yang
+                                terdaftar.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -168,4 +177,7 @@
             {{ $this->loans->links() }}
         </div>
     </div>
+
+    {{-- Modal Konfirmasi --}}
+    <x-ui.confirmation-modal />
 </div>

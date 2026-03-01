@@ -3,7 +3,7 @@
         <div class="fixed inset-0 bg-ink/60 backdrop-blur-sm transition-opacity" wire:click="closeDetail()"></div>
 
         <div
-            class="relative w-full md:w-[480px] h-full bg-[#f4ecd8] border-l-[12px] border-[#2c2420] shadow-[-15px_0_30px_rgba(0,0,0,0.5)] overflow-y-auto transform transition-transform">
+            class="relative w-full md:w-[480px] h-full bg-[#f4ecd8] border-2 shadow-[-15px_0_30px_rgba(0,0,0,0.5)] overflow-y-auto transform transition-transform">
 
             <div class="absolute top-0 left-8 w-16 h-4 bg-white/40 shadow-sm border border-black/5 rotate-[-2deg]"></div>
 

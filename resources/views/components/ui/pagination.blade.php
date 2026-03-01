@@ -14,16 +14,14 @@
             </button>
         @endif
 
-        {{-- Nomor Halaman (Halaman Buku) --}}
+        {{-- Nomor Halaman --}}
         <div
             class="hidden md:flex items-center gap-2 px-4 py-2 bg-parchment-base/50 border-x border-dashed border-sepia-edge/40 font-mono text-sm">
             @foreach ($elements as $element)
-                {{-- "Three Dots" Separator --}}
                 @if (is_string($element))
                     <span class="px-2 text-coffee/40">{{ $element }}</span>
                 @endif
 
-                {{-- Array of Links --}}
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())

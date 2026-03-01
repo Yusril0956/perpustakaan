@@ -1,4 +1,23 @@
-<div>
+<div x-data="{
+    isModalOpen: false,
+    modalTitle: '',
+    modalMessage: '',
+    modalButtonText: '',
+    modalButtonColor: '#991b1b',
+    modalBookId: null,
+    openDeleteModal(bookId, bookTitle) {
+        this.modalBookId = bookId;
+        this.modalTitle = 'Hapus Buku';
+        this.modalMessage = `Hapus koleksi <strong>${bookTitle}</strong> dari pustaka?<br><br>Tindakan ini tidak dapat dibatalkan.`;
+        this.modalButtonText = '[×] Hapus';
+        this.modalButtonColor = '#991b1b';
+        this.isModalOpen = true;
+    },
+    handleModalConfirm() {
+        this.$wire.delete(this.modalBookId);
+        this.isModalOpen = false;
+    }
+}" @keydown.escape="isModalOpen = false">
     <div class="space-y-6">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold italic text-ink">Manajemen Koleksi Buku</h2>
@@ -14,37 +33,39 @@
                 placeholder="Cari buku berdasarkan judul atau penulis..." class="form-input text-lg italic">
         </div>
 
-        <div class="bg-surface shadow-sm border overflow-hidden">
-            <table class="w-full text-left">
-                <thead class="bg-background text-xs uppercase tracking-widest text-muted border-b">
+        <div class="bg-surface border-2 border-ink overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead class="bg-background text-xs uppercase tracking-widest border-b-2 border-ink">
                     <tr>
-                        <th class="p-4">Sampul</th>
-                        <th class="p-4">Informasi Buku</th>
-                        <th class="p-4">Kategori</th>
-                        <th class="p-4">Stok (Tersedia/Total)</th>
+                        <th class="p-4 border-r border-ink">Sampul</th>
+                        <th class="p-4 border-r border-ink">Informasi Buku</th>
+                        <th class="p-4 border-r border-ink">Kategori</th>
+                        <th class="p-4 border-r border-ink">Stok (Tersedia/Total)</th>
                         <th class="p-4 text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-ink text-ink">
                     @forelse($books as $book)
-                        <tr class="hover:bg-surface transition">
-                            <td class="py-">
-                                <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" class="w-12 h-16 object-cover">
+                        <tr class="hover:bg-background transition-colors group">
+                            <td class="p-4 border-r border-ink align-middle">
+                                <div class="h-full flex items-center justify-center">
+                                    <img src="{{ $book->cover_url }}" alt="{{ $book->title }}"
+                                        class="h-full max-h-24 w-auto object-contain">
+                                </div>
                             </td>
-                            <td class="p-4">
+                            <td class="p-4 border-r border-ink">
                                 <div class="font-bold text-ink italic">{{ $book->title }}</div>
                                 <div class="text-xs text-muted">{{ $book->author }}</div>
                             </td>
-                            <td class="p-4 text-sm">{{ $book->category->name }}</td>
-                            <td class="p-4 font-mono text-sm">
+                            <td class="p-4 border-r border-ink text-sm">{{ $book->category->name }}</td>
+                            <td class="p-4 border-r border-ink font-mono text-sm">
                                 <span class="text-green-700">{{ $book->available_stock }}</span> / {{ $book->total_stock }}
                             </td>
                             <td class="p-4 text-right space-x-2">
                                 <a href="{{ route('admin.books.edit', $book) }}" wire:navigate
                                     class="text-sm italic text-muted hover:text-ink">Edit</a>
-                                <button wire:click="delete({{ $book->id }})"
-                                    wire:confirm="Apakah Anda yakin ingin menghapus buku ini?"
-                                    class="text-sm italic text-muted hover:text-ink">Hapus</button>
+                                <button @click="openDeleteModal({{ $book->id }}, '{{ addslashes($book->title) }}')"
+                                    class="text-sm italic text-red-800 hover:text-red-600">Hapus</button>
                             </td>
                         </tr>
                     @empty
@@ -61,4 +82,7 @@
             {{ $books->links('components.ui.pagination') }}
         </div>
     </div>
+
+    {{-- Modal Konfirmasi --}}
+    <x-ui.confirmation-modal />
 </div>

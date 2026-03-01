@@ -1,4 +1,23 @@
-<div>
+<div x-data="{
+    isModalOpen: false,
+    modalTitle: '',
+    modalMessage: '',
+    modalButtonText: '',
+    modalButtonColor: '#991b1b',
+    modalUserId: null,
+    openDeleteModal(userId, userName) {
+        this.modalUserId = userId;
+        this.modalTitle = 'Hapus Pengguna';
+        this.modalMessage = `Hapus arsip pengguna <strong>${userName}</strong> dari sistem?<br><br>Tindakan ini tidak dapat dibatalkan.`;
+        this.modalButtonText = '[×] Hapus';
+        this.modalButtonColor = '#991b1b';
+        this.isModalOpen = true;
+    },
+    handleModalConfirm() {
+        this.$wire.delete(this.modalUserId);
+        this.isModalOpen = false;
+    }
+}" @keydown.escape="isModalOpen = false">
     <div class="space-y-8 text-ink">
         <div
             class="flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-ink pb-4 gap-4">
@@ -29,28 +48,28 @@
                 </button>
             </div>
         </div>
-
+        
         <div class="bg-surface border-2 border-ink overflow-hidden">
             <table class="w-full text-left border-collapse">
                 <thead class="bg-background text-xs uppercase tracking-widest border-b-2 border-ink">
                     <tr>
-                        <th class="p-4 border-r border-ink/20">Identitas Pengguna</th>
-                        <th class="p-4 border-r border-ink/20">Kontak (Email)</th>
-                        <th class="p-4 border-r border-ink/20">Peran</th>
-                        <th class="p-4 border-r border-ink/20">Status</th>
+                        <th class="p-4 border-r border-ink">Identitas Pengguna</th>
+                        <th class="p-4 border-r border-ink">Kontak (Email)</th>
+                        <th class="p-4 border-r border-ink">Peran</th>
+                        <th class="p-4 border-r border-ink">Status</th>
                         <th class="p-4 text-right">Tindakan</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-ink/20 text-ink">
+                <tbody class="divide-y divide-ink text-ink">
                     @forelse($users as $user)
                         <tr class="hover:bg-background transition-colors group">
-                            <td class="p-4 border-r border-ink/20">
+                            <td class="p-4 border-r border-ink">
                                 <div class="font-bold font-serif text-lg italic">{{ $user->name }}</div>
                             </td>
-                            <td class="p-4 text-sm font-mono border-r border-ink/20">
+                            <td class="p-4 text-sm font-mono border-r border-ink">
                                 {{ $user->email }}
                             </td>
-                            <td class="p-4 border-r border-ink/20">
+                            <td class="p-4 border-r border-ink">
                                 <div class="flex flex-wrap gap-2">
                                     @foreach($user->getRoleNames() as $role)
                                         <span
@@ -58,7 +77,7 @@
                                     @endforeach
                                 </div>
                             </td>
-                            <td class="p-4 border-r border-ink/20">
+                            <td class="p-4 border-r border-ink">
                                 @if($user->email_verified_at)
                                     <span
                                         class="inline-block px-2 py-1 border border-ink bg-ink text-surface text-xs font-bold uppercase tracking-widest">
@@ -76,8 +95,7 @@
                                     class="inline-block text-xs uppercase tracking-widest font-bold px-2 py-1 border border-transparent hover:border-ink hover:bg-ink hover:text-surface transition-colors">
                                     [✎ Ubah]
                                 </a>
-                                <button wire:click="delete({{ $user->id }})"
-                                    wire:confirm="Catatan: Apakah Anda yakin ingin menghapus arsip pengguna ini dari sistem?"
+                                <button @click="openDeleteModal({{ $user->id }}, '{{ addslashes($user->name) }}')"
                                     class="inline-block text-xs uppercase tracking-widest font-bold px-2 py-1 text-red-800 border border-transparent hover:border-red-800 hover:bg-red-800 hover:text-surface transition-colors">
                                     [× Hapus]
                                 </button>
@@ -99,4 +117,7 @@
             {{ $users->links('components.ui.pagination') }}
         </div>
     </div>
+
+    {{-- Modal Konfirmasi --}}
+    <x-ui.confirmation-modal />
 </div>
