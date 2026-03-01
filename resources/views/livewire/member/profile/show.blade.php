@@ -118,6 +118,18 @@
                         <p class="text-xs uppercase tracking-widest text-muted mb-1">Terdaftar Sejak</p>
                         <p class="font-mono text-sm">{{ $user->created_at->format('d/m/Y') }}</p>
                     </div>
+                    @if ($user->verify)
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-muted mb-1">Status</p>
+                            <p class="font-mono text-sm">Terverifikasi</p>
+                        </div>
+                    @else
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-muted mb-1">Status</p>
+                            <p class="font-mono text-sm">Belum Terverifikasi</p>
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>

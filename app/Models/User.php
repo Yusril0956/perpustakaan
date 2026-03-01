@@ -25,6 +25,7 @@ class User extends Authenticatable
         'phone',
         'address',
         'profile_photo_path',
+        'verify',
     ];
 
     /**
@@ -45,7 +46,7 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
+            'verify' => 'boolean',
             'password' => 'hashed',
         ];
     }

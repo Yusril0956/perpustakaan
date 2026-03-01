@@ -49,6 +49,7 @@ class UserForm extends Form
 
         $data = $this->all();
         $data['password'] = bcrypt($data['password']);
+        $data['verify'] = true;
 
         $user = User::create($data);
 

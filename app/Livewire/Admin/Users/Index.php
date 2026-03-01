@@ -5,36 +5,76 @@ namespace App\Livewire\Admin\Users;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
-
 class Index extends Component
 {
     use WithPagination;
 
+    #[Url(history: true)]
     public $search = '';
 
+    #[Url(history: true)]
+    public $sortBy = 'created_at'; // Default urutan
+
+    #[Url(history: true)]
+    public $sortDir = 'desc'; // Default arah urutan
+
+    // Reset pagination jika ada pencarian baru
     public function updatingSearch()
     {
         $this->resetPage();
+    }
+
+    // Fungsi untuk mengatur Sorting
+    public function setSortBy($sortColumn)
+    {
+        // Daftar kolom yang diizinkan untuk diurutkan (Keamanan)
+        $allowedSorts = ['name', 'email', 'verify', 'created_at'];
+
+        if (!in_array($sortColumn, $allowedSorts)) {
+            return;
+        }
+
+        if ($this->sortBy === $sortColumn) {
+            // Balikkan arah jika kolom yang diklik sama
+            $this->sortDir = ($this->sortDir === 'asc') ? 'desc' : 'asc';
+            return;
+        }
+
+        // Set kolom baru dan default arah 'asc'
+        $this->sortBy = $sortColumn;
+        $this->sortDir = 'asc';
     }
 
     public function delete($userId)
     {
         $user = User::with('loans')->find($userId);
         if ($user) {
-            // Delete related loans first
             $user->loans()->delete();
             $user->delete();
             session()->flash('success', 'User berhasil dihapus.');
         }
     }
 
+    public function toggleVerify($userId)
+    {
+        $user = User::find($userId);
+        if ($user) {
+            $user->verify = !$user->verify;
+            $user->save();
+            session()->flash('success', 'Status verifikasi user berhasil diubah.');
+        }
+    }
+
     public function render()
     {
-        $users = User::where('name', 'like', '%' . $this->search . '%')
+        $users = User::query()
+            ->where('name', 'like', '%' . $this->search . '%')
             ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->orderBy($this->sortBy, $this->sortDir)
             ->paginate(10);
 
         return view('livewire.admin.users.index', compact('users'));

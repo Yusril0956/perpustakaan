@@ -30,6 +30,7 @@ new #[Layout('layouts.auth')] class extends Component {
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
+        $validated['verify'] = false;
 
         event(new Registered($user = User::create($validated)));
 
