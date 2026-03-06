@@ -26,13 +26,13 @@
 
                     {{-- Kolom Kiri --}}
                     <div class="space-y-10">
-                        <x-input label="01. Judul Lengkap Pustaka" wire:model="form.title" placeholder="..." />
+                        <x-forms.input label="01. Judul Lengkap Pustaka" wire:model="form.title" placeholder="..." />
 
-                        <x-input label="02. Nama Penulis / Pengarang" wire:model="form.author" placeholder="..." />
+                        <x-forms.input label="02. Nama Penulis / Pengarang" wire:model="form.author" placeholder="..." />
 
                         <div class="grid grid-cols-2 gap-8">
-                            <x-input label="03. Kode ISBN" wire:model="form.isbn" placeholder="978-..." />
-                            <x-input label="04. Stok Fisik" wire:model="form.total_stock" type="number" />
+                            <x-forms.input label="03. Kode ISBN" wire:model="form.isbn" placeholder="978-..." />
+                            <x-forms.input label="04. Stok Fisik" wire:model="form.total_stock" type="number" />
                         </div>
                     </div>
 
@@ -114,9 +114,9 @@
                             Pastikan seluruh data telah diverifikasi sesuai dengan fisik buku.
                         </p>
                     </div>
-                    <x-button>
+                    <x-ui.button variant="outline">
                         Simpan Koleksi &rarr;
-                    </x-button>
+                    </x-ui.button>
                 </div>
             </form>
         </div>

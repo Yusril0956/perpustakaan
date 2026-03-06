@@ -64,6 +64,8 @@
         <main class="p-8 relative z-10">
             {{ $slot }}
         </main>
+
+        <x-layout.footer />
     </div>
     <x-layout.alert />
     @livewireScripts

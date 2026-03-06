@@ -49,10 +49,9 @@
                 <h2 class="text-3xl font-bold italic font-serif">Manajemen Pengguna</h2>
                 <p class="text-xs uppercase tracking-widest text-muted mt-1">Daftar Keanggotaan & Pegawai</p>
             </div>
-            <a href="{{ route('admin.users.create') }}"
-                class="bg-coffee text-parchment-light px-6 py-2.5 rounded-sm shadow-[4px_4px_0px_#2c2420] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2 border border-[#2c2420]">
-                <x-heroicon-o-plus class="w-5 h-5" />Tambah
-            </a>
+            <x-ui.button iconLeft="heroicon-o-plus" href="{{ route('admin.users.create') }}" size="sm">
+                Tambah
+            </x-ui.button>
         </div>
 
         <div class="max-w-2xl mx-auto mb-12">

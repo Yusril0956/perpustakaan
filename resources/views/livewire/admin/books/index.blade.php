@@ -21,11 +21,9 @@
     <div class="space-y-6">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold italic text-ink">Manajemen Koleksi Buku</h2>
-            <a href="{{ route('admin.books.create') }}"
-                class="bg-coffee text-parchment-light px-6 py-2.5 rounded-sm shadow-[4px_4px_0px_#2c2420] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 text-xs font-bold uppercase tracking-[0.2em] flex items-center gap-2">
-                <x-heroicon-o-plus class="w-5 h-5" />
+            <x-ui.button iconLeft="heroicon-o-plus" href="{{ route('admin.books.create') }}" size="sm">
                 Tambah
-            </a>
+            </x-ui.button>
         </div>
 
         <div class="paper-card p-4">

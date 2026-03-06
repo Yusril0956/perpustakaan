@@ -23,13 +23,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
 
                     <div class="space-y-10">
-                        <x-input label="01. Nama Lengkap Sesuai Identitas" wire:model="form.name"
+                        <x-forms.input label="01. Nama Lengkap Sesuai Identitas" wire:model="form.name"
                             placeholder="Masukkan nama..." />
 
-                        <x-input label="02. Alamat Surat Elektronik (Email)" wire:model="form.email" type="email"
+                        <x-forms.input label="02. Alamat Surat Elektronik (Email)" wire:model="form.email" type="email"
                             placeholder="example@mail.com" />
 
-                        <x-input label="03. Password (abaikan jika tidak diubah)" wire:model="form.password"
+                        <x-forms.input label="03. Password (abaikan jika tidak diubah)" wire:model="form.password"
                             type="password" placeholder="••••••••" />
                     </div>
 
@@ -51,7 +51,8 @@
                             @enderror
                         </div>
 
-                        <x-input label="05. Nomor Telepon Aktif" wire:model="form.phone" placeholder="08xxxxxxxxxx" />
+                        <x-forms.input label="05. Nomor Telepon Aktif" wire:model="form.phone"
+                            placeholder="08xxxxxxxxxx" />
 
                         {{-- Textarea Alamat --}}
                         <div>
@@ -77,9 +78,9 @@
                         </p>
                     </div>
 
-                    <x-button>
+                    <x-ui.button variant="outline">
                         Perbarui &rarr;
-                    </x-button>
+                    </x-ui.button>
                 </div>
             </form>
 

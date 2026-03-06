@@ -74,11 +74,10 @@
                 <div class="pt-6 border-t-2 border-dashed border-sepia-edge/50 space-y-4">
                     @auth
                         @if($selectedBook->can_borrow > 0)
-                            <button type="button" wire:click="requestLoan({{ $selectedBook->id }})"
-                                class="w-full bg-coffee text-parchment-light px-4 py-3 font-bold uppercase tracking-widest text-sm border-2 border-ink shadow-[4px_4px_0px_#2c2420] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_#2c2420] transition-all flex items-center justify-center gap-2">
-                                <x-heroicon-o-bookmark-square class="w-5 h-5" />
-                                Ajukan Peminjaman
-                            </button>
+                            <x-ui.button type="button" wire:click=" requestLoan({{ $selectedBook->id }})"
+                                iconLeft="heroicon-o-bookmark-square">
+                                Ajukan pinjam
+                            </x-ui.button>
                         @else
                             <div
                                 class="w-full flex justify-center items-center gap-2 bg-red-900/10 text-red-900 px-4 py-4 font-bold uppercase tracking-widest text-sm border-2 border-red-900/20 border-dashed">

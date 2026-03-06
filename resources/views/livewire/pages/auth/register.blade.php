@@ -9,6 +9,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
 new #[Layout('layouts.auth')] class extends Component {
+
     public string $name = '';
     public string $email = '';
     public string $address = '';
@@ -16,9 +17,6 @@ new #[Layout('layouts.auth')] class extends Component {
     public string $password = '';
     public string $password_confirmation = '';
 
-    /**
-     * Handle an incoming registration request.
-     */
     public function register(): void
     {
         $validated = $this->validate([
@@ -40,60 +38,67 @@ new #[Layout('layouts.auth')] class extends Component {
 
         $this->redirect(route('home', absolute: false), navigate: true);
     }
-}; ?>
+};
+?>
 
-<div>
-    <form wire:submit="register" class="space-y-4">
-        {{-- Name --}}
-        <div>
-            <x-input-label for="name" value="Name" />
-            <input wire:model="name" id="name" type="text" required class="form-input w-full mt-1">
-            <x-input-error :messages="$errors->get('name')" class="mt-1 text-xs" />
+<div class="relative bg-white p-2 border-2 border-ink/20 shadow-2xl">
+    <div class="border-[3px] border-ink p-10 md:p-14 relative bg-[#fdfbf7]">
+
+        {{-- Header --}}
+        <div class="text-center mb-16 border-b-2 border-ink/10 pb-10">
+            <h2 class="text-4xl font-serif italic text-ink font-black mb-3">
+                Registrasi Pengguna Baru
+            </h2>
+
+            <span
+                class="text-[11px] font-mono uppercase tracking-[0.4em] text-ink font-bold py-1 px-4 bg-ink/5 border border-ink/10">
+                formulir pendaftaran
+            </span>
         </div>
 
-        {{-- Email --}}
-        <div>
-            <x-input-label for="email" value="Email" />
-            <input wire:model="email" id="email" type="email" required class="form-input w-full mt-1">
-            <x-input-error :messages="$errors->get('email')" class="mt-1 text-xs" />
-        </div>
+        <form wire:submit="register" class="space-y-10">
 
-        {{-- Address --}}
-        <div>
-            <x-input-label for="address" value="Address" />
-            <input wire:model="address" id="address" type="text" required class="form-input w-full mt-1">
-            <x-input-error :messages="$errors->get('address')" class="mt-1 text-xs" />
-        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
 
-        {{-- Phone --}}
-        <div>
-            <x-input-label for="phone" value="Phone Number" />
-            <input wire:model="phone" id="phone" type="number" required class="form-input w-full mt-1" maxlength="12">
-            <x-input-error :messages="$errors->get('phone')" class="mt-1 text-xs" />
-        </div>
+                <div class="space-y-10">
 
-        {{-- Password --}}
-        <div>
-            <x-input-label for="password" value="Password" />
-            <input wire:model="password" id="password" type="password" required class="form-input w-full mt-1">
-        </div>
+                    <x-forms.input label="01. Nama Lengkap" wire:model="name" placeholder="..." />
 
-        {{-- Confirm --}}
-        <div>
-            <x-input-label for="password_confirmation" value="Confirm Password" />
-            <input wire:model="password_confirmation" id="password_confirmation" type="password" required
-                class="form-input w-full mt-1">
-        </div>
+                    <x-forms.input label="02. Alamat Email" wire:model="email" placeholder="test@test.com"
+                        type="email" />
 
-        {{-- Actions --}}
-        <div class="flex items-center justify-between pt-2">
-            <a href="{{ route('login') }}" wire:navigate class="text-sm underline text-muted hover:text-ink">
-                Already registered?
-            </a>
+                    <x-forms.input label="03. Nomor Telepon" wire:model="phone" placeholder="08xxxxxxxxxx" type="tel" />
 
-            <button type="submit" class="btn-primary">
-                Register
-            </button>
-        </div>
-    </form>
+                </div>
+
+                <div class="space-y-10">
+
+                    <x-forms.input label="04. Alamat Lengkap" wire:model="address" placeholder="..." />
+
+                    <x-forms.input label="05. Kata Sandi" wire:model="password" placeholder="........."
+                        type="password" />
+
+                    <x-forms.input label="06. Konfirmasi Kata Sandi" wire:model="password_confirmation"
+                        placeholder="........." type="password" />
+
+                </div>
+
+            </div>
+
+            {{-- Actions --}}
+            <div class="flex items-center justify-between pt-6 border-t-2 border-ink/10">
+
+                <a href="{{ route('login') }}" wire:navigate class="text-sm underline text-muted hover:text-ink">
+                    Sudah punya akun?
+                </a>
+
+                <x-ui.button variant="outline" type="submit">
+                    Daftar
+                </x-ui.button>
+
+            </div>
+
+        </form>
+
+    </div>
 </div>
