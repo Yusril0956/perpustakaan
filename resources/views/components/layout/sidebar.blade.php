@@ -53,8 +53,6 @@
 
             <x-layout.sidebar-item icon="book" label="Koleksi Buku" href="{{ route('explore') }}"
                 :active="request()->routeIs('explore')" />
-            <x-layout.sidebar-item icon="folder-open" label="Rak Penulis" href="{{ route('member.categories.index') }}"
-                :active="request()->routeIs('member.categories.index')" />
 
             <div class="px-8 mt-8 mb-3 flex items-center gap-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">III. Aktivitas</span>

@@ -9,12 +9,23 @@
 ])
 
 @php
-$base = "relative inline-flex items-center justify-center gap-2 border-2 font-mono font-black uppercase overflow-hidden transition-all duration-200 ease-out disabled:opacity-60 disabled:cursor-not-allowed";
+$base = "relative inline-flex items-center justify-center gap-2 border-2 font-mono font-black uppercase overflow-hidden transition-all duration-150 ease-out disabled:opacity-60 disabled:cursor-not-allowed";
 
 $variants = [
-'primary' => 'bg-[#fcfaf5] text-ink border-ink shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)]',
-'outline' => 'group bg-transparent text-ink border-ink',
-'ghost' => 'bg-transparent border-transparent text-ink hover:bg-ink/10',
+
+'primary' =>
+'bg-[#fcfaf5] text-ink border-ink
+shadow-[6px_6px_0px_rgba(44,36,32,1)]
+hover:translate-y-[2px]
+hover:shadow-[4px_4px_0px_rgba(44,36,32,1)]
+active:translate-y-[6px]
+active:shadow-[0px_0px_0px_rgba(44,36,32,1)]',
+
+'outline' =>
+'group bg-transparent text-ink border-ink',
+
+'ghost' =>
+'group bg-transparent border-transparent text-ink',
 ];
 
 $sizes = [
@@ -38,7 +49,10 @@ wire:loading.attr="disabled"
 <span class="absolute inset-0 w-0 bg-ink transition-all duration-300 group-hover:w-full"></span>
 @endif
 
-{{-- NORMAL CONTENT --}}
+@if ($variant === 'ghost')
+<span class="absolute bottom-0 left-1/2 h-[2px] w-0 -translate-x-1/2 bg-ink transition-all duration-300 ease-out group-hover:w-[80%]"></span>
+@endif
+
 <span
 class="relative z-10 flex items-center gap-2 transition-colors {{ $variant === 'outline' ? 'group-hover:text-white' : '' }}"
 @if($loading)
@@ -61,7 +75,6 @@ wire:target="{{ $loading }}"
 
 </span>
 
-{{-- LOADING STATE --}}
 @if($loading)
 <span
 wire:loading

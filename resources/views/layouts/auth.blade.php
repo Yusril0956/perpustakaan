@@ -20,7 +20,7 @@
 
 <body class="min-h-screen flex items-center justify-center bg-gray-100">
 
-    <main class="w-full max-w-xl px-6">
+    <main class="w-full max-w-2xl px-6">
         {{ $slot }}
     </main>
 

@@ -5,6 +5,8 @@ namespace App\Livewire\Guest;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Loan;
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
@@ -15,27 +17,25 @@ class BookExplorer extends Component
 {
     use WithPagination;
 
-    // Menyimpan state di URL agar user bisa membagikan link hasil pencariannya
     #[Url]
-    public $currentTab = 'all';
+    public string $currentTab = 'all';
 
     #[Url]
-    public $selectedCategory = null;
+    public ?int $selectedCategory = null;
 
     #[Url(history: true)]
-    public $search = '';
+    public string $search = '';
 
-    public $selectedBook = null;
+    public ?Book $selectedBook = null;
 
-    // Reset halaman otomatis saat properti ini berubah
-    public function updated($property)
+    public function updated(string $property): void
     {
         if (in_array($property, ['currentTab', 'selectedCategory', 'search'])) {
             $this->resetPage();
         }
     }
 
-    public function setTab($tab)
+    public function setTab(string $tab): void
     {
         $this->currentTab = $tab;
         $this->selectedCategory = null;
@@ -43,23 +43,22 @@ class BookExplorer extends Component
         $this->resetPage();
     }
 
-    public function setCategory($id)
+    public function setCategory(int $id): void
     {
         $this->selectedCategory = $id;
         $this->currentTab = 'category';
         $this->resetPage();
     }
 
-    // Mengambil data buku, lalu menyuruh Alpine.js membuka modal
-    public function loadBookDetail($bookId)
+    public function loadBookDetail(int $bookId): void
     {
         $this->selectedBook = Book::with('category')->find($bookId);
-        $this->dispatch('open-book-modal'); // Trigger Alpine.js
+        $this->dispatch('open-book-modal');
     }
 
-    public function requestLoan($bookId)
+    public function requestLoan(int $bookId)
     {
-        if (!auth()->check()) {
+        if (!Auth::check()) {
             return redirect()->route('login');
         }
 
@@ -70,51 +69,71 @@ class BookExplorer extends Component
             return;
         }
 
-        // Cek apakah user sudah memiliki pinjaman aktif untuk buku ini
-        $existingLoan = Loan::where('user_id', auth()->id())
+        // Gunakan exists() karena lebih ringan dibanding first() jika hanya butuh boolean
+        $hasActiveLoan = Loan::where('user_id', Auth::id())
             ->where('book_id', $bookId)
             ->whereIn('status', ['borrowed', 'active', 'pending'])
-            ->first();
+            ->exists();
 
-        if ($existingLoan) {
+        if ($hasActiveLoan) {
             session()->flash('error', 'Anda sudah memiliki permintaan pinjam untuk buku ini.');
             return;
         }
 
         Loan::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'book_id' => $bookId,
             'booking_date' => now()->toDateString(),
             'status' => 'pending',
-            'daily_fine_fee' => 5000,
+            'daily_fine_fee' => config('library.fines.daily', 5000), // Best practice: Hindari magic number
         ]);
 
-        $this->dispatch('close-book-modal'); // Tutup modal instan via Alpine
+        $this->dispatch('close-book-modal');
         session()->flash('success', 'Permintaan pinjam berhasil dikirim! Tunggu persetujuan admin.');
 
         return redirect()->route('member.dashboard');
     }
 
-    public function render()
+    public function render(): View
     {
-        $query = Book::query();
-
-        if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('title', 'like', '%' . $this->search . '%')
-                    ->orWhere('author', 'like', '%' . $this->search . '%');
-            });
-        }
-
-        if ($this->selectedCategory) {
-            $query->where('category_id', $this->selectedCategory);
-        }
-
         return view('livewire.guest.book-explorer', [
-            'recommendedBooks' => Book::take(3)->get(),
-            'popularBooks' => Book::orderBy('available_stock', 'asc')->take(6)->get(),
-            'categories' => Category::withCount('books')->get(),
-            'allBooks' => $query->latest()->paginate(12),
+            'recommendedBooks' => $this->getRecommendedBooks(),
+            'popularBooks' => $this->getPopularBooks(),
+            'categories' => $this->getCategories(),
+            'allBooks' => $this->getAllBooks(),
         ]);
+    }
+
+    /** --- Private Methods untuk Clean Code (Query Extract) --- */
+
+    private function getRecommendedBooks()
+    {
+        return Book::take(3)->get();
+    }
+
+    private function getPopularBooks()
+    {
+        return Book::orderBy('available_stock', 'asc')->take(6)->get();
+    }
+
+    private function getCategories()
+    {
+        return Category::withCount('books')->get();
+    }
+
+    private function getAllBooks()
+    {
+        return Book::query()
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('title', 'like', '%' . $this->search . '%')
+                        ->orWhere('author', 'like', '%' . $this->search . '%');
+                });
+            })
+            ->when($this->selectedCategory, function ($query) {
+                $query->where('category_id', $this->selectedCategory);
+            })
+            ->latest()
+            ->paginate(12);
     }
 }

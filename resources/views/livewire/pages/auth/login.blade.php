@@ -71,7 +71,7 @@ new #[Layout('layouts.auth')] class extends Component {
                 </a>
 
                 <x-ui.button variant="outline" type="submit" iconRight="heroicon-o-arrow-right" size="sm">
-                    Daftar
+                    Masuk
                 </x-ui.button>
 
             </div>

@@ -56,43 +56,34 @@ new #[Layout('layouts.auth')] class extends Component {
             </span>
         </div>
 
-        <form wire:submit="register" class="space-y-10">
+        <form wire:submit="register" class="space-y-12">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10">
 
-                <div class="space-y-10">
+                <x-forms.input label="01. Nama Lengkap" wire:model="name" placeholder="..." />
 
-                    <x-forms.input label="01. Nama Lengkap" wire:model="name" placeholder="..." />
+                <x-forms.input label="02. Alamat Email" wire:model="email" placeholder="test@test.com" type="email" />
 
-                    <x-forms.input label="02. Alamat Email" wire:model="email" placeholder="test@test.com"
-                        type="email" />
+                <x-forms.input label="03. Nomor Telepon" wire:model="phone" placeholder="08xxxxxxxxxx" type="tel" />
 
-                    <x-forms.input label="03. Nomor Telepon" wire:model="phone" placeholder="08xxxxxxxxxx" type="tel" />
+                <x-forms.input label="04. Alamat Lengkap" wire:model="address" placeholder="..." />
 
-                </div>
+                <x-forms.input label="05. Kata Sandi" wire:model="password" placeholder="........." type="password" />
 
-                <div class="space-y-10">
-
-                    <x-forms.input label="04. Alamat Lengkap" wire:model="address" placeholder="..." />
-
-                    <x-forms.input label="05. Kata Sandi" wire:model="password" placeholder="........."
-                        type="password" />
-
-                    <x-forms.input label="06. Konfirmasi Kata Sandi" wire:model="password_confirmation"
-                        placeholder="........." type="password" />
-
-                </div>
+                <x-forms.input label="06. Konfirmasi Kata Sandi" wire:model="password_confirmation"
+                    placeholder="........." type="password" />
 
             </div>
 
             {{-- Actions --}}
             <div class="flex items-center justify-between pt-6 border-t-2 border-ink/10">
 
-                <a href="{{ route('login') }}" wire:navigate class="text-sm underline text-muted hover:text-ink">
+                <a href="{{ route('login') }}" wire:navigate
+                    class="text-sm underline text-muted hover:text-ink transition-colors">
                     Sudah punya akun?
                 </a>
 
-                <x-ui.button variant="outline" type="submit">
+                <x-ui.button variant="outline" type="submit" size="sm">
                     Daftar
                 </x-ui.button>
 
