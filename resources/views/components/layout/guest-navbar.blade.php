@@ -20,12 +20,13 @@
             <div class="flex items-center space-x-10 relative z-10">
                 <x-layout.nav-link href="{{ route('explore') }}"
                     :active="request()->is('explore')">Explore</x-layout.nav-link>
-                <x-layout.nav-link href="/about" :active="request()->is('about')">Tentang</x-layout.nav-link>
+                <x-layout.nav-link href="{{ route('about') }}" :active="request()->is('about')"
+                    >Tentang</x-layout.nav-link>
 
                 @auth
                     @role('admin')
                     <a href="{{ route('admin.dashboard') }}"
-                        class="flex items-center gap-2 group italic text-coffee font-bold">
+                        class="flex items-center gap-2 group italic text-coffee font-bold" wire:navigate>
                         <x-heroicon-o-academic-cap class="w-5 h-5 text-sepia-edge" />
                         <span class="border-b border-dashed border-coffee group-hover:border-solid transition-all">Meja
                             Belajar</span>
@@ -33,7 +34,7 @@
                     @endrole
 
                     @role('anggota')
-                    <a href="{{ route('member.dashboard') }}"
+                    <a href="{{ route('member.dashboard') }}" wire:navigate
                         class="flex items-center gap-2 group italic text-coffee font-bold">
                         <x-heroicon-o-academic-cap class="w-5 h-5 text-sepia-edge" />
                         <span class="border-b border-dashed border-coffee group-hover:border-solid transition-all">Meja
@@ -42,10 +43,10 @@
                     @endrole
                 @else
                     <div class="flex items-center gap-6">
-                        <x-ui.button href="{{ route('login') }}" class="rounded-sm" variant="ghost" size="sm">
+                        <x-ui.button href="{{ route('login') }}" wire:navigate class="rounded-sm" variant="ghost" size="sm">
                             Masuk
                         </x-ui.button>
-                        <x-ui.button href="{{ route('register') }}" class="rounded-sm" size="sm">
+                        <x-ui.button href="{{ route('register') }}" wire:navigate class="rounded-sm" size="sm">
                             Gabung
                         </x-ui.button>
                     </div>

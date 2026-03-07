@@ -4,7 +4,7 @@
     'flex items-center gap-4 px-8 py-2.5 transition-colors duration-200 group text-sm font-serif relative',
     'bg-ink/5 text-ink font-bold' => $active,
     'text-coffee/80 hover:text-ink hover:bg-ink/5' => !$active
-])>
+]) wire:navigate>
     @if($active)
         <div class="absolute left-0 top-0 bottom-0 w-[3px] bg-ink"></div>
     @endif

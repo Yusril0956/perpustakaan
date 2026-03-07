@@ -21,7 +21,7 @@
     <div class="space-y-6">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-bold italic text-ink">Manajemen Koleksi Buku</h2>
-            <x-ui.button iconLeft="heroicon-o-plus" href="{{ route('admin.books.create') }}" size="sm">
+            <x-ui.button iconLeft="heroicon-o-plus" href="{{ route('admin.books.create') }}" wire:navigate size="sm">
                 Tambah
             </x-ui.button>
         </div>

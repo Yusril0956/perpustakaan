@@ -13,7 +13,7 @@
         </p>
 
         <div class="mt-8">
-            <x-ui.button href="{{ url()->previous() }}">
+            <x-ui.button href="{{ url()->previous() }}" wire:navigate>
                 Kembali
             </x-ui.button>
         </div>

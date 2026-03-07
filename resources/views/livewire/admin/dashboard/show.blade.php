@@ -95,7 +95,7 @@
         <div class="lg:col-span-2">
             <div class="flex items-center justify-between mb-4 border-b border-sepia-edge/30 pb-2">
                 <h2 class="text-lg font-bold italic text-ink font-serif">Permintaan Tertunda ({{ $pendingLoans }})</h2>
-                <a href="{{ route('admin.loans.management') }}" class="text-xs uppercase tracking-widest text-coffee hover:text-ink transition-colors group flex items-center gap-1">
+                <a href="{{ route('admin.loans.management') }}" wire:navigate class="text-xs uppercase tracking-widest text-coffee hover:text-ink transition-colors group flex items-center gap-1">
                     Buka Laci <x-heroicon-o-arrow-right class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                 </a>
             </div>
@@ -111,7 +111,7 @@
                                     <p class="text-xs text-coffee/80 font-mono mt-0.5">Pemohon: {{ $loan->user->name }} | {{ $loan->booking_date->format('d/m/Y') }}</p>
                                 </div>
                             </div>
-                            <a href="{{ route('admin.loans.management') }}" class="text-[10px] font-bold uppercase tracking-widest text-ink border-b border-ink/30 hover:border-ink pb-0.5 transition-all">
+                            <a href="{{ route('admin.loans.management') }}" wire:navigate class="text-[10px] font-bold uppercase tracking-widest text-ink border-b border-ink/30 hover:border-ink pb-0.5 transition-all">
                                 Tinjau
                             </a>
                         </div>

@@ -4,7 +4,7 @@
     'relative italic text-lg transition-colors duration-300 group inline-block',
     'text-ink font-bold' => $active,
     'text-coffee hover:text-ink' => !$active
-])>
+]) wire:navigate>
     {{ $slot }}
 
     <span @class([

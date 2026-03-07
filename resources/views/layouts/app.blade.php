@@ -53,7 +53,7 @@
                         class="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-2 bg-ink/10 backdrop-blur-sm transform rotate-3 z-20">
                     </div>
 
-                    <a href="{{ route('profile.show') }}" class="flex items-center gap-2"><img
+                    <a href="{{ route('profile.show') }}" wire:navigate class="flex items-center gap-2"><img
                             src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}"
                             class="w-12 h-12 object-cover border-2 border-ink shadow-[4px_4px_0px_rgba(44,36,32,1)] filter sepia-[20%] grayscale-[30%] group-hover:filter-none group-hover:translate-y-px group-hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all duration-200">
                     </a>

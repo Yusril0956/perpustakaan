@@ -14,7 +14,7 @@
 
         <div class="mt-8">
             <div class="mt-8">
-            <x-ui.button href="{{ route('home') }}">
+            <x-ui.button href="{{ route('home') }}" wire:navigate>
                 Kembali ke Beranda
             </x-ui.button>
         </div>

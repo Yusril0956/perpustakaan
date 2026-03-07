@@ -53,7 +53,7 @@
             <p class="text-2xl text-ink mb-8">"Buku adalah cermin jiwa; Anda hanya melihat di dalamnya apa yang sudah
                 Anda miliki di dalam diri Anda."</p>
             <div class="flex justify-center gap-6">
-                <x-ui.button variant="primary" onclick="window.location.href='/register'">
+                <x-ui.button variant="primary" href="{{ route('register') }}" wire:navigate>
                     Bergabung Menjadi Anggota
                 </x-ui.button>
             </div>

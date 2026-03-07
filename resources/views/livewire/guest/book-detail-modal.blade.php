@@ -85,7 +85,7 @@
                             </div>
                         @endif
                     @else
-                        <a href="{{ route('login') }}"
+                        <a href="{{ route('login') }}" wire:navigate
                             class="w-full flex justify-center items-center gap-2 bg-transparent text-ink px-4 py-3 font-bold uppercase tracking-widest text-sm border-2 border-ink shadow-[4px_4px_0px_#2c2420] hover:bg-ink hover:text-parchment-light transition-all">
                             <x-heroicon-o-key class="w-5 h-5" /> Masuk Untuk Meminjam
                         </a>

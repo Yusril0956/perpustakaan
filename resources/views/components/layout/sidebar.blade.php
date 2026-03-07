@@ -67,7 +67,7 @@
     </nav>
 
     <div class="flex-shrink-0 p-6 border-t bg-[#f9f7f1]">
-        <a href="{{ route('profile.show') }}" 
+        <a href="{{ route('profile.show') }}" wire:navigate
             class="flex items-center gap-3 px-4 py-2.5 text-sm font-serif text-coffee hover:text-ink transition-colors group">
             <x-heroicon-o-user class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity" />
             <span>Profil Pengguna</span>

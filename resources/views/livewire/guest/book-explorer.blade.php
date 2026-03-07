@@ -275,7 +275,7 @@
                                     </div>
                                 @endif
                             @else
-                                <x-ui.button href="{{ route('login') }}" iconLeft="heroicon-o-key" class="w-full">
+                                <x-ui.button href="{{ route('login') }}" wire:navigate iconLeft="heroicon-o-key" class="w-full">
                                     Masuk Untuk Meminjam
                                 </x-ui.button>
                             @endauth

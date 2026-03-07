@@ -6,7 +6,8 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
 
             <div class="col-span-1 md:col-span-1">
-                <a href="/" class="text-2xl font-bold text-ink italic leading-none block mb-4">
+                <a href="{{ route('home') }}" wire:navigate
+                    class="text-2xl font-bold text-ink italic leading-none block mb-4">
                     Pustaka <span class="text-coffee font-light">Klasik</span>
                 </a>
                 <p class="text-sm text-coffee/80 leading-relaxed italic">
@@ -37,9 +38,12 @@
                     class="text-xs uppercase tracking-[0.2em] font-bold text-ink mb-6 border-b border-sepia-edge/20 pb-2 inline-block">
                     Layanan</h4>
                 <ul class="space-y-4 text-sm italic text-coffee">
-                    <li><a href="/login" class="hover:text-ink transition-colors">Masuk Anggota</a></li>
-                    <li><a href="/register" class="hover:text-ink transition-colors">Pendaftaran Baru</a></li>
-                    <li><a href="/rules" class="hover:text-ink transition-colors">Aturan Peminjaman</a></li>
+                    <li><a href="{{ route('login') }}" wire:navigate class="hover:text-ink transition-colors">Masuk
+                            Anggota</a></li>
+                    <li><a href="{{ route('register') }}" wire:navigate
+                            class="hover:text-ink transition-colors">Pendaftaran Baru</a></li>
+                    <li><a href="{{ route('rules') }}" wire:navigate class="hover:text-ink transition-colors">Aturan
+                            Peminjaman</a></li>
                     <li><a href="/fines" class="hover:text-ink transition-colors">Informasi Denda</a></li>
                 </ul>
             </div>
@@ -71,7 +75,7 @@
             </div>
             <div class="flex gap-8 text-[11px] uppercase tracking-widest text-coffee/60">
                 <a href="#" class="hover:text-ink transition">Kebijakan Privasi</a>
-                <a href="#" class="hover:text-ink transition">Syarat & Ketentuan</a>
+                <a href="{{ route('rules') }}" wire:navigate class="hover:text-ink transition">Syarat & Ketentuan</a>
             </div>
         </div>
     </div>

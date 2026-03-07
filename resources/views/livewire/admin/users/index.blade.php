@@ -49,7 +49,7 @@
                 <h2 class="text-3xl font-bold italic font-serif">Manajemen Pengguna</h2>
                 <p class="text-xs uppercase tracking-widest text-muted mt-1">Daftar Keanggotaan & Pegawai</p>
             </div>
-            <x-ui.button iconLeft="heroicon-o-plus" href="{{ route('admin.users.create') }}" size="sm">
+            <x-ui.button iconLeft="heroicon-o-plus" href="{{ route('admin.users.create') }}" wire:navigate size="sm">
                 Tambah
             </x-ui.button>
         </div>

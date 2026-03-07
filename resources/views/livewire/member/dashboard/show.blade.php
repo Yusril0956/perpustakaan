@@ -24,12 +24,12 @@
                         seksama.
                     </p>
                     <div class="mt-8 flex gap-4 flex-wrap">
-                        <a href="{{ route('explore') }}"
+                        <a href="{{ route('explore') }}" wire:navigate
                             class="flex items-center gap-2 px-6 py-3 bg-ink text-[#fcfaf5] font-bold uppercase tracking-widest text-xs border-2 border-ink hover:bg-[#fcfaf5] hover:text-ink transition-colors shadow-[4px_4px_0px_#2c2420]">
                             <x-heroicon-o-magnifying-glass class="w-4 h-4 stroke-[2]" />
                             Jelajahi Koleksi
                         </a>
-                        <a href="{{ route('member.loans.index') }}"
+                        <a href="{{ route('member.loans.index') }}" wire:navigate
                             class="flex items-center gap-2 px-6 py-3 border-2 border-ink text-ink font-bold uppercase tracking-widest text-xs bg-transparent hover:bg-ink/5 transition-colors shadow-[4px_4px_0px_rgba(44,36,32,0.1)]">
                             <x-heroicon-o-book-open class="w-4 h-4 stroke-[2]" />
                             Sirkulasi Saya
@@ -125,7 +125,7 @@
                         <x-heroicon-o-document-text class="w-6 h-6" /> Buku Dalam Peminjaman
                     </h2>
                 </div>
-                <a href="{{ route('member.loans.index') }}"
+                <a href="{{ route('member.loans.index') }}" wire:navigate
                     class="text-[11px] font-mono uppercase tracking-widest text-ink border-b border-ink hover:text-coffee transition-colors pb-0.5 font-bold">
                     Buka Laci Arsip →
                 </a>
@@ -196,7 +196,7 @@
 
             @if ($activeLoans->count() > 3)
                 <div class="mt-8 text-center">
-                    <a href="{{ route('member.loans.index') }}"
+                    <a href="{{ route('member.loans.index') }}" wire:navigate
                         class="inline-flex items-center gap-2 px-6 py-2 border-2 border-ink text-ink font-bold font-mono uppercase tracking-widest text-xs hover:bg-ink hover:text-white transition shadow-[3px_3px_0px_rgba(44,36,32,0.1)]">
                         <x-heroicon-o-archive-box class="w-4 h-4 stroke-[2]" /> Buka {{ $activeLoans->count() - 3 }} Dokumen
                         Lainnya
@@ -211,7 +211,7 @@
             <h3 class="text-xl font-black uppercase tracking-widest text-ink mb-2 relative z-10">Laci Peminjaman Kosong</h3>
             <p class="text-coffee/70 font-mono text-xs uppercase tracking-wider mb-6 relative z-10">Tidak ada dokumen yang
                 sedang Anda pinjam saat ini.</p>
-            <a href="{{ route('explore') }}"
+            <a href="{{ route('explore') }}" wire:navigate
                 class="inline-flex items-center gap-2 px-6 py-3 bg-ink text-[#fcfaf5] font-bold uppercase tracking-widest text-xs border-2 border-ink hover:bg-[#fcfaf5] hover:text-ink transition-colors shadow-[4px_4px_0px_#2c2420] relative z-10">
                 <x-heroicon-o-magnifying-glass class="w-4 h-4 stroke-[2]" /> Telusuri Katalog Utama
             </a>
@@ -286,7 +286,7 @@
 
                 @if ($user->loans->where('status', 'returned')->count() > 5)
                     <div class="mt-5 text-center pt-3 border-t border-ink/10">
-                        <a href="{{ route('member.loans.index') }}"
+                        <a href="{{ route('member.loans.index') }}" wire:navigate
                             class="text-[11px] font-mono font-bold uppercase tracking-widest text-ink border-b border-ink hover:text-coffee transition-colors">
                             Buka Arsip Lengkap →
                         </a>
