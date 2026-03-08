@@ -143,7 +143,7 @@
                                     </button>
 
                                     @if($book->can_borrow > 0)
-                                        <button type="button" wire:click="requestLoan({{ $book->id }})" wire:loading.attr="disabled"
+                                        <button type="button"
                                             class="text-[10px] font-bold uppercase tracking-widest text-ink border-2 border-ink px-3 py-1 hover:bg-ink hover:text-parchment-light transition-colors shadow-[2px_2px_0px_#2c2420] active:translate-y-[2px] active:shadow-none disabled:opacity-50 disabled:cursor-wait">
                                             Pinjam
                                         </button>
@@ -263,9 +263,9 @@
                         <div class="pt-6 border-t-2 border-dashed border-sepia-edge/50 space-y-4">
                             @auth
                                 @if($selectedBook->can_borrow > 0)
-                                    <x-ui.button type="button" wire:click="requestLoan({{ $selectedBook->id }})" iconLeft="heroicon-o-bookmark-square"
-                                        wire:loading.attr="disabled" class="w-full">
-                                        <span wire:loading.remove wire:target="requestLoan">
+                                    <x-ui.button type="button" iconLeft="heroicon-o-bookmark-square" wire:loading.attr="disabled"
+                                        class="w-full">
+                                        <span>
                                             Ajukan Peminjaman</span>
                                     </x-ui.button>
                                 @else

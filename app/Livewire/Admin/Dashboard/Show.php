@@ -3,10 +3,12 @@
 namespace App\Livewire\Admin\Dashboard;
 
 use App\Models\Book;
-use App\Models\Loan;
+use App\Models\Borrowing;
+use App\Models\Fine;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\DB;
 
 #[Layout('layouts.app')]
 class Show extends Component
@@ -24,15 +26,6 @@ class Show extends Component
         // Total Statistics
         $totalUsers = User::role('anggota')->count();
         $totalBooks = Book::count();
-        $totalLoans = Loan::count();
-
-        // Active Loans Count
-        $activeLoans = Loan::where('status', 'active')->count();
-        $pendingLoans = Loan::where('status', 'pending')->count();
-        $returnedLoans = Loan::where('status', 'returned')->count();
-        $overdueLoans = Loan::where('status', 'active')
-            ->whereDate('due_date', '<', now())
-            ->count();
 
         // Book Statistics
         $lowStockBooks = Book::where('available_stock', '<=', 2)
@@ -40,71 +33,55 @@ class Show extends Component
             ->count();
         $outOfStockBooks = Book::where('available_stock', '<=', 0)->count();
 
-        // Recent Activities
-        $recentLoans = Loan::with(['user', 'book'])
-            ->latest()
-            ->take(8)
+        // Borrowing Statistics
+        $activeBorrowings = Borrowing::where('status', 'BORROWED')->count();
+        $overdueBorrowings = Borrowing::where('status', 'OVERDUE')->count();
+
+        // Fine Statistics
+        $unpaidFines = Fine::where('status', 'UNPAID')->sum('amount');
+
+        // Most Popular Books (by borrowing count)
+        $popularBooks = Book::select('books.id', 'books.title', 'books.author', DB::raw('COUNT(borrowings.id) as borrow_count'))
+            ->leftJoin('borrowings', 'books.id', '=', 'borrowings.book_id')
+            ->groupBy('books.id', 'books.title', 'books.author')
+            ->orderByDesc('borrow_count')
+            ->limit(5)
             ->get();
 
-        $recentReturns = Loan::where('status', 'returned')
-            ->with(['user', 'book'])
-            ->latest('return_date')
-            ->take(5)
+        // Most Active Borrowers
+        $activeBorrowers = User::select('users.id', 'users.name', 'users.email', DB::raw('COUNT(borrowings.id) as borrow_count'))
+            ->leftJoin('borrowings', 'users.id', '=', 'borrowings.user_id')
+            ->where('users.id', '>', 0)
+            ->groupBy('users.id', 'users.name', 'users.email')
+            ->orderByDesc('borrow_count')
+            ->limit(5)
             ->get();
 
-        // Popular Books (most borrowed)
-        $popularBooks = Book::withCount('loans')
-            ->orderBy('loans_count', 'desc')
-            ->take(5)
+        // Recent Activity Logs (last 10 borrowings and returns)
+        $recentActivities = Borrowing::with(['user', 'book'])
+            ->orderByDesc('borrowed_at')
+            ->limit(10)
             ->get();
 
-        // Pending Tasks (priorities)
-        $pendingRequests = Loan::where('status', 'pending')
-            ->with(['user', 'book'])
-            ->latest()
-            ->take(5)
+        // Pending/Overdue Requests (borrowed but overdue or pending)
+        $pendingRequests = Borrowing::with(['user', 'book'])
+            ->whereIn('status', ['BORROWED', 'OVERDUE'])
+            ->orderBy('due_at', 'asc')
+            ->limit(3)
             ->get();
-
-        // Members with most loans
-        $activeMembers = User::role('anggota')
-            ->withCount([
-                'loans' => function ($query) {
-                    $query->where('status', 'active');
-                }
-            ])
-            ->get()
-            ->filter(function ($user) {
-                return $user->loans_count > 0;
-            })
-            ->sortByDesc('loans_count')
-            ->take(5)
-            ->values();
-
-        // Total fines from overdue loans
-        $totalPendingFines = Loan::where('status', 'active')
-            ->whereDate('due_date', '<', now())
-            ->get()
-            ->sum(function ($loan) {
-                $daysOverdue = now()->diffInDays($loan->due_date);
-                return $daysOverdue * $loan->daily_fine_fee;
-            }) ?? 0;
 
         return view('livewire.admin.dashboard.show', [
             'totalUsers' => $totalUsers,
             'totalBooks' => $totalBooks,
-            'totalLoans' => $totalLoans,
-            'activeLoans' => $activeLoans,
-            'pendingLoans' => $pendingLoans,
-            'returnedLoans' => $returnedLoans,
-            'overdueLoans' => $overdueLoans,
             'lowStockBooks' => $lowStockBooks,
             'outOfStockBooks' => $outOfStockBooks,
-            'recentLoans' => $recentLoans,
-            'recentReturns' => $recentReturns,
+            'activeBorrowings' => $activeBorrowings,
+            'overdueBorrowings' => $overdueBorrowings,
+            'unpaidFines' => $unpaidFines,
             'popularBooks' => $popularBooks,
+            'activeBorrowers' => $activeBorrowers,
+            'recentActivities' => $recentActivities,
             'pendingRequests' => $pendingRequests,
-            'activeMembers' => $activeMembers,
-            'totalPendingFines' => $totalPendingFines,
         ]);
     }
 }

@@ -16,7 +16,7 @@ class BookFactory extends Factory
      */
     public function definition(): array
     {
-        $stock = rand(5, 15);
+        $stock = rand(5, 10);
         return [
             'category_id' => \App\Models\Category::inRandomOrder()->first()->id,
             'title' => fake()->sentence(3),

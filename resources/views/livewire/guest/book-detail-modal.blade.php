@@ -72,24 +72,10 @@
                 @endif
 
                 <div class="pt-6 border-t-2 border-dashed border-sepia-edge/50 space-y-4">
-                    @auth
-                        @if($selectedBook->can_borrow > 0)
-                            <x-ui.button type="button" wire:click=" requestLoan({{ $selectedBook->id }})"
-                                iconLeft="heroicon-o-bookmark-square">
-                                Ajukan pinjam
-                            </x-ui.button>
-                        @else
-                            <div
-                                class="w-full flex justify-center items-center gap-2 bg-red-900/10 text-red-900 px-4 py-4 font-bold uppercase tracking-widest text-sm border-2 border-red-900/20 border-dashed">
-                                <x-heroicon-o-no-symbol class="w-5 h-5" /> Maaf, stok buku ini sedang habis.
-                            </div>
-                        @endif
-                    @else
-                        <a href="{{ route('login') }}" wire:navigate
-                            class="w-full flex justify-center items-center gap-2 bg-transparent text-ink px-4 py-3 font-bold uppercase tracking-widest text-sm border-2 border-ink shadow-[4px_4px_0px_#2c2420] hover:bg-ink hover:text-parchment-light transition-all">
-                            <x-heroicon-o-key class="w-5 h-5" /> Masuk Untuk Meminjam
-                        </a>
-                    @endauth
+                    <div
+                        class="w-full flex justify-center items-center gap-2 bg-yellow-900/10 text-yellow-900 px-4 py-4 font-bold uppercase tracking-widest text-sm border-2 border-yellow-900/20">
+                        <x-heroicon-o-clock class="w-5 h-5" /> Layanan peminjaman sementara ditutup.
+                    </div>
                 </div>
             </div>
         </div>

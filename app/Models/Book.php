@@ -11,29 +11,11 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_id', 'title', 'author', 'isbn', 'description', 'cover_image', 'total_stock', 'available_stock'];
+    protected $fillable = ['category_id', 'title', 'author', 'isbn', 'description', 'cover_image', 'total_stock', 'available_stock', 'is_available'];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function loans()
-    {
-        return $this->hasMany(Loan::class);
-    }
-
-    /**
-     * Get number of books still available for borrowing
-     * Calculated: total_stock - (active + pending loans)
-     */
-    public function getCanBorrowAttribute()
-    {
-        $reserved = $this->loans()
-            ->whereIn('status', ['active', 'pending'])
-            ->count();
-
-        return max(0, $this->total_stock - $reserved);
     }
 
     /**
@@ -65,5 +47,10 @@ class Book extends Model
 
         // Fallback
         return asset('images/book-placeholder.svg');
+    }
+
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
     }
 }

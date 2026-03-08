@@ -51,9 +51,8 @@ class Index extends Component
 
     public function delete($userId)
     {
-        $user = User::with('loans')->find($userId);
+        $user = User::find($userId);
         if ($user) {
-            $user->loans()->delete();
             $user->delete();
             session()->flash('success', 'User berhasil dihapus.');
         }

@@ -11,14 +11,6 @@ Route::middleware(['admin', 'verified'])
         Route::get('dashboard', \App\Livewire\Admin\Dashboard\Show::class)
             ->name('dashboard');
 
-        // Loan Management
-        Route::get('loans/management', \App\Livewire\Admin\Loans\Management::class)
-            ->name('loans.management');
-
-        Route::get('loans/validation', \App\Livewire\Admin\Loans\Validation::class)
-            ->middleware('can:manage transactions')
-            ->name('loans.validation');
-
         // User Management
         Route::livewireResource('users', [
             'index' => \App\Livewire\Admin\Users\Index::class,
@@ -32,4 +24,9 @@ Route::middleware(['admin', 'verified'])
             'create' => \App\Livewire\Admin\Books\Create::class,
             'edit' => \App\Livewire\Admin\Books\Edit::class,
         ]);
+
+        // Borrowing Management
+        Route::get('/borrowings', \App\Livewire\Admin\Borrowings\Index::class)->name('borrowings.index');
+        Route::get('/borrowings/create', \App\Livewire\Admin\Borrowings\Create::class)->name('borrowings.create');
+        Route::get('/fines', \App\Livewire\Admin\Fines\Index::class)->name('fines.index');
     });

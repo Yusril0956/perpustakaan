@@ -23,7 +23,6 @@ class RolePermissionSeeder extends Seeder
         $permissions = [
             'manage users',
             'manage books',
-            'manage transactions',
             'view reports',
             'view books',
             'borrow books',
@@ -39,7 +38,6 @@ class RolePermissionSeeder extends Seeder
 
         $staff->givePermissionTo([
             'manage books',
-            'manage transactions',
             'view reports',
         ]);
 

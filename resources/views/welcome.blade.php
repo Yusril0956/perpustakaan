@@ -29,6 +29,7 @@
                     <div class="h-px w-16 bg-ink/50"></div>
                 </div>
 
+                @if (!auth()->check())
                 <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
                     <a href="{{ route('login') }}" wire:navigate
                         class="inline-flex items-center gap-2 bg-ink text-[#fcfaf5] border-2 border-ink px-8 py-3 font-mono text-sm font-black uppercase tracking-widest shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all">
@@ -41,6 +42,8 @@
                         Registrasi Baru
                     </a>
                 </div>
+                @endif
+                
             </section>
 
             <section class="grid md:grid-cols-3 gap-8 mb-24">
@@ -128,7 +131,6 @@
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                     @php
-                        // Memastikan query tidak error jika tabel kosong
                         $featuredBooks = \App\Models\Book::with('category')->latest()->take(4)->get();
                     @endphp
 

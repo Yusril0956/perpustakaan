@@ -4,7 +4,6 @@ namespace App\Livewire\Guest;
 
 use App\Models\Book;
 use App\Models\Category;
-use App\Models\Loan;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -54,44 +53,6 @@ class BookExplorer extends Component
     {
         $this->selectedBook = Book::with('category')->find($bookId);
         $this->dispatch('open-book-modal');
-    }
-
-    public function requestLoan(int $bookId)
-    {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
-        $book = Book::find($bookId);
-
-        if (!$book) {
-            session()->flash('error', 'Buku tidak ditemukan.');
-            return;
-        }
-
-        // Gunakan exists() karena lebih ringan dibanding first() jika hanya butuh boolean
-        $hasActiveLoan = Loan::where('user_id', Auth::id())
-            ->where('book_id', $bookId)
-            ->whereIn('status', ['borrowed', 'active', 'pending'])
-            ->exists();
-
-        if ($hasActiveLoan) {
-            session()->flash('error', 'Anda sudah memiliki permintaan pinjam untuk buku ini.');
-            return;
-        }
-
-        Loan::create([
-            'user_id' => Auth::id(),
-            'book_id' => $bookId,
-            'booking_date' => now()->toDateString(),
-            'status' => 'pending',
-            'daily_fine_fee' => config('library.fines.daily', 5000), // Best practice: Hindari magic number
-        ]);
-
-        $this->dispatch('close-book-modal');
-        session()->flash('success', 'Permintaan pinjam berhasil dikirim! Tunggu persetujuan admin.');
-
-        return redirect()->route('member.dashboard');
     }
 
     public function render(): View

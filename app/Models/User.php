@@ -51,16 +51,6 @@ class User extends Authenticatable
         ];
     }
 
-    public function loans()
-    {
-        return $this->hasMany(Loan::class);
-    }
-
-    public function activeLoans()
-    {
-        return $this->loans()->where('status', 'borrowed')->with('book');
-    }
-
     public function getProfilePhotoUrlAttribute()
     {
         if ($this->profile_photo_path) {
@@ -73,5 +63,10 @@ class User extends Authenticatable
         }
 
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=f4ecd8&color=6f4e37&size=400&bold=true';
+    }
+
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
     }
 }

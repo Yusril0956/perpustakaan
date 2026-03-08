@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Loan;
-use App\Policies\LoanPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use illuminate\Support\Facades\Route;
@@ -23,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::policy(Loan::class, LoanPolicy::class);
 
         Route::macro('livewireResource', function ($name, $pages) {
 

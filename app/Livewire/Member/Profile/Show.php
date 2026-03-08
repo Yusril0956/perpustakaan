@@ -16,9 +16,6 @@ class Show extends Component
     public $user;
     public $photo;
 
-    public $loans = [];
-    public $activeLoans = [];
-
     protected $rules = [
         'photo' => 'nullable|image|max:1024',
     ];
@@ -26,17 +23,6 @@ class Show extends Component
     public function mount()
     {
         $this->user = Auth::user();
-        $this->loadLoans();
-    }
-
-    public function loadLoans()
-    {
-        $this->activeLoans = $this->user->activeLoans()->get();
-        $this->loans = $this->user->loans()
-            ->with('book')
-            ->latest()
-            ->limit(10)
-            ->get();
     }
 
     public function savePhoto()

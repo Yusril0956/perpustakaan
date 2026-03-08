@@ -27,6 +27,8 @@
             
             <x-layout.sidebar-item icon="book" label="Kelola Buku" href="{{ route('admin.books.index') }}"
                 :active="request()->routeIs('admin.books.index', 'admin.books.create')" />
+            <x-layout.sidebar-item icon="collection" label="Peminjaman" href="{{ route('admin.borrowings.index') }}"
+                :active="request()->routeIs('admin.borrowings.index', 'admin.borrowings.create')" />
 
             <div class="px-8 mt-8 mb-3 flex items-center gap-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">II. Manajemen</span>
@@ -35,8 +37,8 @@
 
             <x-layout.sidebar-item icon="users" label="Data Anggota" href="{{ route('admin.users.index') }}"
                 :active="request()->routeIs('admin.users.index')" />
-            <x-layout.sidebar-item icon="clipboard" label="Peminjaman" href="{{ route('admin.loans.management') }}"
-                :active="request()->routeIs('admin.loans.management')" />
+            <x-layout.sidebar-item icon="exclamation" label="Denda" href="{{ route('admin.fines.index') }}"
+                :active="request()->routeIs('admin.fines.index')" />
         @else
             <div class="px-8 mt-8 mb-3 flex items-center gap-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">I. Pribadi</span>
@@ -45,6 +47,8 @@
             
             <x-layout.sidebar-item icon="dashboard" label="Ringkasan" href="{{ route('member.dashboard') }}"
                 :active="request()->routeIs('member.dashboard')" />
+            <x-layout.sidebar-item icon="collection" label="Peminjaman Saya" href="{{ route('member.borrows.index') }}"
+                :active="request()->routeIs('member.borrows.index')" />
 
             <div class="px-8 mt-8 mb-3 flex items-center gap-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest text-coffee/50 font-serif">II. Jelajahi</span>
@@ -59,8 +63,6 @@
                 <div class="h-px flex-1 bg-ink/5"></div>
             </div>
 
-            <x-layout.sidebar-item icon="book-open" label="Sedang Dipinjam" href="{{ route('member.loans.index') }}"
-                :active="request()->routeIs('member.loans.index')" />
             <x-layout.sidebar-item icon="bookmark" label="Ingin Dibaca" href="{{ route('member.wishlist.index') }}"
                 :active="request()->routeIs('member.wishlist.index')" />
         @endrole

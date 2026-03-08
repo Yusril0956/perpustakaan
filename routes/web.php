@@ -21,10 +21,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('member')->as('member.')->group(function () {
         Route::get('dashboard', \App\Livewire\Member\Dashboard\Show::class)
             ->name('dashboard');
+        Route::get('/my-borrows', \App\Livewire\Member\Borrows\Index::class)->name('borrows.index');
     });
-
-    Route::get('/pinjaman-saya', \App\Livewire\Member\Loans\Index::class)
-        ->name('member.loans.index');
 
     Route::get('/wishlist', \App\Livewire\Member\Wishlist\Index::class)
         ->name('member.wishlist.index');

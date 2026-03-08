@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Book::factory(50)->create();
 
-        $this->call(TestLoansSeeder::class);
 
         $admin = User::firstOrCreate([
             'email' => 'ryl@test.com',
@@ -43,6 +42,9 @@ class DatabaseSeeder extends Seeder
         $member->assignRole('anggota');
 
         // Create 10 additional dummy users
-        User::factory(10)->create();
+        User::factory(5)->create();
+
+        // Seed borrowings and fines
+        $this->call(BorrowingSeeder::class);
     }
 }
