@@ -1,32 +1,4 @@
-<div
-    x-data="{
-        isModalOpen: false,
-        isProcessing: false,
-        fineId: null,
-        userName: '',
-        bookTitle: '',
-        amount: 0,
-
-        formatRp(n) {
-            return 'Rp ' + new Intl.NumberFormat('id-ID').format(n);
-        },
-        openPaidModal(id, name, title, amt) {
-            this.fineId    = id;
-            this.userName  = name;
-            this.bookTitle = title;
-            this.amount    = amt;
-            this.isModalOpen = true;
-        },
-        async confirm() {
-            this.isProcessing = true;
-            await this.$wire.markAsPaid(this.fineId);
-            this.isModalOpen  = false;
-            this.isProcessing = false;
-        }
-    }"
-    @keydown.escape="if (!isProcessing) isModalOpen = false"
->
-    <div class="space-y-6">
+<div class="space-y-6">
 
         {{-- Header --}}
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-ink pb-4 gap-4">
@@ -137,12 +109,7 @@
                             <td class="p-4 text-center">
                                 @if ($fine->status === 'UNPAID')
                                     <button
-                                        @click="openPaidModal(
-                                            {{ $fine->id }},
-                                            '{{ addslashes($fine->borrowing->user->name) }}',
-                                            '{{ addslashes($fine->borrowing->book->title) }}',
-                                            {{ $fine->amount }}
-                                        )"
+                                        onclick="if(confirm('Tandai denda untuk {{ addslashes($fine->borrowing->user->name) }} - {{ addslashes($fine->borrowing->book->title) }} (Rp {{ number_format($fine->amount, 0, ',', '.') }}) sebagai LUNAS?')) { Livewire.dispatch('mark-fine-as-paid', { fineId: {{ $fine->id }} }); }"
                                         class="text-xs uppercase tracking-widest font-bold px-2 py-1 border border-green-700 text-green-700 hover:bg-green-700 hover:text-white transition-colors"
                                     >
                                         [✓] Tuntaskan
@@ -173,80 +140,3 @@
 
     </div>
 
-    {{-- ── Modal Konfirmasi Tuntaskan ────────────────────────────────────── --}}
-    <div
-        x-cloak
-        x-show="isModalOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center"
-    >
-        <div
-            class="absolute inset-0 bg-black/30"
-            @click="if (!isProcessing) isModalOpen = false"
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-150"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-        ></div>
-
-        <div
-            class="relative z-10 bg-white border-2 border-ink max-w-md w-full mx-4"
-            @click.stop
-            x-transition:enter="transition ease-out duration-200"
-            x-transition:enter-start="opacity-0 scale-95"
-            x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-150"
-            x-transition:leave-start="opacity-100 scale-100"
-            x-transition:leave-end="opacity-0 scale-95"
-        >
-            <div class="px-6 py-4 border-b border-ink/20">
-                <h3 class="font-serif italic font-bold text-ink text-lg">Konfirmasi Pelunasan</h3>
-            </div>
-
-            <div class="px-6 py-6 space-y-3 text-sm font-serif text-ink/80">
-                <p>Tandai denda berikut sebagai <strong class="text-green-700">LUNAS</strong>?</p>
-                <div class="bg-gray-50 border border-ink/10 p-4 space-y-1.5 font-mono text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-muted">Anggota</span>
-                        <strong x-text="userName" class="text-right max-w-[60%] truncate"></strong>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-muted">Buku</span>
-                        <strong x-text="bookTitle" class="text-right max-w-[60%] truncate"></strong>
-                    </div>
-                    <div class="flex justify-between border-t border-ink/10 pt-1.5 mt-1.5">
-                        <span class="text-muted">Total Denda</span>
-                        <strong x-text="formatRp(amount)"></strong>
-                    </div>
-                </div>
-            </div>
-
-            <div class="px-6 py-4 border-t border-ink/20 flex gap-3 justify-end">
-                <button
-                    type="button"
-                    @click="isModalOpen = false"
-                    :disabled="isProcessing"
-                    class="px-4 py-2 border border-ink/30 text-ink text-sm font-mono font-bold hover:bg-ink/5 transition disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                    Batal
-                </button>
-                <button
-                    type="button"
-                    @click="confirm()"
-                    :disabled="isProcessing"
-                    class="px-4 py-2 border-2 border-green-700 bg-green-700 text-white text-sm font-mono font-bold transition disabled:opacity-50 disabled:cursor-wait flex items-center gap-2"
-                >
-                    <span x-show="!isProcessing">[✓] Tandai Lunas</span>
-                    <span x-cloak x-show="isProcessing" class="flex items-center gap-2">
-                        <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                        </svg>
-                        Memproses...
-                    </span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>

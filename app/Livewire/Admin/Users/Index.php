@@ -6,6 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\On;
 use Livewire\WithPagination;
 
 #[Layout('layouts.app')]
@@ -49,6 +50,7 @@ class Index extends Component
         $this->sortDir = 'asc';
     }
 
+    #[On('delete-user')]
     public function delete($userId)
     {
         $user = User::find($userId);
@@ -58,6 +60,7 @@ class Index extends Component
         }
     }
 
+    #[On('toggle-verify-user')]
     public function toggleVerify($userId)
     {
         $user = User::find($userId);

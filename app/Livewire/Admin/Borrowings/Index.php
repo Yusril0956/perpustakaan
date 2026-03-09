@@ -7,6 +7,7 @@ use App\Models\Fine;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.app')]
 class Index extends Component
@@ -15,30 +16,31 @@ class Index extends Component
 
     protected int $fineRatePerDay = 1000;
 
+    #[On('return-book')]
     public function returnBook(int $borrowingId): void
     {
         $borrowing = Borrowing::with('book')->findOrFail($borrowingId);
-        $now       = now();
-        $dueAt     = \Carbon\Carbon::parse($borrowing->due_at);
+        $now = now();
+        $dueAt = \Carbon\Carbon::parse($borrowing->due_at);
 
         // Tandai buku dikembalikan
         $borrowing->update([
             'returned_at' => $now,
-            'status'      => 'RETURNED',
+            'status' => 'RETURNED',
         ]);
 
         // Kembalikan ketersediaan buku
         $borrowing->book->update(['is_available' => true]);
 
         // Buat denda hanya jika: terlambat DAN belum ada denda sebelumnya
-        if ($now->greaterThan($dueAt) && ! $borrowing->fine()->exists()) {
+        if ($now->greaterThan($dueAt) && !$borrowing->fine()->exists()) {
             $daysOverdue = (int) $now->startOfDay()->diffInDays($dueAt->startOfDay());
-            $fineAmount  = $daysOverdue * $this->fineRatePerDay;
+            $fineAmount = $daysOverdue * $this->fineRatePerDay;
 
             Fine::create([
                 'borrowing_id' => $borrowing->id,
-                'amount'       => $fineAmount,
-                'status'       => 'UNPAID',
+                'amount' => $fineAmount,
+                'status' => 'UNPAID',
             ]);
 
             session()->flash(

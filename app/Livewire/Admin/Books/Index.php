@@ -6,6 +6,7 @@ use App\Models\Book;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.app')]
 
@@ -20,6 +21,7 @@ class Index extends Component
         $this->resetPage();
     }
 
+    #[On('delete-book')]
     public function delete($id)
     {
         Book::find($id)->delete();

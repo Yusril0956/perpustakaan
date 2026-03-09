@@ -3,24 +3,14 @@
     uploading: false,
     progress: 0,
     toast: false,
-    isModalOpen: false,
-    modalTitle: 'Hapus Foto',
-    modalMessage: 'Hapus foto profil Anda?<br><br>Tindakan ini tidak dapat dibatalkan.',
-    modalButtonText: '[×] Hapus',
-    modalButtonColor: '#991b1b',
 
     showToast() {
         this.toast = true
         setTimeout(() => this.toast = false, 2500)
     },
-    handleModalConfirm() {
-        this.$wire.removePhoto();
-        this.isModalOpen = false;
-    }
 }" x-on:livewire-upload-start="uploading = true" x-on:livewire-upload-finish="uploading = false"
     x-on:livewire-upload-error="uploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress"
-    x-on:photo-saved.window="showToast()" x-on:photo-removed.window="showToast()" class="space-y-10 text-ink"
-    @keydown.escape="isModalOpen = false">
+    x-on:photo-saved.window="showToast()" x-on:photo-removed.window="showToast()" class="space-y-10 text-ink">
 
     <div class="border-b-2 border-ink pb-4">
         <h2 class="text-3xl font-bold italic font-serif">Profil Peminjam</h2>
@@ -84,7 +74,8 @@
 
                     <!-- DELETE -->
                     @if($user->profile_photo_path)
-                        <button type="button" @click="isModalOpen = true"
+                        <button type="button"
+                            onclick="if(confirm('Hapus foto profil Anda?\n\nTindakan ini tidak dapat dibatalkan.')) { Livewire.dispatch('remove-profile-photo'); }"
                             class="text-xs border border-ink px-3 py-1 hover:bg-ink hover:text-white transition">
                             Hapus
                         </button>
@@ -134,7 +125,4 @@
             </div>
         </div>
     </div>
-
-    {{-- Modal Konfirmasi --}}
-    <x-ui.confirmation-modal />
 </div>

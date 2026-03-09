@@ -6,6 +6,7 @@ use App\Models\Fine;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.app')]
 class Index extends Component
@@ -14,6 +15,7 @@ class Index extends Component
 
     public string $filterStatus = ''; // '', 'UNPAID', 'PAID'
 
+    #[On('mark-fine-as-paid')]
     public function markAsPaid(int $fineId): void
     {
         $fine = Fine::findOrFail($fineId);

@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('layouts.app')]
 class Show extends Component
@@ -44,6 +45,7 @@ class Show extends Component
         $this->dispatch('photo-saved');
     }
 
+    #[On('remove-profile-photo')]
     public function removePhoto()
     {
         if ($this->user->profile_photo_path) {
