@@ -56,7 +56,7 @@ new #[Layout('layouts.auth')] class extends Component {
             </span>
         </div>
 
-        <form wire:submit="register" class="space-y-12">
+        <form wire:submit.prevent="register" class="space-y-12">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-x-14 gap-y-10">
 

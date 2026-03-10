@@ -64,9 +64,9 @@
                                     <input type="file" wire:model="form.cover_image" class="hidden">
                                     @if ($form->cover_image)
                                         <img src="{{ $form->cover_image->temporaryUrl() }}"
-                                            class="w-full h-full object-cover">
+                                            class="w-full h-full object-cover" loading="lazy">
                                     @else
-                                        <img src="{{ $form->book->cover_url }}" alt="">
+                                        <img src="{{ $form->book->cover_url }}" alt="" loading="lazy">
                                     @endif
 
                                     <div

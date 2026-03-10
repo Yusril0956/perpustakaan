@@ -116,7 +116,7 @@
                         class="bg-[#fcfaf5] border-l-4 border-yellow-800/40 border-y border-r border-sepia-edge/30 p-3 flex items-center justify-between">
                         <div class="flex items-center gap-4">
                             <img src="{{ $request->book->cover_url }}" alt="{{ $request->book->title }}"
-                                class="w-10 h-14 object-cover border">
+                                class="w-10 h-14 object-cover border" loading="lazy">
                             <div>
                                 <p class="font-bold text-ink text-sm">{{ $request->book->title }}</p>
                                 <p class="text-xs text-coffee/80 font-mono mt-0.5">Pemohon: {{ $request->user->name }} |

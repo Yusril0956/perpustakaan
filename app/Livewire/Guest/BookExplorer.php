@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
@@ -64,24 +65,34 @@ class BookExplorer extends Component
         ]);
     }
 
-    /** --- Private Methods untuk Clean Code (Query Extract) --- */
+    /** --- Private Methods dengan Caching untuk Performance --- */
 
     private function getRecommendedBooks(): Collection
     {
-        return Book::with('category')->take(3)->get();
+        // Cache recommended books for 10 minutes
+        return Cache::remember('books.recommended', 600, function () {
+            return Book::with('category')->take(3)->get();
+        });
     }
 
     private function getPopularBooks(): Collection
     {
-        return Book::with('category')
-            ->orderBy('available_stock', 'asc')
-            ->take(6)
-            ->get();
+        // Cache popular books for 10 minutes - order by borrow count via relationship
+        return Cache::remember('books.popular', 600, function () {
+            return Book::with('category')
+                ->withCount('borrowings')
+                ->orderByDesc('borrowings_count')
+                ->take(6)
+                ->get();
+        });
     }
 
     private function getCategories(): Collection
     {
-        return Category::withCount('books')->get();
+        // Cache categories for 30 minutes
+        return Cache::remember('categories.all', 1800, function () {
+            return Category::withCount('books')->get();
+        });
     }
 
     private function getAllBooks()

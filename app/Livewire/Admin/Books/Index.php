@@ -16,6 +16,11 @@ class Index extends Component
 
     public $search = '';
 
+    public function mount(): void
+    {
+        $this->authorize('viewAny', Book::class);
+    }
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -24,7 +29,9 @@ class Index extends Component
     #[On('delete-book')]
     public function delete($id)
     {
-        Book::find($id)->delete();
+        $book = Book::findOrFail($id);
+        $this->authorize('delete', $book);
+        $book->delete();
         session()->flash('success', 'Buku berhasil dihapus dari arsip.');
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\Dashboard;
 
+use App\Enums\BorrowingStatus;
+use App\Enums\FineStatus;
 use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\Fine;
@@ -38,11 +40,11 @@ class Show extends Component
             $outOfStockBooks = Book::where('available_stock', '<=', 0)->count();
 
             // Borrowing Statistics
-            $activeBorrowings = Borrowing::where('status', 'BORROWED')->count();
-            $overdueBorrowings = Borrowing::where('status', 'OVERDUE')->count();
+            $activeBorrowings = Borrowing::where('status', BorrowingStatus::BORROWED->value)->count();
+            $overdueBorrowings = Borrowing::where('status', BorrowingStatus::OVERDUE->value)->count();
 
             // Fine Statistics
-            $unpaidFines = Fine::where('status', 'UNPAID')->sum('amount');
+            $unpaidFines = Fine::where('status', FineStatus::UNPAID->value)->sum('amount');
 
             return compact(
                 'totalUsers',
@@ -84,7 +86,7 @@ class Show extends Component
 
         // Pending/Overdue Requests - no cache, needs real-time
         $pendingRequests = Borrowing::with(['user', 'book'])
-            ->whereIn('status', ['BORROWED', 'OVERDUE'])
+            ->whereIn('status', [BorrowingStatus::BORROWED->value, BorrowingStatus::OVERDUE->value])
             ->orderBy('due_at', 'asc')
             ->limit(3)
             ->get();

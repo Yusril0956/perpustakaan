@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Guest;
 
+use App\Enums\BorrowingStatus;
 use App\Models\Book;
 use App\Models\Borrowing;
+use App\Services\BorrowingService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -103,55 +105,20 @@ class BookDetail extends Component
             return;
         }
 
-        // Check book availability
-        if (!$this->book || !$this->book->is_available || $this->book->total_stock <= 0) {
-            session()->flash('error', 'Buku tidak tersedia untuk dipinjam.');
-            return;
-        }
-
-        // Check if already borrowed
-        $existingBorrowing = Borrowing::where('user_id', $user->id)
-            ->where('book_id', $this->book->id)
-            ->whereNull('returned_at')
-            ->exists();
-
-        if ($existingBorrowing) {
-            session()->flash('error', 'Anda sudah meminjam buku ini.');
-            return;
-        }
-
-        // Check permission
-        if (!$user->hasPermissionTo('borrow books')) {
-            session()->flash('error', 'Anda tidak memiliki izin untuk meminjam buku.');
-            return;
-        }
-
-        // Use database transaction for data consistency
+        // Use BorrowingService to avoid code duplication and ensure proper locking
         try {
-            DB::transaction(function () use ($user) {
-                // Create borrowing record
-                Borrowing::create([
-                    'user_id' => $user->id,
-                    'book_id' => $this->book->id,
-                    'borrowed_at' => now(),
-                    'due_at' => now()->addDays(config('library.borrow_duration_days', 7)),
-                    'status' => 'BORROWED',
-                ]);
-
-                // Update book stock
-                $this->book->decrement('available_stock');
-
-                // Update availability if no stock left
-                if ($this->book->available_stock <= 0) {
-                    $this->book->update(['is_available' => false]);
-                }
-            });
+            $borrowingService = app(BorrowingService::class);
+            $result = $borrowingService->borrowBook($this->book, $user->id);
 
             // Refresh data
             $this->book->refresh();
             $this->checkBorrowStatus();
 
-            session()->flash('success', 'Buku berhasil dipinjam! Silakan ambil di perpustakaan.');
+            if ($result['success']) {
+                session()->flash('success', $result['message']);
+            } else {
+                session()->flash('error', $result['message']);
+            }
         } catch (\Exception $e) {
             session()->flash('error', 'Terjadi kesalahan. Silakan coba lagi.');
         }

@@ -28,7 +28,7 @@
                         <td class="p-4 border-r border-ink align-middle">
                             <div class="h-full flex items-center justify-center">
                                 <img src="{{ $book->cover_url }}" alt="{{ $book->title }}"
-                                    class="h-full max-h-24 w-auto object-contain">
+                                    class="h-full max-h-24 w-auto object-contain" loading="lazy">
                             </div>
                         </td>
                         <td class="p-4 border-r border-ink">

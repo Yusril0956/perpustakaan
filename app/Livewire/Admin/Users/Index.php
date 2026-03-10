@@ -14,6 +14,11 @@ class Index extends Component
 {
     use WithPagination;
 
+    public function mount(): void
+    {
+        $this->authorize('viewAny', User::class);
+    }
+
     #[Url(history: true)]
     public $search = '';
 
@@ -53,22 +58,20 @@ class Index extends Component
     #[On('delete-user')]
     public function delete($userId)
     {
-        $user = User::find($userId);
-        if ($user) {
-            $user->delete();
-            session()->flash('success', 'User berhasil dihapus.');
-        }
+        $user = User::findOrFail($userId);
+        $this->authorize('delete', $user);
+        $user->delete();
+        session()->flash('success', 'User berhasil dihapus.');
     }
 
     #[On('toggle-verify-user')]
     public function toggleVerify($userId)
     {
-        $user = User::find($userId);
-        if ($user) {
-            $user->verify = !$user->verify;
-            $user->save();
-            session()->flash('success', 'Status verifikasi user berhasil diubah.');
-        }
+        $user = User::findOrFail($userId);
+        $this->authorize('update', $user);
+        $user->verify = !$user->verify;
+        $user->save();
+        session()->flash('success', 'Status verifikasi user berhasil diubah.');
     }
 
     public function render()

@@ -9,7 +9,7 @@
                         class="group relative flex gap-6 bg-parchment-light/50 border border-sepia-edge/30 p-6 hover:shadow-lg transition-all rounded-sm">
                         <img src="{{ $book->cover_url }}"
                             class="w-24 h-32 object-cover shadow-md flex-shrink-0 border-l-2 border-black/20"
-                            alt="{{ $book->title }}">
+                            alt="{{ $book->title }}" loading="lazy">
                         <div class="flex flex-col justify-between flex-1">
                             <div>
                                 <div
@@ -50,7 +50,7 @@
                             </div>
                             <div
                                 class="relative overflow-hidden aspect-[3/4] mb-3 border border-sepia-edge/20 shadow-sm bg-white p-1">
-                                <img src="{{ $book->cover_url }}" alt="{{ $book->title }}"
+                                <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" loading="lazy"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 sepia-[0.1]">
                             </div>
                             <h4 class="text-xs font-bold italic text-ink truncate">{{ $book->title }}</h4>
@@ -103,7 +103,7 @@
                             class="group relative bg-white/40 backdrop-blur-sm border border-sepia-edge/30 p-4 shadow-sm hover:shadow-[4px_4px_0px_#d2b48c] transition-all duration-300 rounded-sm overflow-hidden flex flex-col h-full">
                             <div
                                 class="relative aspect-[3/4] overflow-hidden shadow-md border-l-4 border-ink/20 mb-3 bg-white p-1">
-                                <img src="{{ $book->cover_url }}" alt="{{ $book->title }}"
+                                <img src="{{ $book->cover_url }}" alt="{{ $book->title }}" loading="lazy"
                                     class="w-full h-full object-cover sepia-[0.2] group-hover:sepia-0 transition-all duration-700">
                                 <div
                                     class="absolute top-2 right-2 bg-parchment-base text-[10px] font-bold px-2 py-1 border border-sepia-edge/50 shadow-sm">

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Users;
 
+use App\Models\User;
 use App\Livewire\Forms\Admin\Users\UserForm;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
@@ -11,6 +12,11 @@ use Livewire\Attributes\Layout;
 class Create extends Component
 {
     public UserForm $form;
+
+    public function mount(): void
+    {
+        $this->authorize('create', User::class);
+    }
 
     public function save()
     {

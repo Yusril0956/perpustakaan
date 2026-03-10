@@ -14,13 +14,14 @@ class Index extends Component
 {
     use WithPagination;
 
-    public $status = '';
-
-    public function mount()
+    public function mount(): void
     {
+        $this->authorize('viewAny', Borrowing::class);
         // Get status from query string
         $this->status = request()->query('status', '');
     }
+
+    public $status = '';
 
     public function render()
     {

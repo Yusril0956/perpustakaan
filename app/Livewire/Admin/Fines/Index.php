@@ -13,12 +13,18 @@ class Index extends Component
 {
     use WithPagination;
 
+    public function mount(): void
+    {
+        $this->authorize('viewAny', Fine::class);
+    }
+
     public string $filterStatus = ''; // '', 'UNPAID', 'PAID'
 
     #[On('mark-fine-as-paid')]
     public function markAsPaid(int $fineId): void
     {
         $fine = Fine::findOrFail($fineId);
+        $this->authorize('update', $fine);
 
         if ($fine->status === 'PAID') {
             return; // Guard: jangan proses dua kali

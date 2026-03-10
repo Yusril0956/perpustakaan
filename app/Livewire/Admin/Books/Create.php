@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Books;
 
 use App\Models\Category;
+use App\Models\Book;
 use App\Livewire\Forms\Admin\Books\BookForm;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -15,6 +16,11 @@ class Create extends Component
     use WithFileUploads;
 
     public BookForm $form;
+
+    public function mount(): void
+    {
+        $this->authorize('create', Book::class);
+    }
 
     public function save()
     {

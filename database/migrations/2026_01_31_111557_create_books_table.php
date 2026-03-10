@@ -20,7 +20,14 @@ return new class extends Migration {
             $table->string('cover_image')->nullable();
             $table->integer('total_stock')->default(0);
             $table->integer('available_stock')->default(0);
+            $table->boolean('is_available')->default(true);
             $table->timestamps();
+
+            // Indexes for search optimization
+            $table->index('title');
+            $table->index('author');
+            $table->index('category_id');
+            $table->index('is_available');
         });
     }
 

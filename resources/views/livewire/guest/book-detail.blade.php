@@ -30,9 +30,9 @@
                 <div class="aspect-[2/3] border-2 border-ink bg-white shadow-lg overflow-hidden">
 
                     @if($book->cover_url)
-                        <img src="{{ asset($book->cover_url) }}" class="w-full h-full object-cover">
+                        <img src="{{ asset($book->cover_url) }}" class="w-full h-full object-cover" loading="lazy">
                     @else
-                        <div class="w-full h-full flex items-center justify-center text-ink/40">
+                        <div class=" w-full h-full flex items-center justify-center text-ink/40">
                             Tidak ada sampul
                         </div>
                     @endif

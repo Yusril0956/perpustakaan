@@ -17,10 +17,11 @@ new #[Layout('layouts.auth')] class extends Component {
 
         Session::regenerate();
 
-        $this->redirectIntended(
-            default: route('home', absolute: false),
-            navigate: true
-        );
+        // $this->redirectIntended(
+        //     default: route('home', absolute: false),
+        //     navigate: true
+        // );
+        $this->redirect(route('home', absolute: false));
     }
 };
 ?>
@@ -46,7 +47,7 @@ new #[Layout('layouts.auth')] class extends Component {
             </span>
         </div>
 
-        <form wire:submit="login" class="space-y-10">
+        <form wire:submit.prevent="login" class="space-y-10">
 
             <div class="grid grid-cols-1 gap-10">
 

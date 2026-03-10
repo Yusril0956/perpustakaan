@@ -63,7 +63,7 @@
                                     <input type="file" wire:model="form.cover_image" class="hidden">
                                     @if ($form->cover_image)
                                         <img src="{{ $form->cover_image->temporaryUrl() }}"
-                                            class="w-full h-full object-cover">
+                                            class="w-full h-full object-cover" loading="lazy">
                                     @else
                                         <div
                                             class="w-full h-full flex flex-col items-center justify-center text-center opacity-40">

@@ -40,7 +40,7 @@
                 <div class="hidden md:flex items-center justify-center">
                     <div class="relative w-48 h-48 flex items-center justify-center">
                         <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"
-                            class="w-40 h-40 object-cover rounded-full border-4 border-ink/30 shadow-[4px_4px_0px_rgba(44,36,32,0.1)]">
+                            class="w-40 h-40 object-cover rounded-full border-4 border-ink/30 shadow-[4px_4px_0px_rgba(44,36,32,0.1)]" loading="lazy">
                     </div>
                 </div>
             </div>

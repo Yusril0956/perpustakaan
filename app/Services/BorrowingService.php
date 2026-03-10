@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Events\BookBorrowed;
+use App\Events\BookReturned;
 use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\Fine;
@@ -14,6 +16,7 @@ class BorrowingService
 {
     /**
      * Borrow a book for a user
+     * Uses DB locking to prevent race conditions
      */
     public function borrowBook(Book $book, int $userId): array
     {
@@ -39,9 +42,19 @@ class BorrowingService
         }
 
         try {
-            DB::transaction(function () use ($book, $userId) {
+            $borrowing = null;
+
+            DB::transaction(function () use ($book, $userId, &$borrowing) {
+                // Lock the book row for update to prevent concurrent modifications
+                $book = Book::lockForUpdate()->find($book->id);
+
+                // Double-check availability after locking
+                if (!$book->is_available || $book->available_stock <= 0) {
+                    throw new \Exception('Buku tidak tersedia untuk dipinjam.');
+                }
+
                 // Create borrowing record
-                Borrowing::create([
+                $borrowing = Borrowing::create([
                     'user_id' => $userId,
                     'book_id' => $book->id,
                     'borrowed_at' => now(),
@@ -57,6 +70,11 @@ class BorrowingService
                 }
             });
 
+            // Dispatch event after successful transaction
+            if ($borrowing) {
+                event(new BookBorrowed($borrowing));
+            }
+
             return [
                 'success' => true,
                 'message' => 'Buku berhasil dipinjam! Silakan ambil di perpustakaan.',
@@ -66,13 +84,14 @@ class BorrowingService
 
             return [
                 'success' => false,
-                'message' => 'Terjadi kesalahan. Silakan coba lagi.',
+                'message' => $e->getMessage() ?: 'Terjadi kesalahan. Silakan coba lagi.',
             ];
         }
     }
 
     /**
      * Return a borrowed book
+     * Uses DB locking to prevent race conditions
      */
     public function returnBook(Borrowing $borrowing): array
     {
@@ -83,10 +102,17 @@ class BorrowingService
             ];
         }
 
+        $hasFine = false;
+        $fineMessage = '';
+        $returnedBorrowing = null;
+
         try {
-            DB::transaction(function () use ($borrowing) {
+            DB::transaction(function () use ($borrowing, &$hasFine, &$fineMessage, &$returnedBorrowing) {
                 $now = now();
                 $dueAt = \Carbon\Carbon::parse($borrowing->due_at);
+
+                // Lock the book row for update
+                $book = Book::lockForUpdate()->find($borrowing->book_id);
 
                 // Mark as returned
                 $borrowing->update([
@@ -94,14 +120,16 @@ class BorrowingService
                     'status' => BorrowingStatus::RETURNED->value,
                 ]);
 
+                $returnedBorrowing = $borrowing->fresh();
+
                 // Restore book availability
-                $borrowing->book->increment('available_stock');
-                if ($borrowing->book->available_stock > 0) {
-                    $borrowing->book->update(['is_available' => true]);
+                $book->increment('available_stock');
+                if ($book->available_stock > 0) {
+                    $book->update(['is_available' => true]);
                 }
 
-                // Create fine if overdue
-                if ($now->greaterThan($dueAt) && !$borrowing->fine()->exists()) {
+                // Create fine if overdue (check after locking)
+                if ($now->greaterThan($dueAt)) {
                     $daysOverdue = (int) $now->startOfDay()->diffInDays($dueAt->startOfDay());
                     $fineAmount = $daysOverdue * config('library.fine_rate_per_day', 1000);
 
@@ -111,13 +139,24 @@ class BorrowingService
                         'status' => FineStatus::UNPAID->value,
                     ]);
 
-                    return [
-                        'success' => true,
-                        'warning' => true,
-                        'message' => "Buku dikembalikan terlambat {$daysOverdue} hari. Denda Rp " . number_format($fineAmount, 0, ',', '.') . " telah dicatat.",
-                    ];
+                    $hasFine = true;
+                    $fineMessage = "Buku dikembalikan terlambat {$daysOverdue} hari. Denda Rp " . number_format($fineAmount, 0, ',', '.') . " telah dicatat.";
                 }
             });
+
+            // Dispatch event after successful transaction
+            if ($returnedBorrowing) {
+                event(new BookReturned($returnedBorrowing));
+            }
+
+            // Return response AFTER transaction completes
+            if ($hasFine) {
+                return [
+                    'success' => true,
+                    'warning' => true,
+                    'message' => $fineMessage,
+                ];
+            }
 
             return [
                 'success' => true,

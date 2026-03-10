@@ -141,7 +141,7 @@
                             <div class="aspect-[3/4] border-2 border-ink mb-4 relative overflow-hidden bg-ink/5 p-1">
                                 @if($book->cover_image)
                                     <img src="{{ $book->cover_image }}" alt="{{ $book->title }}"
-                                        class="w-full h-full object-cover filter sepia-[30%] grayscale-[20%] group-hover:filter-none transition-all duration-500">
+                                        class="w-full h-full object-cover filter sepia-[30%] grayscale-[20%] group-hover:filter-none transition-all duration-500" loading="lazy">
                                 @else
                                     <div
                                         class="w-full h-full flex flex-col items-center justify-center border border-dashed border-ink/40">

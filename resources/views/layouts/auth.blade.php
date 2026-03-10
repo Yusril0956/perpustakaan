@@ -13,7 +13,7 @@
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=crimson-text:400,600,700&display=swap" rel="stylesheet" />
-
+    @livewireStyles
     {{-- Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -24,6 +24,7 @@
         {{ $slot }}
     </main>
 
+@livewireScripts
 </body>
 
 </html>

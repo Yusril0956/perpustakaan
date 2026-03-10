@@ -59,7 +59,7 @@
                             <div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-ink/20"></div>
                         </div>
                         <img src="{{ $borrowing->book->cover_url }}" alt="{{ $borrowing->book->title }}"
-                            class="h-32 w-auto object-cover shadow-[4px_4px_0px_rgba(44,36,32,0.15)] relative z-10 group-hover:scale-105 transition-transform duration-300">
+                            class="h-32 w-auto object-cover shadow-[4px_4px_0px_rgba(44,36,32,0.15)] relative z-10 group-hover:scale-105 transition-transform duration-300" loading="lazy">
                     </div>
 
                     {{-- Content --}}

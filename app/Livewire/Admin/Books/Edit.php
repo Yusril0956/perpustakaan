@@ -19,6 +19,7 @@ class Edit extends Component
 
     public function mount(Book $book)
     {
+        $this->authorize('update', $book);
         $this->form->setBook($book);
     }
 

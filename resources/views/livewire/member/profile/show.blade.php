@@ -32,7 +32,7 @@
                 <div class="relative group">
 
                     <img x-transition.opacity.duration.500ms :src="preview ?? '{{ $user->profile_photo_url }}'"
-                        class="w-32 h-40 object-cover border-2 border-ink transition">
+                        class="w-32 h-40 object-cover border-2 border-ink transition" loading="lazy" alt="{{ $user->name }}">
 
                     <!-- Upload Hover -->
                     <label class="absolute inset-0 cursor-pointer">

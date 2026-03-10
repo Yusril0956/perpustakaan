@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin\Borrowings;
 
+use App\Enums\BorrowingStatus;
 use App\Models\Borrowing;
 use App\Models\Book;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 
@@ -16,8 +18,9 @@ class Create extends Component
     public $borrowed_at;
     public $due_at;
 
-    public function mount()
+    public function mount(): void
     {
+        $this->authorize('create', Borrowing::class);
         $this->borrowed_at = now()->format('Y-m-d');
         $this->due_at = now()->addDays(7)->format('Y-m-d');
     }
@@ -31,31 +34,35 @@ class Create extends Component
             'due_at' => 'required|date|after_or_equal:borrowed_at',
         ]);
 
-        // Use database transaction for data consistency
         try {
-            \Illuminate\Support\Facades\DB::transaction(function () {
-                // Create the borrowing record
+            DB::transaction(function () {
+                $book = Book::lockForUpdate()->find($this->book_id);
+
+                // check buku tersedia atau tidak
+                if (!$book->is_available || $book->available_stock <= 0) {
+                    throw new \Exception('Buku tidak tersedia untuk dipinjam.');
+                }
+
+                // membuat record peminjaman
                 Borrowing::create([
                     'user_id' => $this->user_id,
                     'book_id' => $this->book_id,
                     'borrowed_at' => $this->borrowed_at,
                     'due_at' => $this->due_at,
-                    'status' => 'BORROWED',
+                    'status' => BorrowingStatus::BORROWED->value,
                 ]);
 
                 // Update book availability
-                $book = Book::find($this->book_id);
                 $book->decrement('available_stock');
                 if ($book->available_stock <= 0) {
                     $book->update(['is_available' => false]);
                 }
             });
 
-            // Redirect with a success message
             session()->flash('success', 'Peminjaman berhasil dicatat.');
             return $this->redirect(route('admin.borrowings.index'), navigate: true);
         } catch (\Exception $e) {
-            session()->flash('error', 'Terjadi kesalahan. Silakan coba lagi.');
+            session()->flash('error', $e->getMessage() ?: 'Terjadi kesalahan. Silakan coba lagi.');
         }
     }
 
