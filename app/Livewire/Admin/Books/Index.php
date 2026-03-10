@@ -16,7 +16,7 @@ class Index extends Component
 
     public $search = '';
 
-    public function updatingSearch()
+    public function updatedSearch()
     {
         $this->resetPage();
     }
@@ -32,8 +32,12 @@ class Index extends Component
     {
         return view('livewire.admin.books.index', [
             'books' => Book::with('category')
-                ->where('title', 'like', '%' . $this->search . '%')
-                ->orWhere('author', 'like', '%' . $this->search . '%')
+                ->when($this->search, function ($query) {
+                    $query->where(function ($q) {
+                        $q->where('title', 'like', '%' . $this->search . '%')
+                            ->orWhere('author', 'like', '%' . $this->search . '%');
+                    });
+                })
                 ->latest()
                 ->paginate(10)
         ]);

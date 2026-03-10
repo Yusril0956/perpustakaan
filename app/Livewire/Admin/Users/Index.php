@@ -24,7 +24,7 @@ class Index extends Component
     public $sortDir = 'desc'; // Default arah urutan
 
     // Reset pagination jika ada pencarian baru
-    public function updatingSearch()
+    public function updatedSearch()
     {
         $this->resetPage();
     }
@@ -74,8 +74,12 @@ class Index extends Component
     public function render()
     {
         $users = User::query()
-            ->where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
+            ->when($this->search, function ($query) {
+                $query->where(function ($q) {
+                    $q->where('name', 'like', '%' . $this->search . '%')
+                        ->orWhere('email', 'like', '%' . $this->search . '%');
+                });
+            })
             ->orderBy($this->sortBy, $this->sortDir)
             ->paginate(10);
 

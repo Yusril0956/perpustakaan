@@ -20,38 +20,49 @@ class Index extends Component
     public function returnBook(int $borrowingId): void
     {
         $borrowing = Borrowing::with('book')->findOrFail($borrowingId);
-        $now = now();
-        $dueAt = \Carbon\Carbon::parse($borrowing->due_at);
 
-        // Tandai buku dikembalikan
-        $borrowing->update([
-            'returned_at' => $now,
-            'status' => 'RETURNED',
-        ]);
+        // Use database transaction for data consistency
+        try {
+            \Illuminate\Support\Facades\DB::transaction(function () use ($borrowing) {
+                $now = now();
+                $dueAt = \Carbon\Carbon::parse($borrowing->due_at);
 
-        // Kembalikan ketersediaan buku
-        $borrowing->book->update(['is_available' => true]);
+                // Tandai buku dikembalikan
+                $borrowing->update([
+                    'returned_at' => $now,
+                    'status' => 'RETURNED',
+                ]);
 
-        // Buat denda hanya jika: terlambat DAN belum ada denda sebelumnya
-        if ($now->greaterThan($dueAt) && !$borrowing->fine()->exists()) {
-            $daysOverdue = (int) $now->startOfDay()->diffInDays($dueAt->startOfDay());
-            $fineAmount = $daysOverdue * $this->fineRatePerDay;
+                // Kembalikan ketersediaan buku
+                $borrowing->book->increment('available_stock');
+                if ($borrowing->book->available_stock > 0) {
+                    $borrowing->book->update(['is_available' => true]);
+                }
 
-            Fine::create([
-                'borrowing_id' => $borrowing->id,
-                'amount' => $fineAmount,
-                'status' => 'UNPAID',
-            ]);
+                // Buat denda hanya jika: terlambat DAN belum ada denda sebelumnya
+                if ($now->greaterThan($dueAt) && !$borrowing->fine()->exists()) {
+                    $daysOverdue = (int) $now->startOfDay()->diffInDays($dueAt->startOfDay());
+                    $fineAmount = $daysOverdue * $this->fineRatePerDay;
 
-            session()->flash(
-                'warning',
-                "Buku dikembalikan terlambat {$daysOverdue} hari. " .
-                "Denda Rp " . number_format($fineAmount, 0, ',', '.') . " telah dicatat."
-            );
-            return;
+                    Fine::create([
+                        'borrowing_id' => $borrowing->id,
+                        'amount' => $fineAmount,
+                        'status' => 'UNPAID',
+                    ]);
+
+                    session()->flash(
+                        'warning',
+                        "Buku dikembalikan terlambat {$daysOverdue} hari. " .
+                        "Denda Rp " . number_format($fineAmount, 0, ',', '.') . " telah dicatat."
+                    );
+                    return;
+                }
+
+                session()->flash('success', 'Buku berhasil dikembalikan. Tidak ada denda.');
+            });
+        } catch (\Exception $e) {
+            session()->flash('error', 'Terjadi kesalahan. Silakan coba lagi.');
         }
-
-        session()->flash('success', 'Buku berhasil dikembalikan. Tidak ada denda.');
     }
 
     public function render()

@@ -47,9 +47,15 @@ class UserForm extends Form
     {
         $this->validate($this->rules());
 
-        $data = $this->all();
-        $data['password'] = bcrypt($data['password']);
-        $data['verify'] = true;
+        // Use explicit array for mass assignment security
+        $data = [
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => bcrypt($this->password),
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'verify' => true,
+        ];
 
         $user = User::create($data);
 
@@ -63,7 +69,14 @@ class UserForm extends Form
     {
         $this->validate($this->rules());
 
-        $data = $this->except(['user', 'password']);
+        // Use explicit array for mass assignment security
+        $data = [
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'role' => $this->role,
+        ];
 
         if ($this->password) {
             $data['password'] = bcrypt($this->password);

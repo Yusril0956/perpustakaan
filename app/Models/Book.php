@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -11,11 +13,39 @@ class Book extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['category_id', 'title', 'author', 'isbn', 'description', 'cover_image', 'total_stock', 'available_stock', 'is_available'];
+    protected $fillable = [
+        'category_id',
+        'title',
+        'author',
+        'isbn',
+        'description',
+        'cover_image',
+        'total_stock',
+        'available_stock',
+        'is_available',
+    ];
 
-    public function category()
+    protected function casts(): array
+    {
+        return [
+            'is_available' => 'boolean',
+        ];
+    }
+
+    /**
+     * Get the category that owns the book.
+     */
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get all borrowings for the book.
+     */
+    public function borrowings(): HasMany
+    {
+        return $this->hasMany(Borrowing::class);
     }
 
     /**
@@ -23,7 +53,7 @@ class Book extends Model
      *
      * Usage: $book->cover_url
      */
-    public function getCoverUrlAttribute()
+    public function getCoverUrlAttribute(): string
     {
         // No cover stored → placeholder
         if (empty($this->cover_image)) {
@@ -49,8 +79,27 @@ class Book extends Model
         return asset('images/book-placeholder.svg');
     }
 
-    public function borrowings()
+    /**
+     * Check if book is available for borrowing.
+     */
+    public function isAvailable(): bool
     {
-        return $this->hasMany(Borrowing::class);
+        return $this->is_available && $this->available_stock > 0;
+    }
+
+    /**
+     * Check if book is low on stock.
+     */
+    public function isLowStock(int $threshold = 2): bool
+    {
+        return $this->available_stock > 0 && $this->available_stock <= $threshold;
+    }
+
+    /**
+     * Check if book is out of stock.
+     */
+    public function isOutOfStock(): bool
+    {
+        return $this->available_stock <= 0;
     }
 }

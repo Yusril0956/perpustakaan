@@ -5,7 +5,7 @@ namespace App\Livewire\Guest;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
@@ -66,17 +66,20 @@ class BookExplorer extends Component
 
     /** --- Private Methods untuk Clean Code (Query Extract) --- */
 
-    private function getRecommendedBooks()
+    private function getRecommendedBooks(): Collection
     {
-        return Book::take(3)->get();
+        return Book::with('category')->take(3)->get();
     }
 
-    private function getPopularBooks()
+    private function getPopularBooks(): Collection
     {
-        return Book::orderBy('available_stock', 'asc')->take(6)->get();
+        return Book::with('category')
+            ->orderBy('available_stock', 'asc')
+            ->take(6)
+            ->get();
     }
 
-    private function getCategories()
+    private function getCategories(): Collection
     {
         return Category::withCount('books')->get();
     }
@@ -84,6 +87,7 @@ class BookExplorer extends Component
     private function getAllBooks()
     {
         return Book::query()
+            ->with('category')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('title', 'like', '%' . $this->search . '%')

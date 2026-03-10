@@ -31,22 +31,32 @@ class Create extends Component
             'due_at' => 'required|date|after_or_equal:borrowed_at',
         ]);
 
-        // Create the borrowing record
-        Borrowing::create([
-            'user_id' => $this->user_id,
-            'book_id' => $this->book_id,
-            'borrowed_at' => $this->borrowed_at,
-            'due_at' => $this->due_at,
-            'status' => 'BORROWED',
-        ]);
+        // Use database transaction for data consistency
+        try {
+            \Illuminate\Support\Facades\DB::transaction(function () {
+                // Create the borrowing record
+                Borrowing::create([
+                    'user_id' => $this->user_id,
+                    'book_id' => $this->book_id,
+                    'borrowed_at' => $this->borrowed_at,
+                    'due_at' => $this->due_at,
+                    'status' => 'BORROWED',
+                ]);
 
-        // Update book availability
-        $book = Book::find($this->book_id);
-        $book->update(['is_available' => false]);
+                // Update book availability
+                $book = Book::find($this->book_id);
+                $book->decrement('available_stock');
+                if ($book->available_stock <= 0) {
+                    $book->update(['is_available' => false]);
+                }
+            });
 
-        // Redirect with a success message
-        session()->flash('success', 'Peminjaman berhasil dicatat.');
-        return $this->redirect(route('admin.borrowings.index'), navigate: true);
+            // Redirect with a success message
+            session()->flash('success', 'Peminjaman berhasil dicatat.');
+            return $this->redirect(route('admin.borrowings.index'), navigate: true);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Terjadi kesalahan. Silakan coba lagi.');
+        }
     }
 
     public function render()

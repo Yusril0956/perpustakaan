@@ -65,7 +65,15 @@ class BookForm extends Form
     {
         $this->validate($this->rules());
 
-        $data = $this->except(['book', 'cover_image']);
+        // Use explicit array for mass assignment security
+        $data = [
+            'title' => $this->title,
+            'author' => $this->author,
+            'isbn' => $this->isbn,
+            'category_id' => $this->category_id,
+            'total_stock' => $this->total_stock,
+            'description' => $this->description,
+        ];
 
         if ($this->cover_image) {
             $data['cover_image'] = $this->cover_image->store('covers', 'public');
