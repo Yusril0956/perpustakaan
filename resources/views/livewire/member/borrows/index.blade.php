@@ -59,7 +59,8 @@
                             <div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-ink/20"></div>
                         </div>
                         <img src="{{ $borrowing->book->cover_url }}" alt="{{ $borrowing->book->title }}"
-                            class="h-32 w-auto object-cover shadow-[4px_4px_0px_rgba(44,36,32,0.15)] relative z-10 group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                            class="h-32 w-auto object-cover shadow-[4px_4px_0px_rgba(44,36,32,0.15)] relative z-10 group-hover:scale-105 transition-transform duration-300"
+                            loading="lazy">
                     </div>
 
                     {{-- Content --}}
@@ -129,22 +130,22 @@
 
                         {{-- Days Remaining --}}
                         @if(!$isOverdue && !$isReturned)
-                                            @php
-                                                $daysRemaining = now()->startOfDay()->diffInDays($dueAt->startOfDay(), false);
-                                            @endphp
-                             <div
-                                                class="mt-3 p-2 bg-[#f4ecd8] border border-sepia-edge/30 flex items-center justify-center gap-2">
-                                                <x-heroicon-o-clock class="w-4 h-4 text-coffee" />
-                                                <span class="text-xs text-coffee font-bold">
-                                                    @if($daysRemaining == 0)
-                                                        Jatuh tempo hari ini
-                                                    @elseif($daysRemaining == 1)
-                                                        1 hari tersisa
-                                                    @else
-                                                        {{ $daysRemaining }} hari tersisa
-                                                    @endif
-                                                </span>
-                                            </div>
+                            @php
+                                $daysRemaining = now()->startOfDay()->diffInDays($dueAt->startOfDay(), false);
+                            @endphp
+                            <div
+                                class="mt-3 p-2 bg-[#f4ecd8] border border-sepia-edge/30 flex items-center justify-center gap-2">
+                                <x-heroicon-o-clock class="w-4 h-4 text-coffee" />
+                                <span class="text-xs text-coffee font-bold">
+                                    @if($daysRemaining == 0)
+                                        Jatuh tempo hari ini
+                                    @elseif($daysRemaining == 1)
+                                        1 hari tersisa
+                                    @else
+                                        {{ $daysRemaining }} hari tersisa
+                                    @endif
+                                </span>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -158,7 +159,7 @@
 
                         <x-heroicon-o-book-open class="w-16 h-16 text-coffee/30 mx-auto mb-4" />
                         <p class="italic text-coffee text-lg mb-2">Anda belum pernah meminjam buku.</p>
-                        <p class="text-coffee/60 text-sm mb-6">Silakan jelajahi koleksi perpustakaan kami</p>
+                        <p class="text-coffee/60 text-sm mb-6">Silakan jelajahi koleksi Scriptoria</p>
                         <a href="{{ route('explore') }}" wire:navigate
                             class="inline-flex items-center gap-2 px-6 py-3 bg-ink text-white text-xs font-bold uppercase tracking-widest hover:bg-[#2c2420] transition shadow-[4px_4px_0px_rgba(44,36,32,0.2)] hover:shadow-[2px_2px_0px_rgba(44,36,32,0.2)] hover:translate-x-[2px] hover:translate-y-[2px]">
                             <x-heroicon-o-magnifying-glass class="w-4 h-4" />

@@ -11,7 +11,7 @@
                 </h1>
 
                 <p class="text-[11px] font-mono uppercase tracking-[0.3em] text-ink/60">
-                    Kartu Inventaris Perpustakaan
+                    Kartu Inventaris Scriptoria
                 </p>
             </div>
 

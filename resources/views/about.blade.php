@@ -1,7 +1,7 @@
 <x-guest-layout>
     <div class="max-w-4xl mx-auto px-6">
         <header class="text-center mb-16">
-            <h1 class="text-5xl md:text-6xl font-bold text-ink italic leading-tight">Mengenai Pustaka Kami</h1>
+            <h1 class="text-5xl md:text-6xl font-bold text-ink italic leading-tight">Mengenai Scriptoria</h1>
             <div class="flex justify-center items-center gap-4 mt-6">
                 <div class="h-[1px] w-12 bg-sepia-edge"></div>
                 <span class="text-coffee uppercase tracking-[0.3em] text-xs font-bold">Sebuah Narasi Singkat</span>
@@ -13,7 +13,7 @@
             <p class="mb-8">
                 <span
                     class="float-left text-7xl font-bold text-ink mr-3 mt-2 leading-none border-b-4 border-coffee">D</span>
-                igitalisasi bukan berarti menghilangkan jiwa dari sebuah buku. Pustaka Klasik lahir dari sebuah
+                igitalisasi bukan berarti menghilangkan jiwa dari sebuah buku. Scriptoria lahir dari sebuah
                 keresahan akan hilangnya aroma kertas dan tekstur tinta di era yang serba cepat. Kami percaya bahwa
                 setiap baris kalimat membawa beban sejarah yang harus dijaga keberadaannya.
             </p>

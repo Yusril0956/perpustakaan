@@ -43,7 +43,7 @@
                                 class="w-full bg-transparent border-0 border-b-2 border-ink/30 focus:border-ink focus:outline focus:ring-0 px-0 py-2 font-serif text-xl italic text-ink cursor-pointer">
                                 <option value="">Tentukan Peran...</option>
                                 <option value="admin">Administrator</option>
-                                <option value="staff">Petugas Pustaka</option>
+                                <option value="staff">Petugas Scriptoria</option>
                                 <option value="anggota">Anggota Terdaftar</option>
                             </select>
                             @error('form.role') <span

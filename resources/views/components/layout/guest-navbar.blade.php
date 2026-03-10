@@ -8,7 +8,7 @@
 
             <div class="relative z-10 flex flex-col">
                 <a href="/" class="text-3xl font-bold text-ink italic leading-tight group">
-                    Pustaka <span class="text-coffee font-light">Digital</span>
+                    Scriptoria
                     <svg class="absolute -bottom-2 left-0 w-0 group-hover:w-full transition-all duration-700 h-2 text-coffee/40"
                         preserveAspectRatio="none" viewBox="0 0 100 10">
                         <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" stroke-width="2"
@@ -20,8 +20,8 @@
             <div class="flex items-center space-x-10 relative z-10">
                 <x-layout.nav-link href="{{ route('explore') }}"
                     :active="request()->is('explore')">Explore</x-layout.nav-link>
-                <x-layout.nav-link href="{{ route('about') }}" :active="request()->is('about')"
-                    >Tentang</x-layout.nav-link>
+                <x-layout.nav-link href="{{ route('about') }}"
+                    :active="request()->is('about')">Tentang</x-layout.nav-link>
 
                 @auth
                     @role('admin')

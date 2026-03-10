@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="{{ asset('images/library.svg') }}" type="image/x-icon">
 
-    <title>{{ config('app.name', 'Perpustakaan') }}</title>
+    <title>{{ config('app.name', 'Scriptoria') }}</title>
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -24,7 +24,7 @@
         {{ $slot }}
     </main>
 
-@livewireScripts
+    @livewireScripts
 </body>
 
 </html>

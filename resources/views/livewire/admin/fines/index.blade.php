@@ -4,7 +4,7 @@
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-ink pb-4 gap-4">
             <div>
                 <h2 class="text-3xl font-bold italic font-serif">Manajemen Denda</h2>
-                <p class="text-xs uppercase tracking-widest text-muted mt-1">Riwayat & Pelunasan Denda Perpustakaan</p>
+                <p class="text-xs uppercase tracking-widest text-muted mt-1">Riwayat & Pelunasan Denda Scriptoria</p>
             </div>
         </div>
 

@@ -30,20 +30,20 @@
                 </div>
 
                 @if (!auth()->check())
-                <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                    <a href="{{ route('login') }}" wire:navigate
-                        class="inline-flex items-center gap-2 bg-ink text-[#fcfaf5] border-2 border-ink px-8 py-3 font-mono text-sm font-black uppercase tracking-widest shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all">
-                        <x-heroicon-o-key class="w-5 h-5" />
-                        Akses Masuk
-                    </a>
-                    <a href="{{ route('register') }}" wire:navigate
-                        class="inline-flex items-center gap-2 bg-[#fcfaf5] text-ink border-2 border-ink px-8 py-3 font-mono text-sm font-black uppercase tracking-widest shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all">
-                        <x-heroicon-o-document-plus class="w-5 h-5" />
-                        Registrasi Baru
-                    </a>
-                </div>
+                    <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                        <a href="{{ route('login') }}" wire:navigate
+                            class="inline-flex items-center gap-2 bg-ink text-[#fcfaf5] border-2 border-ink px-8 py-3 font-mono text-sm font-black uppercase tracking-widest shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all">
+                            <x-heroicon-o-key class="w-5 h-5" />
+                            Akses Masuk
+                        </a>
+                        <a href="{{ route('register') }}" wire:navigate
+                            class="inline-flex items-center gap-2 bg-[#fcfaf5] text-ink border-2 border-ink px-8 py-3 font-mono text-sm font-black uppercase tracking-widest shadow-[6px_6px_0px_rgba(44,36,32,1)] hover:translate-y-1 hover:shadow-[2px_2px_0px_rgba(44,36,32,1)] transition-all">
+                            <x-heroicon-o-document-plus class="w-5 h-5" />
+                            Registrasi Baru
+                        </a>
+                    </div>
                 @endif
-                
+
             </section>
 
             <section class="grid md:grid-cols-3 gap-8 mb-24">
@@ -141,7 +141,8 @@
                             <div class="aspect-[3/4] border-2 border-ink mb-4 relative overflow-hidden bg-ink/5 p-1">
                                 @if($book->cover_image)
                                     <img src="{{ $book->cover_image }}" alt="{{ $book->title }}"
-                                        class="w-full h-full object-cover filter sepia-[30%] grayscale-[20%] group-hover:filter-none transition-all duration-500" loading="lazy">
+                                        class="w-full h-full object-cover filter sepia-[30%] grayscale-[20%] group-hover:filter-none transition-all duration-500"
+                                        loading="lazy">
                                 @else
                                     <div
                                         class="w-full h-full flex flex-col items-center justify-center border border-dashed border-ink/40">
@@ -194,7 +195,7 @@
                 <div class="border border-ink p-10 text-center relative z-10">
                     <h3
                         class="text-3xl font-black font-serif text-ink mb-6 uppercase tracking-widest border-b-2 border-dashed border-ink/30 inline-block pb-2">
-                        Manifesto Pustaka</h3>
+                        Manifesto Scriptoria</h3>
                     <p class="font-mono text-sm text-ink/80 leading-loose max-w-3xl mx-auto mb-10 text-justify">
                         Sistem ini bukan sekadar pangkalan data. Ini adalah upaya kami merawat ingatan kolektif. Setiap
                         naskah yang Anda akses di sini adalah bagian dari sejarah yang kami digitalkan agar tetap

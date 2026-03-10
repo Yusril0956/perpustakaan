@@ -1,8 +1,8 @@
 <div align="center">
   <img src="public/images/library.svg" alt="Project Logo" width="120">
-  <h1>Perpustakaan Digital</h1>
+  <h1>Scriptoria</h1>
   <p>
-    Sistem manajemen perpustakaan berbasis web yang dibangun menggunakan TALL Stack.
+    Digital Library Archive — Where Knowledge is Preserved.
   </p>
 
   <!-- Badges -->
@@ -44,7 +44,7 @@
 
 ## Tentang Project
 
-Perpustakaan Digital adalah aplikasi web yang dirancang untuk membantu pengelolaan operasional perpustakaan secara terstruktur dan terdigitalisasi.
+Scriptoria adalah aplikasi web yang dirancang untuk membantu pengelolaan operasional arsip digital secara terstruktur dan terdigitalisasi.
 
 Project ini dibuat sebagai tugas sekolah, namun dikembangkan dengan pendekatan sistem nyata. Fokus utama aplikasi ini adalah pada:
 
@@ -57,11 +57,11 @@ Project ini dibuat sebagai tugas sekolah, namun dikembangkan dengan pendekatan s
 
 Aplikasi ini ditujukan untuk skenario penggunaan skala kecil hingga menengah:
 
-| Jenis | Contoh |
-|-------|--------|
-| 📚 | Perpustakaan sekolah |
-| 👥 | Perpustakaan komunitas |
-| 🔬 | Laboratorium buku internal |
+| Jenis | Contoh               |
+| ----- | -------------------- |
+| 📚    | Arsip sekolah        |
+| 👥    | Arsip komunitas      |
+| 🔬    | Laboratorium dokumen |
 
 ---
 
@@ -69,29 +69,29 @@ Aplikasi ini ditujukan untuk skenario penggunaan skala kecil hingga menengah:
 
 ### 🔧 Admin Panel
 
-| Fitur | Deskripsi |
-|:------|:----------|
-| Dashboard | Statistik jumlah buku, aktivitas peminjaman, ringkasan pengguna |
-| Manajemen Buku | CRUD buku, kategori, ISBN, upload cover, pengaturan stok |
-| Manajemen Pengguna | CRUD pengguna dengan role: Admin, Staff, Anggota |
-| Validasi Peminjaman | Persetujuan dan penolakan pengajuan peminjaman |
-| Riwayat Peminjaman | Pencatatan dan pemantauan semua aktivitas |
+| Fitur               | Deskripsi                                                       |
+| :------------------ | :-------------------------------------------------------------- |
+| Dashboard           | Statistik jumlah buku, aktivitas peminjaman, ringkasan pengguna |
+| Manajemen Buku      | CRUD buku, kategori, ISBN, upload cover, pengaturan stok        |
+| Manajemen Pengguna  | CRUD pengguna dengan role: Admin, Staff, Anggota                |
+| Validasi Peminjaman | Persetujuan dan penolakan pengajuan peminjaman                  |
+| Riwayat Peminjaman  | Pencatatan dan pemantauan semua aktivitas                       |
 
 ### 👤 Fitur Anggota (Member)
 
-| Fitur | Deskripsi |
-|:------|:----------|
-| Katalog Buku | jelajahi dan pencarian buku |
-| Kategori | Filter buku berdasarkan kategori |
-| Peminjaman | Pengajuan peminjaman buku |
-| Wishlist | Menyimpan buku yang diinginkan |
-| Riwayat | Melihat riwayat peminjaman |
-| Profil | Mengelola profil akun |
+| Fitur        | Deskripsi                        |
+| :----------- | :------------------------------- |
+| Katalog Buku | jelajahi dan pencarian buku      |
+| Kategori     | Filter buku berdasarkan kategori |
+| Peminjaman   | Pengajuan peminjaman buku        |
+| Wishlist     | Menyimpan buku yang diinginkan   |
+| Riwayat      | Melihat riwayat peminjaman       |
+| Profil       | Mengelola profil akun            |
 
 ### 📊 Fitur Staff
 
-| Fitur | Deskripsi |
-|:------|:----------|
+| Fitur           | Deskripsi                                              |
+| :-------------- | :----------------------------------------------------- |
 | Data Management | Membantu operasional pengelolaan data buku dan anggota |
 
 ---
@@ -100,13 +100,13 @@ Aplikasi ini ditujukan untuk skenario penggunaan skala kecil hingga menengah:
 
 Aplikasi ini dibangun menggunakan **TALL Stack**:
 
-| Teknologi | Versi | Deskripsi |
-|:----------|:------|:----------|
-| 🟢 Laravel | 12 | Framework PHP modern |
-| ⚡ Livewire | 3 | Full-stack framework untuk Laravel |
-| 🔌 Volt | - | Functional JWT untuk Livewire |
-| 🎨 Tailwind CSS | 4 | Utility-first CSS framework |
-| 🏔️ Alpine.js | - | JavaScript framework ringan |
+| Teknologi       | Versi | Deskripsi                          |
+| :-------------- | :---- | :--------------------------------- |
+| 🟢 Laravel      | 12    | Framework PHP modern               |
+| ⚡ Livewire     | 3     | Full-stack framework untuk Laravel |
+| 🔌 Volt         | -     | Functional JWT untuk Livewire      |
+| 🎨 Tailwind CSS | 4     | Utility-first CSS framework        |
+| 🏔️ Alpine.js    | -     | JavaScript framework ringan        |
 
 ### Dependensi Tambahan
 
@@ -117,6 +117,7 @@ Aplikasi ini dibangun menggunakan **TALL Stack**:
 ### Database
 
 Disarankan menggunakan:
+
 - MySQL 8.0+
 - PostgreSQL 14+
 
@@ -126,13 +127,13 @@ Disarankan menggunakan:
 
 ### Persyaratan Sistem
 
-| Requirement | Versi Minimum |
-|:------------|:--------------|
-| PHP | 8.2+ |
-| Composer | Latest |
-| Node.js | 18+ |
-| NPM | 9+ |
-| Database | MySQL/PostgreSQL |
+| Requirement | Versi Minimum    |
+| :---------- | :--------------- |
+| PHP         | 8.2+             |
+| Composer    | Latest           |
+| Node.js     | 18+              |
+| NPM         | 9+               |
+| Database    | MySQL/PostgreSQL |
 
 ### Langkah Instalasi
 
@@ -235,24 +236,24 @@ Gunakan kredensial berikut untuk mencoba sistem:
 
 ### 👑 Admin Account
 
-| Field | Value |
-|:------|:------|
-| Email | ryl@test.com |
-| Password | password |
+| Field    | Value        |
+| :------- | :----------- |
+| Email    | ryl@test.com |
+| Password | password     |
 
 ### 👤 Member Account
 
-| Field | Value |
-|:------|:------|
-| Email | member@test.com |
-| Password | password |
+| Field    | Value           |
+| :------- | :-------------- |
+| Email    | member@test.com |
+| Password | password        |
 
 ### 👷 Staff Account
 
-| Field | Value |
-|:------|:------|
-| Email | staff@test.com |
-| Password | password |
+| Field    | Value          |
+| :------- | :------------- |
+| Email    | staff@test.com |
+| Password | password       |
 
 ---
 
@@ -296,5 +297,5 @@ Project ini menggunakan [MIT License](LICENSE).
 
 <div align="center">
   <p>Dibuat dengan ❤️ menggunakan TALL Stack</p>
-  <p>&copy; 2024 Perpustakaan Digital</p>
+  <p>&copy; 2024 Scriptoria — Digital Library Archive</p>
 </div>

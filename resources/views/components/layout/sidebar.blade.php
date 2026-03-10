@@ -3,11 +3,11 @@
         <div class="absolute bottom-[3px] left-6 right-6 border-b border-ink/10"></div>
         
         <x-heroicon-o-book-open class="w-7 h-7 mx-auto text-ink mb-3 stroke-[1.5]" />
-        <h1 class="font-serif text-2xl font-black tracking-[0.15em] text-ink uppercase">Pustaka</h1>
+        <h1 class="font-serif text-2xl font-black tracking-[0.15em] text-ink uppercase">Scriptoria</h1>
         
         <div class="flex items-center justify-center gap-3 mt-3 opacity-80">
             <div class="h-px w-8 bg-coffee/40"></div>
-            <p class="text-[9px] font-mono uppercase tracking-[0.3em] text-coffee">Arsip Digital</p>
+            <p class="text-[9px] font-mono uppercase tracking-[0.3em] text-coffee">Digital Archive</p>
             <div class="h-px w-8 bg-coffee/40"></div>
         </div>
     </div>

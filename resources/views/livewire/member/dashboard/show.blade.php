@@ -20,7 +20,7 @@
                         <span class="italic font-serif">{{ $user->name }}</span>
                     </h1>
                     <p class="text-base text-coffee/80 italic leading-relaxed">
-                        Silakan kelola koleksi bacaan pribadi Anda dan telusuri arsip digital perpustakaan kami dengan
+                        Silakan kelola koleksi bacaan pribadi Anda dan telusuri arsip digital Scriptoria dengan
                         seksama.
                     </p>
                     <div class="mt-8 flex gap-4 flex-wrap">
@@ -40,7 +40,8 @@
                 <div class="hidden md:flex items-center justify-center">
                     <div class="relative w-48 h-48 flex items-center justify-center">
                         <img src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"
-                            class="w-40 h-40 object-cover rounded-full border-4 border-ink/30 shadow-[4px_4px_0px_rgba(44,36,32,0.1)]" loading="lazy">
+                            class="w-40 h-40 object-cover rounded-full border-4 border-ink/30 shadow-[4px_4px_0px_rgba(44,36,32,0.1)]"
+                            loading="lazy">
                     </div>
                 </div>
             </div>
