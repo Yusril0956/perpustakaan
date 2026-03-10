@@ -51,8 +51,7 @@ class BookExplorer extends Component
 
     public function loadBookDetail(int $bookId): void
     {
-        $this->selectedBook = Book::with('category')->find($bookId);
-        $this->dispatch('open-book-modal');
+        $this->redirect(route('book.detail', $bookId));
     }
 
     public function render(): View

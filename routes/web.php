@@ -10,6 +10,7 @@ Route::view('/', 'welcome')->name('home');
 Route::view('about', 'about')->name('about');
 Route::view('rules', 'rules')->name('rules');
 Route::get('/jelajah', \App\Livewire\Guest\BookExplorer::class)->name('explore');
+Route::get('/buku/{bookId}', \App\Livewire\Guest\BookDetail::class)->name('book.detail');
 
 // ============================================
 // Protected Routes (Authenticated)
